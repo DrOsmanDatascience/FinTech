@@ -1,4 +1,4 @@
-# 📊 Stock PCA Cluster Analysis
+# Stock PCA Cluster Analysis
 
 An interactive Streamlit web application for visualizing stocks in PCA (Principal Component Analysis) space, analyzing cluster characteristics, and exploring factor breakdowns.
 
@@ -8,7 +8,7 @@ An interactive Streamlit web application for visualizing stocks in PCA (Principa
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy)
 
-## 🚀 Quick Deploy to Streamlit Cloud
+## Quick Deploy to Streamlit Cloud
 
 1. Fork this repository to your GitHub account
 2. Go to [share.streamlit.io](https://share.streamlit.io)
@@ -34,7 +34,7 @@ Together, these components explain **52.5% of total variance** in stock factor c
 | Bottom-Right | High | Low | High-quality, cash-rich, operationally efficient |
 | Bottom-Left | Low | Low | Speculative, smaller, cash-rich |
 
-## 🚀 Features
+## Features
 
 ### 1. Interactive PCA Scatter Plot
 - View all stocks plotted in PCA space
@@ -81,7 +81,7 @@ stock_pca_app/
 └── README.md             # This file
 ```
 
-## 🛠️ Installation
+## Installation
 
 ### Prerequisites
 - Python 3.9 or higher
@@ -130,7 +130,7 @@ stock_pca_app/
 
    The app will open in your browser at `http://localhost:8501`
 
-## 📊 Data Configuration
+## Data Configuration
 
 ### Using Sample Data (Default)
 
@@ -175,7 +175,7 @@ To use your own data from a GitHub repository:
    ...
    ```
 
-## 🤖 Chatbot Configuration
+## Chatbot Configuration
 
 The AI chatbot uses OpenAI's GPT models. Features:
 
@@ -199,7 +199,7 @@ self.model = "gpt-4o-mini"  # Default: faster, cheaper
 # self.model = "gpt-3.5-turbo"  # Alternative: fastest
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Colors and Styling
 
@@ -221,7 +221,7 @@ COLORS = {
 2. Import it in `utils/__init__.py`
 3. Add a new tab in `app.py`
 
-## 📝 Usage Examples
+## Usage Examples
 
 ### Basic Stock Analysis
 1. Enter a ticker (e.g., "AAPL") in the sidebar
@@ -241,7 +241,7 @@ COLORS = {
    - "How does this compare to peers?"
    - "What factors drive the position?"
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -274,7 +274,7 @@ Add to `.vscode/settings.json`:
 }
 ```
 
-## 📚 PCA Factor Loadings Reference
+## PCA Factor Loadings Reference
 
 ### PC1 (Quality/Stability) - 37.5% variance
 
@@ -298,11 +298,11 @@ Add to `.vscode/settings.json`:
 | Sales-to-Price | -0.29 | Value |
 | Gross Profitability | -0.27 | Quality |
 
-## 📄 License
+## License
 
 MIT License - feel free to use and modify for your own projects.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - PCA methodology inspired by academic factor investing research
 - Visualization design based on best practices for financial data
