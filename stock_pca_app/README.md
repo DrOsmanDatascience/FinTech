@@ -16,7 +16,7 @@ An interactive Streamlit web application for visualizing stocks in PCA (Principa
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
 
-## 🎯 Overview
+## Overview
 
 This application provides a visual framework for understanding stock positioning based on:
 
