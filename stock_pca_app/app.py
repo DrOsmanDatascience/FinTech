@@ -24,7 +24,7 @@ from utils.chatbot import StockAnalysisChatbot
 import os
 
 # =============================================================================
-# xyz CONFIGURATION
+# abc CONFIGURATION
 # =============================================================================
 st.set_page_config(
     page_title="Stock PCA Cluster Analysis",
