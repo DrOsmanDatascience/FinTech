@@ -691,7 +691,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-baseball = 'Dustin Pedroia' #Just for test
+
 
 
 
