@@ -690,3 +690,8 @@ st.markdown("""
     <p>PC1 + PC2 explain 52.5% of total variance</p>
 </div>
 """, unsafe_allow_html=True)
+
+baseball = 'Dustin Pedroia' #Just for test
+
+
+
