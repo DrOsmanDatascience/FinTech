@@ -20,7 +20,7 @@ A comprehensive interactive dashboard for analyzing stock clusters using Princip
 - Stock-specific insights and comparisons
 - Powered by OpenAI's GPT models
 
-## 📊 PCA Axis Interpretations
+## PCA Axis Interpretations
 
 ### PC1 (X-axis): Quality / Stability / Balance-Sheet Strength
 - **High values (→ Right)**: High-quality, profitable, financially strong
@@ -32,7 +32,7 @@ A comprehensive interactive dashboard for analyzing stock clusters using Princip
 - **Low values (↓ Down)**: Cash-rich, operationally efficient
 - **Explains ~14.6% of variance**
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Python 3.9 or higher
