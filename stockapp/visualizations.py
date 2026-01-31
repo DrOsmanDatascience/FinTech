@@ -1,0 +1,675 @@
+"""
+Visualization functions for Stock PCA Cluster Analysis.
+Creates interactive Plotly charts for the Streamlit dashboard.
+"""
+
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import pandas as pd
+import numpy as np
+from typing import Optional, List, Dict, Tuple
+
+from config import (
+    CLUSTER_COLORS,
+    PLOT_WIDTH,
+    PLOT_HEIGHT,
+    ANIMATION_FRAME_DURATION,
+    QUADRANTS,
+    FACTOR_CATEGORIES,
+    PC1_INTERPRETATION,
+    PC2_INTERPRETATION
+)
+
+
+# =============================================================================
+# MAIN PCA SCATTER PLOT (PRIMARY VISUALIZATION)
+# =============================================================================
+
+def create_pca_scatter_plot(
+    pca_df: pd.DataFrame,
+    selected_ticker: Optional[str] = None,
+    show_quadrant_labels: bool = True
+) -> go.Figure:
+    """
+    Create the main 2D PCA scatter plot with cluster coloring.
+    This is the primary visualization users see after selecting a stock.
+    
+    Args:
+        pca_df: DataFrame with PC1, PC2, and cluster columns
+        selected_ticker: Ticker to highlight (optional)
+        show_quadrant_labels: Whether to show quadrant labels
+        
+    Returns:
+        Plotly Figure object
+    """
+    fig = go.Figure()
+    
+    # Add quadrant background shading
+    x_min, x_max = pca_df['PC1'].min() - 0.5, pca_df['PC1'].max() + 0.5
+    y_min, y_max = pca_df['PC2'].min() - 0.5, pca_df['PC2'].max() + 0.5
+    
+    # Quadrant colors (very light)
+    quadrant_colors = {
+        'Q1': 'rgba(144, 238, 144, 0.1)',  # Light green
+        'Q2': 'rgba(255, 182, 193, 0.1)',  # Light pink
+        'Q3': 'rgba(255, 255, 224, 0.1)',  # Light yellow
+        'Q4': 'rgba(173, 216, 230, 0.1)'   # Light blue
+    }
+    
+    # Add quadrant rectangles
+    # Q1: High Quality + Large/Leveraged (top-right)
+    fig.add_shape(type="rect", x0=0, y0=0, x1=x_max, y1=y_max,
+                  fillcolor=quadrant_colors['Q1'], line=dict(width=0))
+    # Q2: Lower Quality + Large/Leveraged (top-left)
+    fig.add_shape(type="rect", x0=x_min, y0=0, x1=0, y1=y_max,
+                  fillcolor=quadrant_colors['Q2'], line=dict(width=0))
+    # Q3: Lower Quality + Cash-Rich (bottom-left)
+    fig.add_shape(type="rect", x0=x_min, y0=y_min, x1=0, y1=0,
+                  fillcolor=quadrant_colors['Q3'], line=dict(width=0))
+    # Q4: High Quality + Cash-Rich (bottom-right)
+    fig.add_shape(type="rect", x0=0, y0=y_min, x1=x_max, y1=0,
+                  fillcolor=quadrant_colors['Q4'], line=dict(width=0))
+    
+    # Add axis lines at origin
+    fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+    fig.add_vline(x=0, line_dash="dash", line_color="gray", opacity=0.5)
+    
+    # Plot each cluster
+    for cluster_id in sorted(pca_df['cluster'].unique()):
+        cluster_data = pca_df[pca_df['cluster'] == cluster_id]
+        
+        # Determine if any point should be highlighted
+        is_selected = (
+            selected_ticker is not None and 
+            'ticker' in cluster_data.columns and
+            selected_ticker.upper() in cluster_data['ticker'].str.upper().values
+        )
+        
+        # Create hover text
+        hover_text = []
+        for _, row in cluster_data.iterrows():
+            text = f"<b>{row.get('ticker', 'N/A')}</b><br>"
+            text += f"PERMNO: {row.get('permno', 'N/A')}<br>"
+            text += f"Cluster: {cluster_id}<br>"
+            text += f"PC1: {row['PC1']:.3f}<br>"
+            text += f"PC2: {row['PC2']:.3f}"
+            hover_text.append(text)
+        
+        fig.add_trace(go.Scatter(
+            x=cluster_data['PC1'],
+            y=cluster_data['PC2'],
+            mode='markers',
+            marker=dict(
+                size=10 if not is_selected else 8,
+                color=CLUSTER_COLORS[cluster_id % len(CLUSTER_COLORS)],
+                opacity=0.7,
+                line=dict(width=1, color='white')
+            ),
+            name=f'Cluster {cluster_id}',
+            hovertemplate="%{text}<extra></extra>",
+            text=hover_text
+        ))
+    
+    # Highlight selected stock
+    if selected_ticker and 'ticker' in pca_df.columns:
+        selected_data = pca_df[pca_df['ticker'].str.upper() == selected_ticker.upper()]
+        if not selected_data.empty:
+            fig.add_trace(go.Scatter(
+                x=selected_data['PC1'],
+                y=selected_data['PC2'],
+                mode='markers+text',
+                marker=dict(
+                    size=20,
+                    color='red',
+                    symbol='star',
+                    line=dict(width=2, color='black')
+                ),
+                text=[selected_ticker],
+                textposition='top center',
+                textfont=dict(size=14, color='red', family='Arial Black'),
+                name=f'Selected: {selected_ticker}',
+                hovertemplate=f"<b>{selected_ticker}</b><br>PC1: %{{x:.3f}}<br>PC2: %{{y:.3f}}<extra></extra>"
+            ))
+    
+    # Add quadrant labels
+    if show_quadrant_labels:
+        labels = [
+            dict(x=x_max*0.7, y=y_max*0.9, text="Q1: High Quality<br>Large/Leveraged", 
+                 showarrow=False, font=dict(size=10, color='darkgreen')),
+            dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Lower Quality<br>Large/Leveraged", 
+                 showarrow=False, font=dict(size=10, color='darkred')),
+            dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Lower Quality<br>Cash-Rich/Smaller", 
+                 showarrow=False, font=dict(size=10, color='olive')),
+            dict(x=x_max*0.7, y=y_min*0.9, text="Q4: High Quality<br>Cash-Rich/Efficient", 
+                 showarrow=False, font=dict(size=10, color='darkblue'))
+        ]
+        for label in labels:
+            fig.add_annotation(**label)
+    
+    # Add axis characteristic labels
+    fig.add_annotation(x=x_max, y=0, text="→ Higher Quality/Stability",
+                      showarrow=False, yshift=15, font=dict(size=9, color='gray'))
+    fig.add_annotation(x=x_min, y=0, text="← Riskier/Volatile",
+                      showarrow=False, yshift=15, font=dict(size=9, color='gray'))
+    fig.add_annotation(x=0, y=y_max, text="↑ Large/Leveraged",
+                      showarrow=False, xshift=60, font=dict(size=9, color='gray'))
+    fig.add_annotation(x=0, y=y_min, text="↓ Cash-Rich/Efficient",
+                      showarrow=False, xshift=60, font=dict(size=9, color='gray'))
+    
+    # Update layout
+    fig.update_layout(
+        title=dict(
+            text='Stock PCA Cluster Analysis',
+            font=dict(size=20)
+        ),
+        xaxis_title='PC1: Quality / Stability / Balance-Sheet Strength',
+        yaxis_title='PC2: Size / Leverage / Capital Structure',
+        width=PLOT_WIDTH,
+        height=PLOT_HEIGHT,
+        showlegend=True,
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=1.02
+        ),
+        hovermode='closest'
+    )
+    
+    return fig
+
+
+# =============================================================================
+# QUADRANT PEER COMPARISON
+# =============================================================================
+
+def create_quadrant_comparison_plot(
+    pca_df: pd.DataFrame,
+    selected_ticker: str,
+    quadrant_peers: pd.DataFrame
+) -> go.Figure:
+    """
+    Create a focused view of the selected stock's quadrant with peers.
+    
+    Args:
+        pca_df: Full PCA DataFrame
+        selected_ticker: Selected stock ticker
+        quadrant_peers: DataFrame of peers in same quadrant
+        
+    Returns:
+        Plotly Figure object
+    """
+    if 'ticker' not in pca_df.columns:
+        return go.Figure()
+    
+    selected_data = pca_df[pca_df['ticker'].str.upper() == selected_ticker.upper()]
+    if selected_data.empty:
+        return go.Figure()
+    
+    fig = go.Figure()
+    
+    # Plot quadrant peers
+    if not quadrant_peers.empty:
+        hover_text = [
+            f"<b>{row.get('ticker', 'N/A')}</b><br>PC1: {row['PC1']:.3f}<br>PC2: {row['PC2']:.3f}"
+            for _, row in quadrant_peers.iterrows()
+        ]
+        
+        fig.add_trace(go.Scatter(
+            x=quadrant_peers['PC1'],
+            y=quadrant_peers['PC2'],
+            mode='markers+text',
+            marker=dict(size=12, color='lightblue', opacity=0.7,
+                       line=dict(width=1, color='darkblue')),
+            text=quadrant_peers['ticker'] if 'ticker' in quadrant_peers.columns else None,
+            textposition='top center',
+            textfont=dict(size=8),
+            name='Quadrant Peers',
+            hovertemplate="%{customdata}<extra></extra>",
+            customdata=hover_text
+        ))
+    
+    # Highlight selected stock
+    fig.add_trace(go.Scatter(
+        x=selected_data['PC1'],
+        y=selected_data['PC2'],
+        mode='markers+text',
+        marker=dict(size=25, color='red', symbol='star',
+                   line=dict(width=2, color='black')),
+        text=[selected_ticker],
+        textposition='bottom center',
+        textfont=dict(size=14, color='red', family='Arial Black'),
+        name=f'Selected: {selected_ticker}',
+        hovertemplate=f"<b>{selected_ticker}</b><br>PC1: %{{x:.3f}}<br>PC2: %{{y:.3f}}<extra></extra>"
+    ))
+    
+    # Add quadrant reference lines
+    fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+    fig.add_vline(x=0, line_dash="dash", line_color="gray", opacity=0.5)
+    
+    fig.update_layout(
+        title=f'Quadrant Peers for {selected_ticker}',
+        xaxis_title='PC1: Quality / Stability',
+        yaxis_title='PC2: Size / Leverage',
+        width=PLOT_WIDTH,
+        height=500,
+        showlegend=True
+    )
+    
+    return fig
+
+
+# =============================================================================
+# FACTOR BREAKDOWN RADAR CHART
+# =============================================================================
+
+def create_factor_radar_chart(
+    factor_data: Dict[str, Dict[str, float]],
+    ticker: str
+) -> go.Figure:
+    """
+    Create a radar chart showing the factor breakdown for a stock.
+    
+    Args:
+        factor_data: Dictionary of factor categories and values
+        ticker: Stock ticker for title
+        
+    Returns:
+        Plotly Figure object
+    """
+    # Flatten factor data
+    categories = []
+    values = []
+    
+    for category, features in factor_data.items():
+        for feature, value in features.items():
+            categories.append(f"{feature}")
+            values.append(value)
+    
+    # Normalize values for radar chart (0-1 scale roughly)
+    if values:
+        min_val = min(values)
+        max_val = max(values)
+        if max_val != min_val:
+            normalized = [(v - min_val) / (max_val - min_val) for v in values]
+        else:
+            normalized = [0.5] * len(values)
+    else:
+        normalized = []
+    
+    fig = go.Figure()
+    
+    fig.add_trace(go.Scatterpolar(
+        r=normalized + [normalized[0]] if normalized else [],  # Close the polygon
+        theta=categories + [categories[0]] if categories else [],
+        fill='toself',
+        fillcolor='rgba(27, 158, 119, 0.3)',
+        line=dict(color=CLUSTER_COLORS[0], width=2),
+        name=ticker,
+        hovertemplate="<b>%{theta}</b><br>Value: %{customdata:.4f}<extra></extra>",
+        customdata=values + [values[0]] if values else []
+    ))
+    
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 1]
+            )
+        ),
+        title=f'Factor Breakdown: {ticker}',
+        width=500,
+        height=500,
+        showlegend=False
+    )
+    
+    return fig
+
+
+# =============================================================================
+# PERCENTILE RANKING BAR CHART
+# =============================================================================
+
+def create_percentile_chart(
+    percentiles: Dict[str, float],
+    ticker: str
+) -> go.Figure:
+    """
+    Create a horizontal bar chart showing percentile rankings.
+    
+    Args:
+        percentiles: Dictionary of feature percentiles
+        ticker: Stock ticker for title
+        
+    Returns:
+        Plotly Figure object
+    """
+    features = list(percentiles.keys())
+    values = list(percentiles.values())
+    
+    # Color bars based on percentile (green for high, red for low)
+    colors = ['green' if v >= 50 else 'red' for v in values]
+    
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
+        y=features,
+        x=values,
+        orientation='h',
+        marker=dict(
+            color=colors,
+            opacity=0.7
+        ),
+        text=[f'{v:.1f}%' for v in values],
+        textposition='outside',
+        hovertemplate="<b>%{y}</b><br>Percentile: %{x:.1f}%<extra></extra>"
+    ))
+    
+    # Add 50th percentile reference line
+    fig.add_vline(x=50, line_dash="dash", line_color="gray", opacity=0.7,
+                  annotation_text="50th Percentile", annotation_position="top")
+    
+    fig.update_layout(
+        title=f'Percentile Rankings vs Quadrant Peers: {ticker}',
+        xaxis_title='Percentile Rank',
+        yaxis_title='Factor',
+        xaxis=dict(range=[0, 105]),
+        width=600,
+        height=max(400, len(features) * 30),
+        showlegend=False
+    )
+    
+    return fig
+
+
+# =============================================================================
+# TIME-LAPSE ANIMATION
+# =============================================================================
+
+def create_timelapse_animation(
+    time_series_df: pd.DataFrame,
+    ticker: str,
+    pca_df: pd.DataFrame
+) -> go.Figure:
+    """
+    Create an animated scatter plot showing stock movement over time.
+    
+    Args:
+        time_series_df: DataFrame with date, PC1, PC2 columns
+        ticker: Stock ticker
+        pca_df: Full PCA DataFrame for background context
+        
+    Returns:
+        Plotly Figure with animation
+    """
+    if time_series_df.empty:
+        return go.Figure()
+    
+    # Create figure with frames
+    fig = go.Figure()
+    
+    # Add static background (all other stocks, dimmed)
+    fig.add_trace(go.Scatter(
+        x=pca_df['PC1'],
+        y=pca_df['PC2'],
+        mode='markers',
+        marker=dict(size=6, color='lightgray', opacity=0.3),
+        name='Other Stocks',
+        hoverinfo='skip'
+    ))
+    
+    # Add axis lines
+    fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+    fig.add_vline(x=0, line_dash="dash", line_color="gray", opacity=0.5)
+    
+    # Add the animated trace (current position)
+    fig.add_trace(go.Scatter(
+        x=[time_series_df['PC1'].iloc[0]],
+        y=[time_series_df['PC2'].iloc[0]],
+        mode='markers+text',
+        marker=dict(size=15, color='red', symbol='star'),
+        text=[ticker],
+        textposition='top center',
+        name=f'{ticker} Position'
+    ))
+    
+    # Add trail trace
+    fig.add_trace(go.Scatter(
+        x=time_series_df['PC1'].iloc[:1],
+        y=time_series_df['PC2'].iloc[:1],
+        mode='lines',
+        line=dict(color='blue', width=2, dash='dot'),
+        name='Historical Path',
+        opacity=0.5
+    ))
+    
+    # Create frames for animation
+    frames = []
+    for i in range(1, len(time_series_df)):
+        frame_data = [
+            # Background (unchanged)
+            go.Scatter(
+                x=pca_df['PC1'],
+                y=pca_df['PC2'],
+                mode='markers',
+                marker=dict(size=6, color='lightgray', opacity=0.3)
+            ),
+            # Current position
+            go.Scatter(
+                x=[time_series_df['PC1'].iloc[i]],
+                y=[time_series_df['PC2'].iloc[i]],
+                mode='markers+text',
+                marker=dict(size=15, color='red', symbol='star'),
+                text=[ticker],
+                textposition='top center'
+            ),
+            # Trail
+            go.Scatter(
+                x=time_series_df['PC1'].iloc[:i+1],
+                y=time_series_df['PC2'].iloc[:i+1],
+                mode='lines',
+                line=dict(color='blue', width=2, dash='dot'),
+                opacity=0.5
+            )
+        ]
+        
+        frame_name = str(time_series_df['date'].iloc[i])[:10]
+        frames.append(go.Frame(data=frame_data, name=frame_name))
+    
+    fig.frames = frames
+    
+    # Add animation controls
+    fig.update_layout(
+        title=f'Historical Movement: {ticker}',
+        xaxis_title='PC1: Quality / Stability',
+        yaxis_title='PC2: Size / Leverage',
+        width=PLOT_WIDTH,
+        height=PLOT_HEIGHT,
+        updatemenus=[
+            dict(
+                type="buttons",
+                showactive=False,
+                y=1.15,
+                x=0.5,
+                xanchor="center",
+                buttons=[
+                    dict(
+                        label="▶ Play",
+                        method="animate",
+                        args=[None, {
+                            "frame": {"duration": ANIMATION_FRAME_DURATION, "redraw": True},
+                            "fromcurrent": True,
+                            "transition": {"duration": 200}
+                        }]
+                    ),
+                    dict(
+                        label="⏸ Pause",
+                        method="animate",
+                        args=[[None], {
+                            "frame": {"duration": 0, "redraw": False},
+                            "mode": "immediate",
+                            "transition": {"duration": 0}
+                        }]
+                    )
+                ]
+            )
+        ],
+        sliders=[
+            dict(
+                active=0,
+                yanchor="top",
+                xanchor="left",
+                currentvalue=dict(
+                    font=dict(size=12),
+                    prefix="Date: ",
+                    visible=True,
+                    xanchor="center"
+                ),
+                transition=dict(duration=200),
+                pad=dict(b=10, t=50),
+                len=0.9,
+                x=0.05,
+                y=0,
+                steps=[
+                    dict(
+                        args=[[f.name], {
+                            "frame": {"duration": 200, "redraw": True},
+                            "mode": "immediate",
+                            "transition": {"duration": 200}
+                        }],
+                        label=f.name,
+                        method="animate"
+                    )
+                    for f in frames
+                ]
+            )
+        ]
+    )
+    
+    return fig
+
+
+# =============================================================================
+# 3D PCA VISUALIZATION
+# =============================================================================
+
+def create_3d_pca_plot(
+    pca_df: pd.DataFrame,
+    selected_ticker: Optional[str] = None
+) -> go.Figure:
+    """
+    Create a 3D PCA scatter plot.
+    
+    Args:
+        pca_df: DataFrame with PC1, PC2, PC3, and cluster columns
+        selected_ticker: Ticker to highlight (optional)
+        
+    Returns:
+        Plotly Figure object
+    """
+    if 'PC3' not in pca_df.columns:
+        return go.Figure()
+    
+    fig = go.Figure()
+    
+    # Plot each cluster
+    for cluster_id in sorted(pca_df['cluster'].unique()):
+        cluster_data = pca_df[pca_df['cluster'] == cluster_id]
+        
+        hover_text = [
+            f"<b>{row.get('ticker', 'N/A')}</b><br>Cluster: {cluster_id}"
+            for _, row in cluster_data.iterrows()
+        ]
+        
+        fig.add_trace(go.Scatter3d(
+            x=cluster_data['PC1'],
+            y=cluster_data['PC2'],
+            z=cluster_data['PC3'],
+            mode='markers',
+            marker=dict(
+                size=5,
+                color=CLUSTER_COLORS[cluster_id % len(CLUSTER_COLORS)],
+                opacity=0.7
+            ),
+            name=f'Cluster {cluster_id}',
+            hovertemplate="%{text}<extra></extra>",
+            text=hover_text
+        ))
+    
+    # Highlight selected stock
+    if selected_ticker and 'ticker' in pca_df.columns:
+        selected_data = pca_df[pca_df['ticker'].str.upper() == selected_ticker.upper()]
+        if not selected_data.empty:
+            fig.add_trace(go.Scatter3d(
+                x=selected_data['PC1'],
+                y=selected_data['PC2'],
+                z=selected_data['PC3'],
+                mode='markers+text',
+                marker=dict(size=15, color='red', symbol='diamond'),
+                text=[selected_ticker],
+                name=f'Selected: {selected_ticker}'
+            ))
+    
+    fig.update_layout(
+        title='3D PCA Cluster Visualization',
+        scene=dict(
+            xaxis_title='PC1: Quality/Stability',
+            yaxis_title='PC2: Size/Leverage',
+            zaxis_title='PC3'
+        ),
+        width=PLOT_WIDTH,
+        height=PLOT_HEIGHT,
+        showlegend=True
+    )
+    
+    return fig
+
+
+# =============================================================================
+# CLUSTER SUMMARY VISUALIZATION
+# =============================================================================
+
+def create_cluster_summary_plot(cluster_summary: pd.DataFrame) -> go.Figure:
+    """
+    Create a bar chart comparing cluster characteristics.
+    
+    Args:
+        cluster_summary: DataFrame with cluster statistics
+        
+    Returns:
+        Plotly Figure object
+    """
+    if cluster_summary.empty:
+        return go.Figure()
+    
+    # Select key metrics for comparison
+    key_metrics = ['PC1_mean', 'PC2_mean']
+    available_metrics = [m for m in key_metrics if m in cluster_summary.columns]
+    
+    if not available_metrics:
+        return go.Figure()
+    
+    fig = make_subplots(
+        rows=1, cols=len(available_metrics),
+        subplot_titles=[m.replace('_mean', ' (Mean)') for m in available_metrics]
+    )
+    
+    for i, metric in enumerate(available_metrics, 1):
+        fig.add_trace(
+            go.Bar(
+                x=[f'Cluster {c}' for c in cluster_summary.index],
+                y=cluster_summary[metric],
+                marker_color=[CLUSTER_COLORS[c % len(CLUSTER_COLORS)] for c in cluster_summary.index],
+                showlegend=False
+            ),
+            row=1, col=i
+        )
+    
+    fig.update_layout(
+        title='Cluster Comparison',
+        width=PLOT_WIDTH,
+        height=400
+    )
+    
+    return fig
