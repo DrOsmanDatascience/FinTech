@@ -6,7 +6,7 @@ A comprehensive interactive dashboard for analyzing stock clusters using Princip
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-## 🎯 Features
+## Features
 
 ### Interactive Visualizations
 - **2D PCA Scatter Plot**: Main visualization showing stocks positioned by quality/stability (PC1) and size/leverage (PC2)
@@ -138,13 +138,13 @@ Ask questions like:
 - "What does the PC1 score tell me about this stock?"
 - "Is this stock considered high quality or risky?"
 
-## 🔒 Security Notes
+##  Security Notes
 
 - **API Keys**: Never commit API keys to version control
 - **Environment Variables**: Use `.env` files or secure environment variable management
 - **Data Privacy**: The application processes data locally in your browser session
 
-## 📝 Data Requirements
+## Data Requirements
 
 The CSV file should contain these columns:
 - `permno`: CRSP permanent security identifier
@@ -152,18 +152,12 @@ The CSV file should contain these columns:
 - `public_date` or `date`: Date column
 - Factor columns: `earnings_yield`, `bm`, `sales_to_price`, `roe`, `roa`, `gprof`, `debt_assets`, `cash_debt`, `momentum_12m`, `vol_60d_ann`, `addv_63d`
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+## License
 
-## 📄 License
+Copyright (C) Syed Muhammad Ishraque Osman 
 
-This project is licensed under the MIT License.
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Data sourced from CRSP via the FinTech repository
 - Built with Streamlit, Plotly, and scikit-learn
@@ -178,4 +172,4 @@ For questions or issues:
 
 ---
 
-**Happy Analyzing! 📊📈**
+**Happy Analyzing! **
