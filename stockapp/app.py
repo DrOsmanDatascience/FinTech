@@ -279,7 +279,7 @@ def render_main_header():
     """Render the main page header."""
     st.markdown("""
     <div class="main-header">
-        📈 Stock PCA Cluster Analysis
+        📈 TICKER SCIENCE
     </div>
     """, unsafe_allow_html=True)
     
@@ -356,7 +356,7 @@ def render_visualizations(
     
     # Create tabs for different visualizations
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "🎯 PCA Cluster Plot",
+        "🎯 Cluster Plot",
         "👥 Quadrant Peers",
         "📊 Factor Analysis",
         "🕐 Time-Lapse",
