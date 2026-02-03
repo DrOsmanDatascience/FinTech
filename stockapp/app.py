@@ -279,7 +279,7 @@ def render_main_header():
     """Render the main page header."""
     st.markdown("""
     <div class="main-header">
-        📈 TICKER SCIENCE
+        📈 STOCK FACTOR ANALYTICS
     </div>
     """, unsafe_allow_html=True)
     
