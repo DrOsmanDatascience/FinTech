@@ -161,8 +161,8 @@ def create_pca_scatter_plot(
         marker=hover_mark,
         hovertemplate=(
             "<b>Q4: Quality but Under the Radar</b><br>"
-            "<b>THINK:</b> Higher Quality SMID cap companies<br>"
-            "Overlooked quality alpha opportunities"
+            "<b>THINK:</b> Quality SMID cap companies<br>"
+            "Less liquid alpha opportunities"
             "<extra></extra>"
         ),
         showlegend=False,
