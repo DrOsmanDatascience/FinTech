@@ -217,7 +217,7 @@ def render_sidebar():
     """, unsafe_allow_html=True)
     
     stock_input = st.sidebar.text_input(
-        "Enter Stock Ticker or PERMNO:",
+        "Enter Stock Ticker:",
         placeholder="e.g., AAPL or 14593",
         key="stock_input"
     )
