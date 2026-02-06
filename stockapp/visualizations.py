@@ -146,7 +146,7 @@ def create_pca_scatter_plot(
         marker=hover_mark,
         hovertemplate=(
             "<b>Q3: Risky + Illiquid</b><br>"
-            "<b>THINK:<b> Speculative, distressed, volatile<br>"
+            "<b>THINK:</b> Speculative, distressed, volatile<br>"
             "Liquidity-constrained firms<br>"
             "Higher financing & business risk"
             "<extra></extra>"
