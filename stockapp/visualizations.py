@@ -142,7 +142,7 @@ def create_pca_scatter_plot(
             dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Risky + Illiquid", 
                  showarrow=False, font=dict(size=10, color='olive')),
             dict(x=x_max*0.7, y=y_min*0.9, text="Q4: Quality but Under Radar", 
-                 showarrow=False, font=dict(size=10, color='darkblue'))
+                 showarrow=False, font=dict(size=10, color='lightblue'))
         ]
         for label in labels:
             fig.add_annotation(**label)
