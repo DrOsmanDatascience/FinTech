@@ -103,12 +103,27 @@ st.markdown("""
     
     /* Quadrant indicator */
     .quadrant-box {
-        background-color: #e8f4e8;
+        background-color: var(--secondary-background-color);   /* theme-aware bg */
+        color: var(--text-color);                              /* theme-aware text */
         padding: 1.5rem;
         border-radius: 10px;
         text-align: center;
         margin: 0.5rem 0;
+        border: 1px solid rgba(128,128,128,0.25);              /* neutral in both */
     }
+
+    /* Force readable text for all nested elements */
+    .quadrant-box * {
+        color: var(--text-color) !important;
+    }
+            
+    #.quadrant-box {
+    #    background-color: #e8f4e8;
+    #    padding: 1.5rem;
+    #    border-radius: 10px;
+    #    text-align: center;
+    #    margin: 0.5rem 0;
+    #}
     
     /* Metric styling */
     .metric-card {
