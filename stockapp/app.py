@@ -57,7 +57,7 @@ from chatbot import create_chatbot, SAMPLE_QUESTIONS
 
 
 # =============================================================================
-# pAGE CONFIGURATION
+# PAGE CONFIGURATION
 # =============================================================================
 
 st.set_page_config(**PAGE_CONFIG)
