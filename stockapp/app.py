@@ -85,8 +85,8 @@ st.markdown("""
         color: var(--text-color);
         padding: 1rem;
         border-radius: 10px;
-        border-left: 5px solid #1f77b4;
-            margin: 1rem 0;
+        border-left: 5px solid var(--primary-color);
+        margin: 1rem 0;
     }
 
     .info-box * {
