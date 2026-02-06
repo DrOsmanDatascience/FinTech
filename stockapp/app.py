@@ -210,11 +210,11 @@ def render_sidebar():
     st.sidebar.markdown("## 📊 Stock Selection")
     
     # Stock input
-    st.sidebar.markdown("""
-    <div class="info-box">
-        Enter stock ticker (e.g., AAPL, MSFT) to analyze.
-    </div>
-    """, unsafe_allow_html=True)
+    #st.sidebar.markdown("""
+    #<div class="info-box">
+    #    Enter stock ticker (e.g., AAPL, MSFT) to analyze.
+    #</div>
+    #""", unsafe_allow_html=True)
     
     stock_input = st.sidebar.text_input(
         "Enter Stock Ticker:",
