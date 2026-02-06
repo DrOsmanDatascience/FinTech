@@ -148,13 +148,13 @@ def create_pca_scatter_plot(
             fig.add_annotation(**label)
     
     # Add axis characteristic labels
-    fig.add_annotation(x=x_max, y=0, text="→ Higher Quality/Stability",
+    fig.add_annotation(x=x_max, y=0, text="→ Lower Volatility, Strong Fundamentals, Higher Quality",
                       showarrow=False, yshift=15, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=x_min, y=0, text="← Riskier/Volatile",
+    fig.add_annotation(x=x_min, y=0, text="← Higher Volatility, Stressed Fundementals, Riskier Profile",
                       showarrow=False, yshift=15, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=0, y=y_max, text="↑ Large/Leveraged",
+    fig.add_annotation(x=0, y=y_max, text="↑ Large, Liquid, Bal-Sheet Scale",
                       showarrow=False, xshift=60, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=0, y=y_min, text="↓ Cash-Rich/Efficient",
+    fig.add_annotation(x=0, y=y_min, text="↓ Smaller, Less Liquid, Niche Stocks",
                       showarrow=False, xshift=60, font=dict(size=9, color='gray'))
     
     # Update layout
