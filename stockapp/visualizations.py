@@ -58,7 +58,7 @@ def create_pca_scatter_plot(
     }
     
     # Add quadrant rectangles
-    # Q1: high Quality + Large/Leveraged (top-right)
+    # Q1: High Quality + Large/Leveraged (top-right)
     fig.add_shape(type="rect", x0=0, y0=0, x1=x_max, y1=y_max,
                   fillcolor=quadrant_colors['Q1'], line=dict(width=0))
     # Q2: Lower Quality + Large/Leveraged (top-left)
@@ -135,7 +135,7 @@ def create_pca_scatter_plot(
     # Add quadrant labels
     if show_quadrant_labels:
         labels = [
-            dict(x=x_max*0.7, y=y_max*0.9, text="Q1: High Quality<br>Large/Leveraged", 
+            dict(x=x_max*0.7, y=y_max*0.9, text="Q1: Safe<br>+Scaleable", 
                  showarrow=False, font=dict(size=10, color='darkgreen')),
             dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Lower Quality<br>Large/Leveraged", 
                  showarrow=False, font=dict(size=10, color='darkred')),
