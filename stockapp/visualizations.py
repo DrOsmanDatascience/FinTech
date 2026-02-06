@@ -71,6 +71,68 @@ def create_pca_scatter_plot(
     fig.add_shape(type="rect", x0=0, y0=y_min, x1=x_max, y1=0,
                   fillcolor=quadrant_colors['Q4'], line=dict(width=0))
     
+    # ---------------------------------------------------------------------
+    # Invisible hover targets for quadrant explanations
+    # ---------------------------------------------------------------------
+
+    fig.add_trace(go.Scatter(
+        x=[x_max * 0.6],
+        y=[y_max * 0.6],
+        mode='markers',
+        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        hovertemplate=(
+            "<b>Q1: Safe + Scalable</b><br>"
+            "High-quality, large, liquid companies<br>"
+            "Strong balance sheets & lower volatility<br>"
+            "Core institutional compounders"
+            "<extra></extra>"
+        ),
+        showlegend=False
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=[x_min * 0.6],
+        y=[y_max * 0.6],
+        mode='markers',
+        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        hovertemplate=(
+            "<b>Q2: Big but Fragile</b><br>"
+            "Large firms with weaker fundamentals<br>"
+            "Higher leverage & cyclical exposure<br>"
+            "Prone to drawdowns under stress"
+            "<extra></extra>"
+        ),
+        showlegend=False
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=[x_min * 0.6],
+        y=[y_min * 0.6],
+        mode='markers',
+        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        hovertemplate=(
+            "<b>Q3: Risky + Illiquid</b><br>"
+            "Smaller, volatile, liquidity-constrained firms<br>"
+            "Higher financing & business risk"
+            "<extra></extra>"
+        ),
+        showlegend=False
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=[x_max * 0.6],
+        y=[y_min * 0.6],
+        mode='markers',
+        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        hovertemplate=(
+            "<b>Q4: Quality but Under the Radar</b><br>"
+            "Smaller, cash-rich, efficient companies<br>"
+            "Often overlooked quality compounders"
+            "<extra></extra>"
+        ),
+        showlegend=False
+    ))
+    
     # Add axis lines at origin
     fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
     fig.add_vline(x=0, line_dash="dash", line_color="gray", opacity=0.5)
