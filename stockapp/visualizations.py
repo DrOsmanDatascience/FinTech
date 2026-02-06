@@ -45,9 +45,20 @@ def create_pca_scatter_plot(
     """
     fig = go.Figure()
     
+    # Add quadrant background shading (force full-quadrant coverage)
+    x_pad = 0.5
+    y_pad = 0.5
+
+    x_lim = max(abs(pca_df["PC1"].min()), abs(pca_df["PC1"].max())) + x_pad
+    y_lim = max(abs(pca_df["PC2"].min()), abs(pca_df["PC2"].max())) + y_pad
+
+    x_min, x_max = -x_lim, x_lim
+    y_min, y_max = -y_lim, y_lim
+
+    
     # Add quadrant background shading
-    x_min, x_max = pca_df['PC1'].min() - 0.5, pca_df['PC1'].max() + 0.5
-    y_min, y_max = pca_df['PC2'].min() - 0.5, pca_df['PC2'].max() + 0.5
+    #x_min, x_max = pca_df['PC1'].min() - 0.5, pca_df['PC1'].max() + 0.5
+    #y_min, y_max = pca_df['PC2'].min() - 0.5, pca_df['PC2'].max() + 0.5
     
     # Quadrant colors (very light)
     quadrant_colors = {
