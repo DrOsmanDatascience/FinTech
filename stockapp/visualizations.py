@@ -116,7 +116,7 @@ def create_pca_scatter_plot(
         marker=hover_mark,
         hovertemplate=(
             "<b>Q1: Safe + Scalable</b><br>"
-            "THINK, High-quality, large, liquid companies<br>"
+            "<b>THINK</b>: High-quality, large, liquid companies<br>"
             "Strong balance sheets & lower volatility<br>"
             "Core institutional compounders"
             "<extra></extra>"
