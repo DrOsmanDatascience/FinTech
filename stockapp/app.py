@@ -81,12 +81,25 @@ st.markdown("""
     
     /* Info box styling */
     .info-box {
-        background-color: #f0f8ff;
+        background-color: var(--secondary-background-color);
+        color: var(--text-color);
         padding: 1rem;
         border-radius: 10px;
         border-left: 5px solid #1f77b4;
-        margin: 1rem 0;
+            margin: 1rem 0;
     }
+
+    .info-box * {
+         color: var(--text-color) !important;
+    }
+
+    #.info-box {
+    #    background-color: #f0f8ff;
+    #    padding: 1rem;
+    #    border-radius: 10px;
+    #    border-left: 5px solid #1f77b4;
+    #    margin: 1rem 0;
+    #}
     
     /* Quadrant indicator */
     .quadrant-box {
