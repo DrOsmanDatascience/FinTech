@@ -212,7 +212,7 @@ def render_sidebar():
     # Stock input
     st.sidebar.markdown("""
     <div class="info-box">
-        Enter a stock ticker (e.g., AAPL, MSFT) or PERMNO to analyze.
+        Enter stock ticker (e.g., AAPL, MSFT) or PERMNO to analyze.
     </div>
     """, unsafe_allow_html=True)
     
