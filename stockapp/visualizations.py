@@ -58,7 +58,7 @@ def create_pca_scatter_plot(
     }
     
     # Add quadrant rectangles
-    # Q1: High Quality + Large/Leveraged (top-right)
+    # Q1: high Quality + Large/Leveraged (top-right)
     fig.add_shape(type="rect", x0=0, y0=0, x1=x_max, y1=y_max,
                   fillcolor=quadrant_colors['Q1'], line=dict(width=0))
     # Q2: Lower Quality + Large/Leveraged (top-left)
