@@ -136,9 +136,9 @@ def create_pca_scatter_plot(
     if show_quadrant_labels:
         labels = [
             dict(x=x_max*0.7, y=y_max*0.9, text="Q1: Safe+Scalable", 
-                 showarrow=False, font=dict(size=10, color='darkgreen')),
+                 showarrow=False, font=dict(size=10, color='green')),
             dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Big but Fragile", 
-                 showarrow=False, font=dict(size=10, color='darkred')),
+                 showarrow=False, font=dict(size=10, color='red')),
             dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Risky + Illiquid", 
                  showarrow=False, font=dict(size=10, color='olive')),
             dict(x=x_max*0.7, y=y_min*0.9, text="Q4: Quality but Under Radar", 
