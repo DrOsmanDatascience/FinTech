@@ -57,25 +57,47 @@ def create_pca_scatter_plot(
         'Q4': 'rgba(173, 216, 230, 0.1)'   # Light blue
     }
     
+    # Add quadrant rectangles (span full axis range)
+    fig.add_shape(type="rect", xref="x", yref="y",
+              x0=0, y0=0, x1=x_max, y1=y_max,
+              fillcolor=quadrant_colors['Q1'],
+              line=dict(width=0), layer="below")
+
+    fig.add_shape(type="rect", xref="x", yref="y",
+              x0=x_min, y0=0, x1=0, y1=y_max,
+              fillcolor=quadrant_colors['Q2'],
+              line=dict(width=0), layer="below")
+
+    fig.add_shape(type="rect", xref="x", yref="y",
+              x0=x_min, y0=y_min, x1=0, y1=0,
+              fillcolor=quadrant_colors['Q3'],
+              line=dict(width=0), layer="below")
+
+    fig.add_shape(type="rect", xref="x", yref="y",
+              x0=0, y0=y_min, x1=x_max, y1=0,
+              fillcolor=quadrant_colors['Q4'],
+              line=dict(width=0), layer="below")
+
+
     # Add quadrant rectangles
     # Q1: High Quality + Large/Leveraged (top-right)
-    fig.add_shape(type="rect", x0=0, y0=0, x1=x_max, y1=y_max,
-                  fillcolor=quadrant_colors['Q1'], line=dict(width=0))
+    #fig.add_shape(type="rect", x0=0, y0=0, x1=x_max, y1=y_max,
+    #              fillcolor=quadrant_colors['Q1'], line=dict(width=0))
     # Q2: Lower Quality + Large/Leveraged (top-left)
-    fig.add_shape(type="rect", x0=x_min, y0=0, x1=0, y1=y_max,
-                  fillcolor=quadrant_colors['Q2'], line=dict(width=0))
+    #fig.add_shape(type="rect", x0=x_min, y0=0, x1=0, y1=y_max,
+    #              fillcolor=quadrant_colors['Q2'], line=dict(width=0))
     # Q3: Lower Quality + Cash-Rich (bottom-left)
-    fig.add_shape(type="rect", x0=x_min, y0=y_min, x1=0, y1=0,
-                  fillcolor=quadrant_colors['Q3'], line=dict(width=0))
+    #fig.add_shape(type="rect", x0=x_min, y0=y_min, x1=0, y1=0,
+    #              fillcolor=quadrant_colors['Q3'], line=dict(width=0))
     # Q4: High Quality + Cash-Rich (bottom-right)
-    fig.add_shape(type="rect", x0=0, y0=y_min, x1=x_max, y1=0,
-                  fillcolor=quadrant_colors['Q4'], line=dict(width=0))
+    #fig.add_shape(type="rect", x0=0, y0=y_min, x1=x_max, y1=0,
+    #              fillcolor=quadrant_colors['Q4'], line=dict(width=0))
     
     # ---------------------------------------------------------------------
     # Invisible hover targets for quadrant explanations (reliable version)
     # ---------------------------------------------------------------------
 
-    hover_mark = dict(size=140, color="rgba(0,0,0,0.01)", line=dict(width=0))  # tiny opacity so it can be hovered
+    hover_mark = dict(size=90, color="rgba(0,0,0,0.01)", line=dict(width=0))  # tiny opacity so it can be hovered
 
     fig.add_trace(go.Scatter(
         x=[x_max - 0.25], y=[y_max - 0.25],   # top-right corner (Q1)
@@ -199,34 +221,50 @@ def create_pca_scatter_plot(
     # Add quadrant labels
     if show_quadrant_labels:
         labels = [
-            dict(x=x_max*0.7, y=y_max*0.9, text="Q1: Safe+Scalable", 
-                 showarrow=False, font=dict(size=10, color='green')),
-            dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Big but Fragile", 
-                 showarrow=False, font=dict(size=10, color='red')),
-            dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Risky + Illiquid", 
-                 showarrow=False, font=dict(size=10, color='olive')),
-            dict(x=x_max*0.7, y=y_min*0.9, text="Q4: Quality but Under Radar", 
-                 showarrow=False, font=dict(size=10, color='blue'))
+            dict(x=x_max*0.7, y=y_max*0.9, text="Q1: Safe+Scalable",
+                showarrow=False, font=dict(size=10, color='green')),
+            dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Big but Fragile",
+                showarrow=False, font=dict(size=10, color='red')),
+            dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Risky + Illiquid",
+                showarrow=False, font=dict(size=10, color='olive')),
+            dict(x=x_max*0.7, y=y_min*0.9, text="Q4: Quality but Under Radar",
+                showarrow=False, font=dict(size=10, color='blue'))
         ]
         for label in labels:
             fig.add_annotation(**label)
-    
-    # Add axis characteristic labels
-    fig.add_annotation(x=x_max, y=0, text="→ Lower Volatility, <br>Strong Fundamentals, <br>Higher Quality",
-                      showarrow=False, yshift=15, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=x_min, y=0, text="← Higher Volatility, <br>Stressed Fundementals, <br>Riskier Profile",
-                      showarrow=False, yshift=15, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=0, y=y_max, text="↑ Large, Liquid, Bal-Sheet Scale",
-                      showarrow=False, xshift=60, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=0, y=y_min, text="↓ Smaller, Less Liquid, Niche Stocks",
-                      showarrow=False, xshift=60, font=dict(size=9, color='gray'))
-    
-    # Update layout
+
+    # Add axis characteristic labels (ONCE)  ✅ OUTSIDE LOOP
+    fig.add_annotation(
+        x=x_max, y=0,
+        text="→ Lower Volatility, <br>Strong Fundamentals, <br>Higher Quality",
+        showarrow=False, yshift=15,
+        font=dict(size=9, color='gray')
+    )
+
+    fig.add_annotation(
+        x=x_min, y=0,
+        text="← Higher Volatility, <br>Stressed Fundamentals, <br>Riskier Profile",
+        showarrow=False, yshift=15,
+        font=dict(size=9, color='gray')
+    )
+
+    fig.add_annotation(
+        x=0, y=y_max,
+        text="↑ Large, Liquid, Bal-Sheet Scale",
+        showarrow=False, xshift=60,
+        font=dict(size=9, color='gray')
+    )
+
+    fig.add_annotation(
+        x=0, y=y_min,
+        text="↓ Smaller, Less Liquid, Niche Stocks",
+        showarrow=False, xshift=60,
+        font=dict(size=9, color='gray')
+    )
+
+    # Update layout (ONCE)
     fig.update_layout(
-        title=dict(
-            text='Stock PCA Cluster Analysis',
-            font=dict(size=20)
-        ),
+        title=dict(text='Stock PCA Cluster Analysis', font=dict(size=20)),
         xaxis_title='PC1: Quality / Financial Strength / Risk composite',
         yaxis_title='PC2: Capital Structure / Liquidity (size)',
         width=PLOT_WIDTH,
@@ -240,9 +278,12 @@ def create_pca_scatter_plot(
         ),
         hovermode='closest'
     )
-    
-    return fig
 
+    # Lock axis ranges (ONCE)
+    fig.update_xaxes(range=[x_min, x_max])
+    fig.update_yaxes(range=[y_min, y_max])
+
+    return fig
 
 # =============================================================================
 # QUADRANT PEER COMPARISON
@@ -322,7 +363,6 @@ def create_quadrant_comparison_plot(
     )
     
     return fig
-
 
 # =============================================================================
 # FACTOR BREAKDOWN RADAR CHART
