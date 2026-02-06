@@ -72,14 +72,15 @@ def create_pca_scatter_plot(
                   fillcolor=quadrant_colors['Q4'], line=dict(width=0))
     
     # ---------------------------------------------------------------------
-    # Invisible hover targets for quadrant explanations
+    # Invisible hover targets for quadrant explanations (reliable version)
     # ---------------------------------------------------------------------
 
+    hover_mark = dict(size=140, color="rgba(0,0,0,0.01)", line=dict(width=0))  # tiny opacity so it can be hovered
+
     fig.add_trace(go.Scatter(
-        x=[x_max * 0.6],
-        y=[y_max * 0.6],
-        mode='markers',
-        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        x=[x_max - 0.25], y=[y_max - 0.25],   # top-right corner (Q1)
+        mode="markers",
+        marker=hover_mark,
         hovertemplate=(
             "<b>Q1: Safe + Scalable</b><br>"
             "High-quality, large, liquid companies<br>"
@@ -87,14 +88,14 @@ def create_pca_scatter_plot(
             "Core institutional compounders"
             "<extra></extra>"
         ),
-        showlegend=False
+        showlegend=False,
+        name=""
     ))
 
     fig.add_trace(go.Scatter(
-        x=[x_min * 0.6],
-        y=[y_max * 0.6],
-        mode='markers',
-        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        x=[x_min + 0.25], y=[y_max - 0.25],   # top-left corner (Q2)
+        mode="markers",
+        marker=hover_mark,
         hovertemplate=(
             "<b>Q2: Big but Fragile</b><br>"
             "Large firms with weaker fundamentals<br>"
@@ -102,35 +103,36 @@ def create_pca_scatter_plot(
             "Prone to drawdowns under stress"
             "<extra></extra>"
         ),
-        showlegend=False
+        showlegend=False,
+        name=""
     ))
 
     fig.add_trace(go.Scatter(
-        x=[x_min * 0.6],
-        y=[y_min * 0.6],
-        mode='markers',
-        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        x=[x_min + 0.25], y=[y_min + 0.25],   # bottom-left corner (Q3)
+        mode="markers",
+        marker=hover_mark,
         hovertemplate=(
             "<b>Q3: Risky + Illiquid</b><br>"
             "Smaller, volatile, liquidity-constrained firms<br>"
             "Higher financing & business risk"
             "<extra></extra>"
         ),
-        showlegend=False
+        showlegend=False,
+        name=""
     ))
 
     fig.add_trace(go.Scatter(
-        x=[x_max * 0.6],
-        y=[y_min * 0.6],
-        mode='markers',
-        marker=dict(size=90, color='rgba(0,0,0,0)'),
+        x=[x_max - 0.25], y=[y_min + 0.25],   # bottom-right corner (Q4)
+        mode="markers",
+        marker=hover_mark,
         hovertemplate=(
             "<b>Q4: Quality but Under the Radar</b><br>"
             "Smaller, cash-rich, efficient companies<br>"
             "Often overlooked quality compounders"
             "<extra></extra>"
         ),
-        showlegend=False
+        showlegend=False,
+        name=""
     ))
     
     # Add axis lines at origin
