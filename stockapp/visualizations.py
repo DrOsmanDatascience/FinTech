@@ -250,8 +250,8 @@ def create_quadrant_comparison_plot(
     
     fig.update_layout(
         title=f'Quadrant Peers for {selected_ticker}',
-        xaxis_title='PC1: Quality / Stability',
-        yaxis_title='PC2: Size / Leverage',
+        xaxis_title='PC1: Quality / Financial Strength / Risk composite',
+        yaxis_title='PC2: Capital Structure / Liquidity (size)',
         width=PLOT_WIDTH,
         height=500,
         showlegend=True
@@ -482,8 +482,8 @@ def create_timelapse_animation(
     # Add animation controls
     fig.update_layout(
         title=f'Historical Movement: {ticker}',
-        xaxis_title='PC1: Quality / Stability',
-        yaxis_title='PC2: Size / Leverage',
+        xaxis_title='PC1: Quality / Financial Strength / Risk composite',
+        yaxis_title='PC2: Capital Structure / Liquidity (size)',
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
         updatemenus=[
