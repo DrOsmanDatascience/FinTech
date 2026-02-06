@@ -131,9 +131,9 @@ def create_pca_scatter_plot(
         marker=hover_mark,
         hovertemplate=(
             "<b>Q2: Big but Fragile</b><br>"
-            "Large firms with weaker fundamentals<br>"
+            "<b>THINK:</b> Large firms with weaker fundamentals<br>"
             "Higher leverage & cyclical exposure<br>"
-            "Prone to drawdowns under stress"
+            "Crowded trades"
             "<extra></extra>"
         ),
         showlegend=False,
