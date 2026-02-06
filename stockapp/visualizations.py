@@ -164,7 +164,7 @@ def create_pca_scatter_plot(
             font=dict(size=20)
         ),
         xaxis_title='kjc PC1: Quality / Financial Strength / Risk composite',
-        yaxis_title='PC2: Capital Structure / Liquidity (size)',
+        yaxis_title='kjc PC2: Capital Structure / Liquidity (size)',
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
         showlegend=True,
