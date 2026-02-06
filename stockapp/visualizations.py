@@ -137,11 +137,11 @@ def create_pca_scatter_plot(
         labels = [
             dict(x=x_max*0.7, y=y_max*0.9, text="Q1: Safe+Scalable", 
                  showarrow=False, font=dict(size=10, color='darkgreen')),
-            dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Lower Quality<br>Large/Leveraged", 
+            dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Big but Fragile", 
                  showarrow=False, font=dict(size=10, color='darkred')),
-            dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Lower Quality<br>Cash-Rich/Smaller", 
+            dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Risky + Illiquid", 
                  showarrow=False, font=dict(size=10, color='olive')),
-            dict(x=x_max*0.7, y=y_min*0.9, text="Q4: High Quality<br>Cash-Rich/Efficient", 
+            dict(x=x_max*0.7, y=y_min*0.9, text="Q4: Quality but Under Radar", 
                  showarrow=False, font=dict(size=10, color='darkblue'))
         ]
         for label in labels:
