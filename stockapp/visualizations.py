@@ -163,7 +163,7 @@ def create_pca_scatter_plot(
             text='Stock PCA Cluster Analysis',
             font=dict(size=20)
         ),
-        xaxis_title='PC1: Quality / Stability / Balance-Sheet Strength',
+        xaxis_title='PC1: quality / Stability / Balance-Sheet Strength',
         yaxis_title='PC2: Size / Leverage / Capital Structure',
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
