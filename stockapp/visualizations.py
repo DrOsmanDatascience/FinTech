@@ -150,7 +150,7 @@ def create_pca_scatter_plot(
     # Add axis characteristic labels
     fig.add_annotation(x=x_max, y=0, text="→ Lower Volatility, <br>Strong Fundamentals, <br>Higher Quality",
                       showarrow=False, yshift=15, font=dict(size=9, color='gray'))
-    fig.add_annotation(x=x_min, y=0, text="← Higher Volatility, Stressed Fundementals, Riskier Profile",
+    fig.add_annotation(x=x_min, y=0, text="← Higher Volatility, <br>Stressed Fundementals, <br>Riskier Profile",
                       showarrow=False, yshift=15, font=dict(size=9, color='gray'))
     fig.add_annotation(x=0, y=y_max, text="↑ Large, Liquid, Bal-Sheet Scale",
                       showarrow=False, xshift=60, font=dict(size=9, color='gray'))
