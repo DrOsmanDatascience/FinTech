@@ -239,23 +239,54 @@ def render_sidebar():
             st.sidebar.error(f"❌ '{stock_input}' not found in dataset")
             st.session_state.selected_stock = None
     
-    # Quick selection dropdown (top stocks)
-    if st.session_state.pca_df is not None and 'ticker' in st.session_state.pca_df.columns:
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("### Quick Select")
-        
+    # Quick selection dropdown (always visible, disabled until data loads)
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### Quick Select")
+    
+    # Check if data is ready
+    data_ready = (
+        st.session_state.pca_df is not None and 
+        'ticker' in st.session_state.pca_df.columns
+    )
+    
+    # Prepare ticker list
+    if data_ready:
         tickers = [''] + sorted(st.session_state.pca_df['ticker'].dropna().unique().tolist())
-        selected_dropdown = st.sidebar.selectbox(
-            "Or choose from list:",
-            options=tickers,
-            key="ticker_dropdown"
-        )
-        
-        if selected_dropdown:
-            st.session_state.selected_stock = {
-                'value': selected_dropdown,
-                'type': 'ticker'
-            }
+    else:
+        tickers = ['Loading stock list...']
+    
+    # Selectbox (disabled if data not ready)
+    selected_dropdown = st.sidebar.selectbox(
+        "Or choose from list:",
+        options=tickers,
+        key="ticker_dropdown",
+        disabled=not data_ready
+    )
+    
+    # Update selected stock only if data is ready and valid selection
+    if data_ready and selected_dropdown and selected_dropdown != '':
+        st.session_state.selected_stock = {
+            'value': selected_dropdown,
+            'type': 'ticker'
+        }
+    
+    # Quick selection dropdown (top stocks)
+    #if st.session_state.pca_df is not None and 'ticker' in st.session_state.pca_df.columns:
+    #    st.sidebar.markdown("---")
+    #    st.sidebar.markdown("### Quick Select")
+    #    
+    #    tickers = [''] + sorted(st.session_state.pca_df['ticker'].dropna().unique().tolist())
+    #    selected_dropdown = st.sidebar.selectbox(
+    #        "Or choose from list:",
+    #        options=tickers,
+    #        key="ticker_dropdown"
+    #    )
+    #    
+    #    if selected_dropdown:
+    #        st.session_state.selected_stock = {
+    #            'value': selected_dropdown,
+    #            'type': 'ticker'
+    #        }
     
     # Display axis interpretations
     st.sidebar.markdown("---")
