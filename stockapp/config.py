@@ -72,12 +72,6 @@ FEATURE_DISPLAY_NAMES = {
     'addv_63d': 'Liquidity (Avg Daily Volume)'
 }
 
-# Helper function to get display name
-def get_display_name(feature_code: str) -> str:
-    """Convert feature code to display name."""
-    return FEATURE_DISPLAY_NAMES.get(feature_code, feature_code)
-# ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
-
 
 # Factor categories for grouping and visualization
 FACTOR_CATEGORIES = {
