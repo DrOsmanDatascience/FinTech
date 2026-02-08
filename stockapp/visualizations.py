@@ -19,8 +19,8 @@ from config import (
     FACTOR_CATEGORIES,
     PC1_INTERPRETATION,
     PC2_INTERPRETATION
-    FEATURE_DISPLAY_NAMES,  # ← ADD THIS
-    get_display_name         # ← ADD THIS
+    #FEATURE_DISPLAY_NAMES,  # ← ADD THIS
+    #get_display_name         # ← ADD THIS
 )
 
 
