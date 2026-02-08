@@ -389,21 +389,26 @@ def create_factor_radar_chart(
     """
     Create a radar chart showing the factor breakdown for a stock.
     
-    Args:
-        factor_data: Dictionary of factor categories and values
-        ticker: Stock ticker for title
-        
-    Returns:
-        Plotly Figure object
+    #Args:
+    #    factor_data: Dictionary of factor categories and values
+    #    ticker: Stock ticker for title
+    #    
+    #Returns:
+    #    Plotly Figure object
     """
-    # Flatten factor data
+    # Flatten factor data WITH DISPLAY NAMES
     categories = []
     values = []
     
     for category, features in factor_data.items():
         for feature, value in features.items():
-            categories.append(f"{feature}")
+            categories.append(get_display_name(feature))  # ← CHANGED: Use display name
             values.append(value)
+    
+    #for category, features in factor_data.items():
+    #    for feature, value in features.items():
+    #        categories.append(f"{feature}")
+    #        values.append(value)
     
     # Normalize values for radar chart (0-1 scale roughly)
     if values:
