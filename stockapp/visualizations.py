@@ -20,7 +20,6 @@ from config import (
     PC1_INTERPRETATION,
     PC2_INTERPRETATION
     FEATURE_DISPLAY_NAMES,  # ← ADD THIS
-    get_display_name         # ← ADD THIS
 )
 
 
