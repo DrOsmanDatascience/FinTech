@@ -52,6 +52,33 @@ FEATURE_COLUMNS = [
     'addv_63d'           # Liquidity - Average Daily Dollar Volume
 ]
 
+
+# ⬇️⬇️⬇️ ADD THIS NEW SECTION HERE ⬇️⬇️⬇️
+# =============================================================================
+# FEATURE DISPLAY NAMES (Plain English Labels)
+# =============================================================================
+
+FEATURE_DISPLAY_NAMES = {
+    'earnings_yield': 'Earnings Yield',
+    'bm': 'Book-to-Market',
+    'sales_to_price': 'Sales-to-Price',
+    'roe': 'Return on Equity',
+    'roa': 'Return on Assets',
+    'gprof': 'Gross Profitability',
+    'debt_assets': 'Debt-to-Assets',
+    'cash_debt': 'Cash-to-Debt',
+    'momentum_12m': '12-Month Momentum',
+    'vol_60d_ann': '60-Day Volatility',
+    'addv_63d': 'Liquidity (Avg Daily Volume)'
+}
+
+# Helper function to get display name
+def get_display_name(feature_code: str) -> str:
+    """Convert feature code to display name."""
+    return FEATURE_DISPLAY_NAMES.get(feature_code, feature_code)
+# ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
+
+
 # Factor categories for grouping and visualization
 FACTOR_CATEGORIES = {
     'Value': ['earnings_yield', 'bm', 'sales_to_price'],
