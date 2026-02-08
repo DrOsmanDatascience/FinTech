@@ -461,15 +461,19 @@ def create_percentile_chart(
     """
     Create a horizontal bar chart showing percentile rankings.
     
-    Args:
-        percentiles: Dictionary of feature percentiles
-        ticker: Stock ticker for title
-        
-    Returns:
-        Plotly Figure object
+    #Args:
+    #    percentiles: Dictionary of feature percentiles
+    #    ticker: Stock ticker for title
+    #    
+    #Returns:
+    #    Plotly Figure object
     """
-    features = list(percentiles.keys())
+    # Convert to display names
+    features = [get_display_name(f) for f in percentiles.keys()]  # ← CHANGED
     values = list(percentiles.values())
+    
+    #features = list(percentiles.keys())
+    #values = list(percentiles.values())
     
     # Color bars based on percentile (green for high, red for low)
     colors = ['green' if v >= 50 else 'red' for v in values]
