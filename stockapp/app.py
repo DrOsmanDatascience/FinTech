@@ -603,7 +603,7 @@ def render_visualizations(
         with col1:
             # Radar chart
             factor_data = get_factor_breakdown(pca_row)
-            fig_radar = create_factor_radar_chart(factor_data, selected_ticker)
+            fig_radar = create_factor_radar_chart(factor_data, selected_ticker, percentiles)
             st.plotly_chart(fig_radar, use_container_width=True)
         
         with col2:

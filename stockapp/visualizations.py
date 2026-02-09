@@ -384,10 +384,12 @@ def create_quadrant_comparison_plot(
 
 def create_factor_radar_chart(
     factor_data: Dict[str, Dict[str, float]],
-    ticker: str
+    ticker: str,
+    percentiles: Optional[Dict[str, float]] = None
 ) -> go.Figure:
     """
     Create a radar chart showing the factor breakdown for a stock.
+    Uses percentile values for proper normalization (0-100 scale).
     """
     # Flatten factor data WITH DISPLAY NAMES
     categories = []
@@ -400,27 +402,37 @@ def create_factor_radar_chart(
             categories.append(display_name)
             values.append(value)
     
-    # Normalize values for radar chart (0-1 scale roughly)
-    if values:
-        min_val = min(values)
-        max_val = max(values)
-        if max_val != min_val:
-            normalized = [(v - min_val) / (max_val - min_val) for v in values]
-        else:
-            normalized = [0.5] * len(values)
+    # Use percentiles if provided, otherwise normalize raw values (0-100 scale)
+    if percentiles:
+        # Extract percentile values in same order as categories
+        percentile_values = []
+        for category, features in factor_data.items():
+            for feature, value in features.items():
+                pct = percentiles.get(feature, 50)  # Default to 50th percentile if missing
+                percentile_values.append(pct)
+        radar_values = percentile_values
     else:
-        normalized = []
+        # Fallback: normalize raw values to 0-100 scale
+        if values:
+            min_val = min(values)
+            max_val = max(values)
+            if max_val != min_val:
+                radar_values = [((v - min_val) / (max_val - min_val)) * 100 for v in values]
+            else:
+                radar_values = [50] * len(values)
+        else:
+            radar_values = []
     
     fig = go.Figure()
     
     fig.add_trace(go.Scatterpolar(
-        r=normalized + [normalized[0]] if normalized else [],
+        r=radar_values + [radar_values[0]] if radar_values else [],
         theta=categories + [categories[0]] if categories else [],
         fill='toself',
         fillcolor='rgba(27, 158, 119, 0.3)',
         line=dict(color=CLUSTER_COLORS[0], width=2),
         name=ticker,
-        hovertemplate="<b>%{theta}</b><br>Value: %{customdata:.4f}<extra></extra>",
+        hovertemplate="<b>%{theta}</b><br>Percentile: %{r:.1f}%<br>Raw Value: %{customdata:.4f}<extra></extra>",
         customdata=values + [values[0]] if values else []
     ))
     
@@ -428,7 +440,8 @@ def create_factor_radar_chart(
         polar=dict(
             radialaxis=dict(
                 visible=True,
-                range=[0, 1]
+                range=[0, 100],
+                ticksuffix='%'
             )
         ),
         title=f'Factor Breakdown: {ticker}',
