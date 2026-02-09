@@ -73,6 +73,22 @@ FEATURE_DISPLAY_NAMES = {
 }
 
 
+# Feature display order (for charts)
+FEATURE_DISPLAY_ORDER = [
+    'earnings_yield',
+    'bm',
+    'sales_to_price',
+    'roe',
+    'roa',
+    'gprof',
+    'debt_assets',
+    'cash_debt',
+    'momentum_12m',
+    'vol_60d_ann',
+    'addv_63d'
+]
+
+
 # Factor categories for grouping and visualization
 FACTOR_CATEGORIES = {
     'Value': ['earnings_yield', 'bm', 'sales_to_price'],
