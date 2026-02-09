@@ -531,7 +531,7 @@ def render_visualizations(
     pca_model,
     scaler
 ):
-    """Render the visualization sections based on dropdown selection."""
+    """Render the visualization sections based on dropdown selection.""" 
     
     # Get current view from session state
     current_view = st.session_state.get('current_view', '🎯 Cluster Plot')
