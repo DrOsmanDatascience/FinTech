@@ -325,15 +325,13 @@ def render_sidebar():
                 ]
                 if not ticker_data.empty:
                     selected_sector = ticker_data['gicdesc'].iloc[0]
-                    # Count stocks in PCA dataframe that match this sector
+                    # Count UNIQUE stocks in PCA dataframe that match this sector
                     # Use case-insensitive matching to match filter function
                     pca_tickers_upper = [t.upper() for t in st.session_state.pca_df['ticker'].tolist()]
-                    sector_stocks = len(
-                        st.session_state.raw_data[
-                            (st.session_state.raw_data['gicdesc'] == selected_sector) &
-                            (st.session_state.raw_data['ticker'].str.upper().isin(pca_tickers_upper))
-                        ]
-                    )
+                    sector_stocks = st.session_state.raw_data[
+                        (st.session_state.raw_data['gicdesc'] == selected_sector) &
+                        (st.session_state.raw_data['ticker'].str.upper().isin(pca_tickers_upper))
+                    ]['ticker'].nunique()  # Count UNIQUE tickers, not total rows!
         
         # Create filter options with counts
         filter_options = [
