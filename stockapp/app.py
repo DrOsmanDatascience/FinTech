@@ -514,9 +514,15 @@ def filter_by_gics_sector(pca_df: pd.DataFrame, raw_data: pd.DataFrame, ticker: 
     # Get all tickers in the same sector from raw_data
     sector_tickers = raw_data[raw_data['gicdesc'] == selected_sector]['ticker'].unique()
     
+    # Filter out NaN values and convert to uppercase, handling non-string values
+    sector_tickers_upper = [
+        str(t).upper() for t in sector_tickers 
+        if pd.notna(t) and t != ''
+    ]
+    
     # Filter PCA dataframe to only include tickers in this sector
     # Use case-insensitive matching
-    filtered_pca_df = pca_df[pca_df['ticker'].str.upper().isin([t.upper() for t in sector_tickers])]
+    filtered_pca_df = pca_df[pca_df['ticker'].str.upper().isin(sector_tickers_upper)]
     
     return filtered_pca_df
 
