@@ -311,9 +311,27 @@ def render_sidebar():
         st.sidebar.markdown("---")
         st.sidebar.markdown("### 🔍 Stock Universe Filter")
         
+        # Get total stock count
+        total_stocks = len(st.session_state.pca_df) if st.session_state.pca_df is not None else 0
+        
+        # Get GICS sector stock count
+        sector_stocks = 0
+        if st.session_state.raw_data is not None and st.session_state.selected_stock is not None:
+            ticker = st.session_state.selected_stock['value']
+            if 'ticker' in st.session_state.raw_data.columns and 'gicdesc' in st.session_state.raw_data.columns:
+                ticker_data = st.session_state.raw_data[
+                    st.session_state.raw_data['ticker'].str.upper() == ticker.upper()
+                ]
+                if not ticker_data.empty:
+                    selected_sector = ticker_data['gicdesc'].iloc[0]
+                    sector_stocks = len(
+                        st.session_state.raw_data[st.session_state.raw_data['gicdesc'] == selected_sector]
+                    )
+        
+        # Create filter options with counts
         filter_options = [
-            "All Stocks",
-            "GICS Sector Only"
+            f"All Stocks ({total_stocks})",
+            f"GICS Sector Only ({sector_stocks})"
         ]
         
         selected_filter = st.sidebar.selectbox(
@@ -323,12 +341,18 @@ def render_sidebar():
             help="Filter visualizations to show all stocks or only stocks in the same GICS sector"
         )
         
+        # Extract the filter mode (without the count)
+        if "All Stocks" in selected_filter:
+            filter_mode = "All Stocks"
+        else:
+            filter_mode = "GICS Sector Only"
+        
         # Store filter selection in session state
         if 'gics_filter_mode' not in st.session_state:
-            st.session_state.gics_filter_mode = filter_options[0]
+            st.session_state.gics_filter_mode = "All Stocks"
         
-        if selected_filter != st.session_state.gics_filter_mode:
-            st.session_state.gics_filter_mode = selected_filter
+        if filter_mode != st.session_state.gics_filter_mode:
+            st.session_state.gics_filter_mode = filter_mode
     # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
 
 
