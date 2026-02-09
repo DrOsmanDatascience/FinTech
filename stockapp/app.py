@@ -324,11 +324,11 @@ def render_sidebar():
         
         st.sidebar.markdown("""
         **Available tabs:**
-        - 🎯 **Cluster Plot** - See position in PCA space
-        - 👥 **Quadrant Peers** - Compare with similar stocks
-        - 📊 **Factor Analysis** - Detailed breakdown
-        - 🕐 **Time-Lapse** - Historical movement
-        - 🌐 **3D View** - Interactive 3D exploration
+        - 🎯 **Cluster Plot**
+        - 👥 **Quadrant Peers**
+        - 📊 **Factor Analysis**
+        - 🕐 **Time-Lapse**
+        - 🌐 **3D View**
         """)
     # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
 
