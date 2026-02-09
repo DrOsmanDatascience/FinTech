@@ -505,17 +505,19 @@ def filter_by_gics_sector(pca_df: pd.DataFrame, raw_data: pd.DataFrame, ticker: 
     if 'ticker' not in raw_data.columns or 'gicdesc' not in raw_data.columns:
         return pca_df  # Fallback to all stocks if columns missing
     
+    # Get the selected stock's sector
     ticker_data = raw_data[raw_data['ticker'].str.upper() == ticker.upper()]
     if ticker_data.empty:
         return pca_df
     
     selected_sector = ticker_data['gicdesc'].iloc[0]
     
-    # Get all tickers in the same sector
-    sector_stocks = raw_data[raw_data['gicdesc'] == selected_sector]['ticker'].unique()
+    # Get all tickers in the same sector from raw_data
+    sector_tickers = raw_data[raw_data['gicdesc'] == selected_sector]['ticker'].unique()
     
-    # Filter PCA dataframe to only include stocks in this sector
-    filtered_pca_df = pca_df[pca_df['ticker'].isin(sector_stocks)]
+    # Filter PCA dataframe to only include tickers in this sector
+    # Use case-insensitive matching
+    filtered_pca_df = pca_df[pca_df['ticker'].str.upper().isin([t.upper() for t in sector_tickers])]
     
     return filtered_pca_df
 
