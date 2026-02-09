@@ -338,7 +338,7 @@ def render_sidebar():
         filter_options = [
             f"All Stocks ({total_stocks})",
             f"GICS Sector Only ({sector_stocks})"
-        ]
+        ] 
         
         selected_filter = st.sidebar.selectbox(
             "Show stocks from:",
