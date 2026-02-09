@@ -379,10 +379,10 @@ def render_stock_overview(stock_data: pd.DataFrame, pca_row: pd.Series):
     
     # Get GICS Sector by filtering raw data for this specific ticker
     gics_sector = 'N/A'
-    if 'ticker' in stock_data.columns and 'gicsdesc' in stock_data.columns:
+    if 'ticker' in stock_data.columns and 'gicdesc' in stock_data.columns:
         ticker_match = stock_data[stock_data['ticker'].str.upper() == ticker.upper()]
         if not ticker_match.empty:
-            gics_sector = ticker_match['gicsdesc'].iloc[0]
+            gics_sector = ticker_match['gicdesc'].iloc[0]
     
     # Display header with GICS Sector inline
     st.markdown(f"## 📊 Analysis: {ticker} &nbsp;&nbsp;&nbsp;&nbsp; **GICS Sector:** {gics_sector}")
