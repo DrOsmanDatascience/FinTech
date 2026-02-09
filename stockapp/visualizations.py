@@ -449,13 +449,16 @@ def create_percentile_chart(
 ) -> go.Figure:
     """
     Create a horizontal bar chart showing percentile rankings.
-    """
-    # Sort features according to FEATURE_DISPLAY_ORDER
-    ordered_features = [f for f in FEATURE_DISPLAY_ORDER if f in percentiles]
     
-    # Convert feature codes to display names in order
-    features = [FEATURE_DISPLAY_NAMES.get(f, f) for f in ordered_features]
-    values = [percentiles[f] for f in ordered_features]
+    Args:
+        percentiles: Dictionary of feature percentiles
+        ticker: Stock ticker for title
+        
+    Returns:
+        Plotly Figure object
+    """
+    features = list(percentiles.keys())
+    values = list(percentiles.values())
     
     # Color bars based on percentile (green for high, red for low)
     colors = ['green' if v >= 50 else 'red' for v in values]
@@ -479,60 +482,19 @@ def create_percentile_chart(
     fig.add_vline(x=50, line_dash="dash", line_color="gray", opacity=0.7,
                   annotation_text="50th Percentile", annotation_position="top")
     
-    # Define category groupings with their ranges (y-axis positions)
-    # Y-axis goes from 0 (bottom) to len(features)-1 (top) when reversed
-    category_boxes = [
-        {'name': 'Value', 'start': 0, 'end': 2.5, 'color': 'rgba(100, 149, 237, 0.15)'},      # Earnings Yield, Book-to-Market, Sales-to-Price
-        {'name': 'Quality', 'start': 3, 'end': 5.5, 'color': 'rgba(255, 182, 193, 0.15)'},    # ROE, ROA, Gross Prof
-        {'name': 'Financial Strength', 'start': 6, 'end': 7.5, 'color': 'rgba(144, 238, 144, 0.15)'},  # Debt-to-Assets, Cash-to-Debt
-        {'name': 'Momentum', 'start': 8, 'end': 8.5, 'color': 'rgba(255, 255, 224, 0.15)'},   # 12-Month Momentum
-        {'name': 'Risk/Volatility', 'start': 9, 'end': 9.5, 'color': 'rgba(221, 160, 221, 0.15)'},  # 60-Day Volatility
-        {'name': 'Liquidity', 'start': 10, 'end': 10.5, 'color': 'rgba(255, 228, 196, 0.15)'}  # Liquidity
-    ]
-    
-    # Add dashed rounded rectangles for each category
-    for box in category_boxes:
-        fig.add_shape(
-            type="rect",
-            x0=-5,  # Extend slightly left of chart
-            y0=box['start'] - 0.5,
-            x1=105,  # Extend slightly right of chart
-            y1=box['end'] + 0.5,
-            line=dict(
-                color="rgba(128, 128, 128, 0.6)",  # Semi-transparent gray - works in both modes
-                width=2,
-                dash="dash"
-            ),
-            fillcolor=box['color'],
-            layer="below"
-        )
-        
-        # Add category label on the right side
-        fig.add_annotation(
-            x=107,
-            y=(box['start'] + box['end']) / 2,
-            text=box['name'],
-            showarrow=False,
-            font=dict(size=9, color='rgba(100, 100, 100, 0.8)'),  # Semi-transparent dark gray
-            xanchor='left'
-        )
-    
     fig.update_layout(
         title=f'Percentile Rankings vs Quadrant Peers: {ticker}',
         xaxis_title='Percentile Rank',
         yaxis_title='Factor',
-        xaxis=dict(range=[0, 115]),  # Extend range to show labels
-        yaxis=dict(autorange='reversed'),
-        width=700,  # Increased width to accommodate labels
+        xaxis=dict(range=[0, 105]),
+        width=600,
         height=max(400, len(features) * 30),
-        showlegend=False,
-        paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
-        plot_bgcolor='rgba(0,0,0,0)'    # Transparent plot area
+        showlegend=False
     )
     
     return fig
 
-    
+
 # =============================================================================
 # TIME-LAPSE ANIMATION
 # =============================================================================
