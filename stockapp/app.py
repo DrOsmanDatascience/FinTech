@@ -272,33 +272,37 @@ def render_sidebar():
         }
     
     
-    # ⬇️⬇️⬇️ ADD THIS SECTION HERE ⬇️⬇️⬇️
-    # Quick navigation dropdown (only show if stock is selected)
-    if st.session_state.selected_stock is not None:
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("### 📊 Visualizations")
-        
-        view_options = [
-            "🎯 Cluster Plot",
-            "👥 Quadrant Peers",
-            "📊 Factor Analysis",
-            "🕐 Time-Lapse",
-            "🌐 3D View"
-        ]
-        
-        selected_view = st.sidebar.selectbox(
-            "Jump to view:",
-            options=view_options,
-            key="view_selector"
-        )
-        
+    # Visualizations dropdown (always visible, disabled until stock selected)
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📊 Visualizations")
+    
+    # Check if stock is selected
+    stock_selected = st.session_state.selected_stock is not None
+    
+    view_options = [
+        "🎯 Cluster Plot",
+        "👥 Quadrant Peers",
+        "📊 Factor Analysis",
+        "🕐 Time-Lapse",
+        "🌐 3D View"
+    ]
+    
+    # Always show dropdown, but disable if no stock selected
+    selected_view = st.sidebar.selectbox(
+        "Jump to view:",
+        options=view_options,
+        key="view_selector",
+        disabled=not stock_selected
+    )
+    
+    # Only update session state if stock is selected
+    if stock_selected:
         # Store selection in session state
         if 'current_view' not in st.session_state:
             st.session_state.current_view = view_options[0]
         
         if selected_view != st.session_state.current_view:
             st.session_state.current_view = selected_view
-    # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
 
 
     # Display axis interpretations
