@@ -449,16 +449,13 @@ def create_percentile_chart(
 ) -> go.Figure:
     """
     Create a horizontal bar chart showing percentile rankings.
-    
-    Args:
-        percentiles: Dictionary of feature percentiles
-        ticker: Stock ticker for title
-        
-    Returns:
-        Plotly Figure object
     """
-    features = list(percentiles.keys())
-    values = list(percentiles.values())
+    # Sort features according to FEATURE_DISPLAY_ORDER
+    ordered_features = [f for f in FEATURE_DISPLAY_ORDER if f in percentiles]
+    
+    # Convert feature codes to display names in order
+    features = [FEATURE_DISPLAY_NAMES.get(f, f) for f in ordered_features]
+    values = [percentiles[f] for f in ordered_features]
     
     # Color bars based on percentile (green for high, red for low)
     colors = ['green' if v >= 50 else 'red' for v in values]
@@ -487,6 +484,7 @@ def create_percentile_chart(
         xaxis_title='Percentile Rank',
         yaxis_title='Factor',
         xaxis=dict(range=[0, 105]),
+        yaxis=dict(autorange='reversed'),
         width=600,
         height=max(400, len(features) * 30),
         showlegend=False
@@ -494,7 +492,7 @@ def create_percentile_chart(
     
     return fig
 
-
+    
 # =============================================================================
 # TIME-LAPSE ANIMATION
 # =============================================================================
