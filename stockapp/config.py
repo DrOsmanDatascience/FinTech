@@ -60,7 +60,7 @@ FEATURE_COLUMNS = [
 
 FEATURE_DISPLAY_NAMES = {
     'earnings_yield': 'Earnings Yield (V)',
-    'bm': 'Book-to-Market',
+    'bm': 'Book-to-Market (V)',
     'sales_to_price': 'Sales-to-Price',
     'roe': 'Return on Equity',
     'roa': 'Return on Assets',
