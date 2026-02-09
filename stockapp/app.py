@@ -315,6 +315,24 @@ def render_sidebar():
         - {', '.join(PC2_INTERPRETATION['low_meaning'])}
         """)
     
+
+    # ⬇️⬇️⬇️ ADD THIS SECTION HERE ⬇️⬇️⬇️
+    # Quick reference (only show if stock is selected)
+    if st.session_state.selected_stock is not None:
+        st.sidebar.markdown("---")
+        st.sidebar.markdown("### 📊 Visualizations")
+        
+        st.sidebar.markdown("""
+        **Available tabs:**
+        - 🎯 **Cluster Plot** - See position in PCA space
+        - 👥 **Quadrant Peers** - Compare with similar stocks
+        - 📊 **Factor Analysis** - Detailed breakdown
+        - 🕐 **Time-Lapse** - Historical movement
+        - 🌐 **3D View** - Interactive 3D exploration
+        """)
+    # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
+
+
     # OpenAI API Key input
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 🤖 Chatbot Settings")
