@@ -367,7 +367,7 @@ def render_main_header():
 
 
 def render_stock_overview(stock_data: pd.DataFrame, pca_row: pd.Series):
-    """Render the stock overview section."""
+    """Render the stock overview section.""" 
     
     ticker = pca_row.get('ticker', 'N/A')
     permno = pca_row.get('permno', 'N/A')
