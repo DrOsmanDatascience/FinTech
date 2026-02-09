@@ -67,7 +67,7 @@ FEATURE_DISPLAY_NAMES = {
     'gprof': 'Gross Profitability',
     'debt_assets': 'Debt-to-Assets',
     'cash_debt': 'Cash-to-Debt',
-    'momentum_12m': '12-Month Momentum',
+    'momentum_12m': '12-Mo. Momentum',
     'vol_60d_ann': '60-Day Volatility',
     'addv_63d': 'Liquidity (ADDV)'
 }
