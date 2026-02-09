@@ -317,19 +317,31 @@ def render_sidebar():
     
 
     # ⬇️⬇️⬇️ ADD THIS SECTION HERE ⬇️⬇️⬇️
-    # Quick reference (only show if stock is selected)
+    # Quick navigation dropdown (only show if stock is selected)
     if st.session_state.selected_stock is not None:
         st.sidebar.markdown("---")
         st.sidebar.markdown("### 📊 Visualizations")
         
-        st.sidebar.markdown("""
-        **Available tabs:**
-        - 🎯 **Cluster Plot**
-        - 👥 **Quadrant Peers**
-        - 📊 **Factor Analysis**
-        - 🕐 **Time-Lapse**
-        - 🌐 **3D View**
-        """)
+        view_options = [
+            "🎯 Cluster Plot",
+            "👥 Quadrant Peers",
+            "📊 Factor Analysis",
+            "🕐 Time-Lapse",
+            "🌐 3D View"
+        ]
+        
+        selected_view = st.sidebar.selectbox(
+            "Jump to view:",
+            options=view_options,
+            key="view_selector"
+        )
+        
+        # Store selection in session state
+        if 'current_view' not in st.session_state:
+            st.session_state.current_view = view_options[0]
+        
+        if selected_view != st.session_state.current_view:
+            st.session_state.current_view = selected_view
     # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
 
 
@@ -430,19 +442,14 @@ def render_visualizations(
     pca_model,
     scaler
 ):
-    """Render the visualization tabs."""
+    """Render the visualization sections based on dropdown selection."""
     
-    # Create tabs for different visualizations
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "🎯 Cluster Plot",
-        "👥 Quadrant Peers",
-        "📊 Factor Analysis",
-        "🕐 Time-Lapse",
-        "🌐 3D View"
-    ])
+    # Get current view from session state
+    current_view = st.session_state.get('current_view', '🎯 Cluster Plot')
     
-    with tab1:
-        st.markdown("### PCA Cluster Visualization")
+    # Display the selected visualization
+    if current_view == "🎯 Cluster Plot":
+        st.markdown("### 🎯 PCA Cluster Visualization")
         st.markdown("""
         This plot shows all stocks positioned based on their quality/stability (PC1) 
         and size/leverage (PC2) characteristics. Your selected stock is highlighted with a ⭐.
@@ -451,8 +458,8 @@ def render_visualizations(
         fig = create_pca_scatter_plot(pca_df, selected_ticker)
         st.plotly_chart(fig, use_container_width=True)
     
-    with tab2:
-        st.markdown("### Quadrant Peer Comparison")
+    elif current_view == "👥 Quadrant Peers":
+        st.markdown("### 👥 Quadrant Peer Comparison")
         st.markdown(f"""
         Showing {len(quadrant_peers)} stocks that share the same quadrant as {selected_ticker}.
         These are potential peers for comparison.
@@ -470,8 +477,8 @@ def render_visualizations(
         else:
             st.info("No other stocks found in this quadrant.")
     
-    with tab3:
-        st.markdown("### Factor Breakdown Analysis")
+    elif current_view == "📊 Factor Analysis":
+        st.markdown("### 📊 Factor Breakdown Analysis")
         
         col1, col2 = st.columns(2)
         
@@ -489,11 +496,6 @@ def render_visualizations(
             if percentiles:
                 fig_percentile = create_percentile_chart(percentiles, selected_ticker)
                 st.plotly_chart(fig_percentile, use_container_width=True)
-                st.markdown(
-                    "<p style='text-align: right; font-size: 0.8em; color: #888;'>"
-                    "(V)=Value  (Q)=Quality  (FS)=Financial Strength  (R)=Risk</p>",
-                    unsafe_allow_html=True
-)
         
         # Factor details table
         with st.expander("📋 Detailed Factor Values"):
@@ -512,8 +514,8 @@ def render_visualizations(
             if factor_table:
                 st.dataframe(pd.DataFrame(factor_table))
     
-    with tab4:
-        st.markdown("### Historical Movement Animation")
+    elif current_view == "🕐 Time-Lapse":
+        st.markdown("### 🕐 Historical Movement Animation")
         st.markdown("""
         Watch how the stock's position has changed over time in the PCA space.
         Click **Play** to start the animation.
@@ -533,8 +535,8 @@ def render_visualizations(
                 else:
                     st.warning("Insufficient time-series data for animation.")
     
-    with tab5:
-        st.markdown("### 3D PCA Visualization")
+    elif current_view == "🌐 3D View":
+        st.markdown("### 🌐 3D PCA Visualization")
         st.markdown("""
         Explore the clusters in 3D space using the first three principal components.
         Drag to rotate, scroll to zoom.
@@ -545,7 +547,7 @@ def render_visualizations(
             st.plotly_chart(fig_3d, use_container_width=True)
         else:
             st.info("3D visualization requires PC3 data.")
-
+            
 
 def render_chatbot_section(
     ticker: str,
