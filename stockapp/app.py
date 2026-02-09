@@ -872,7 +872,7 @@ def main():
         ticker,
         pca_row,
         quadrant_peers,
-        st.session_state.processed_data,
+        st.session_state.raw_data,  # ← CORRECT! This has gicdesc column
         st.session_state.pca_model,
         st.session_state.scaler
     )
