@@ -487,6 +487,174 @@ def create_percentile_chart(
     
     return fig
 
+
+# =============================================================================
+# TIME-LAPSE ANIMATION
+# =============================================================================
+
+def create_timelapse_animation(
+    time_series_df: pd.DataFrame,
+    ticker: str,
+    pca_df: pd.DataFrame
+) -> go.Figure:
+    """
+    Create an animated scatter plot showing stock movement over time.
+    
+    Args:
+        time_series_df: DataFrame with date, PC1, PC2 columns
+        ticker: Stock ticker
+        pca_df: Full PCA DataFrame for background context
+        
+    Returns:
+        Plotly Figure with animation
+    """
+    if time_series_df.empty:
+        return go.Figure()
+    
+    # Create figure with frames
+    fig = go.Figure()
+    
+    # Add static background (all other stocks, dimmed)
+    fig.add_trace(go.Scatter(
+        x=pca_df['PC1'],
+        y=pca_df['PC2'],
+        mode='markers',
+        marker=dict(size=6, color='lightgray', opacity=0.3),
+        name='Other Stocks',
+        hoverinfo='skip'
+    ))
+    
+    # Add axis lines
+    fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+    fig.add_vline(x=0, line_dash="dash", line_color="gray", opacity=0.5)
+    
+    # Add the animated trace (current position)
+    fig.add_trace(go.Scatter(
+        x=[time_series_df['PC1'].iloc[0]],
+        y=[time_series_df['PC2'].iloc[0]],
+        mode='markers+text',
+        marker=dict(size=15, color='red', symbol='star'),
+        text=[ticker],
+        textposition='top center',
+        name=f'{ticker} Position'
+    ))
+    
+    # Add trail trace
+    fig.add_trace(go.Scatter(
+        x=time_series_df['PC1'].iloc[:1],
+        y=time_series_df['PC2'].iloc[:1],
+        mode='lines',
+        line=dict(color='blue', width=2, dash='dot'),
+        name='Historical Path',
+        opacity=0.5
+    ))
+    
+    # Create frames for animation
+    frames = []
+    for i in range(1, len(time_series_df)):
+        frame_data = [
+            # Background (unchanged)
+            go.Scatter(
+                x=pca_df['PC1'],
+                y=pca_df['PC2'],
+                mode='markers',
+                marker=dict(size=6, color='lightgray', opacity=0.3)
+            ),
+            # Current position
+            go.Scatter(
+                x=[time_series_df['PC1'].iloc[i]],
+                y=[time_series_df['PC2'].iloc[i]],
+                mode='markers+text',
+                marker=dict(size=15, color='red', symbol='star'),
+                text=[ticker],
+                textposition='top center'
+            ),
+            # Trail
+            go.Scatter(
+                x=time_series_df['PC1'].iloc[:i+1],
+                y=time_series_df['PC2'].iloc[:i+1],
+                mode='lines',
+                line=dict(color='blue', width=2, dash='dot'),
+                opacity=0.5
+            )
+        ]
+        
+        frame_name = str(time_series_df['date'].iloc[i])[:10]
+        frames.append(go.Frame(data=frame_data, name=frame_name))
+    
+    fig.frames = frames
+    
+    # Add animation controls
+    fig.update_layout(
+        title=f'Historical Movement: {ticker}',
+        xaxis_title='PC1: Quality / Financial Strength / Risk composite',
+        yaxis_title='PC2: Capital Structure / Liquidity (size)',
+        width=PLOT_WIDTH,
+        height=PLOT_HEIGHT,
+        updatemenus=[
+            dict(
+                type="buttons",
+                showactive=False,
+                y=1.15,
+                x=0.5,
+                xanchor="center",
+                buttons=[
+                    dict(
+                        label="▶ Play",
+                        method="animate",
+                        args=[None, {
+                            "frame": {"duration": ANIMATION_FRAME_DURATION, "redraw": True},
+                            "fromcurrent": True,
+                            "transition": {"duration": 200}
+                        }]
+                    ),
+                    dict(
+                        label="⏸ Pause",
+                        method="animate",
+                        args=[[None], {
+                            "frame": {"duration": 0, "redraw": False},
+                            "mode": "immediate",
+                            "transition": {"duration": 0}
+                        }]
+                    )
+                ]
+            )
+        ],
+        sliders=[
+            dict(
+                active=0,
+                yanchor="top",
+                xanchor="left",
+                currentvalue=dict(
+                    font=dict(size=12),
+                    prefix="Date: ",
+                    visible=True,
+                    xanchor="center"
+                ),
+                transition=dict(duration=200),
+                pad=dict(b=10, t=50),
+                len=0.9,
+                x=0.05,
+                y=0,
+                steps=[
+                    dict(
+                        args=[[f.name], {
+                            "frame": {"duration": 200, "redraw": True},
+                            "mode": "immediate",
+                            "transition": {"duration": 200}
+                        }],
+                        label=f.name,
+                        method="animate"
+                    )
+                    for f in frames
+                ]
+            )
+        ]
+    )
+    
+    return fig
+
+
 # =============================================================================
 # 3D PCA VISUALIZATION
 # =============================================================================
