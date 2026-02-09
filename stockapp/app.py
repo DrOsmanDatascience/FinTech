@@ -271,51 +271,7 @@ def render_sidebar():
             'type': 'ticker'
         }
     
-    # Quick selection dropdown (top stocks)
-    #if st.session_state.pca_df is not None and 'ticker' in st.session_state.pca_df.columns:
-    #    st.sidebar.markdown("---")
-    #    st.sidebar.markdown("### Quick Select")
-    #    
-    #    tickers = [''] + sorted(st.session_state.pca_df['ticker'].dropna().unique().tolist())
-    #    selected_dropdown = st.sidebar.selectbox(
-    #        "Or choose from list:",
-    #        options=tickers,
-    #        key="ticker_dropdown"
-    #    )
-    #    
-    #    if selected_dropdown:
-    #        st.session_state.selected_stock = {
-    #            'value': selected_dropdown,
-    #            'type': 'ticker'
-    #        }
     
-    # Display axis interpretations
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### 📐 Axis Interpretations")
-    
-    with st.sidebar.expander("PC1 (X-axis): Quality/Stability"):
-        st.markdown(f"""
-        **Explains ~{PC1_INTERPRETATION['variance_explained']}% of variance**
-        
-        **High values (→ Right):**
-        - {', '.join(PC1_INTERPRETATION['high_meaning'])}
-        
-        **Low values (← Left):**
-        - {', '.join(PC1_INTERPRETATION['low_meaning'])}
-        """)
-    
-    with st.sidebar.expander("PC2 (Y-axis): Size/Leverage"):
-        st.markdown(f"""
-        **Explains ~{PC2_INTERPRETATION['variance_explained']}% of variance**
-        
-        **High values (↑ Up):**
-        - {', '.join(PC2_INTERPRETATION['high_meaning'])}
-        
-        **Low values (↓ Down):**
-        - {', '.join(PC2_INTERPRETATION['low_meaning'])}
-        """)
-    
-
     # ⬇️⬇️⬇️ ADD THIS SECTION HERE ⬇️⬇️⬇️
     # Quick navigation dropdown (only show if stock is selected)
     if st.session_state.selected_stock is not None:
@@ -344,6 +300,33 @@ def render_sidebar():
             st.session_state.current_view = selected_view
     # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
 
+
+    # Display axis interpretations
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📐 Axis Interpretations")
+    
+    with st.sidebar.expander("PC1 (X-axis): Quality/Stability"):
+        st.markdown(f"""
+        **Explains ~{PC1_INTERPRETATION['variance_explained']}% of variance**
+        
+        **High values (→ Right):**
+        - {', '.join(PC1_INTERPRETATION['high_meaning'])}
+        
+        **Low values (← Left):**
+        - {', '.join(PC1_INTERPRETATION['low_meaning'])}
+        """)
+    
+    with st.sidebar.expander("PC2 (Y-axis): Size/Leverage"):
+        st.markdown(f"""
+        **Explains ~{PC2_INTERPRETATION['variance_explained']}% of variance**
+        
+        **High values (↑ Up):**
+        - {', '.join(PC2_INTERPRETATION['high_meaning'])}
+        
+        **Low values (↓ Down):**
+        - {', '.join(PC2_INTERPRETATION['low_meaning'])}
+        """)
+    
 
     # OpenAI API Key input
     st.sidebar.markdown("---")
@@ -547,7 +530,7 @@ def render_visualizations(
             st.plotly_chart(fig_3d, use_container_width=True)
         else:
             st.info("3D visualization requires PC3 data.")
-            
+
 
 def render_chatbot_section(
     ticker: str,
