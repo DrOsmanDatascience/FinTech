@@ -311,21 +311,27 @@ def render_sidebar():
         st.sidebar.markdown("---")
         st.sidebar.markdown("### 🔍 Stock Universe Filter")
         
-        # Get total stock count
+        # Get total stock count from PCA dataframe
         total_stocks = len(st.session_state.pca_df) if st.session_state.pca_df is not None else 0
         
-        # Get GICS sector stock count
+        # Get GICS sector stock count from PCA dataframe
         sector_stocks = 0
-        if st.session_state.raw_data is not None and st.session_state.selected_stock is not None:
+        if st.session_state.pca_df is not None and st.session_state.raw_data is not None and st.session_state.selected_stock is not None:
             ticker = st.session_state.selected_stock['value']
+            # Get sector from raw_data
             if 'ticker' in st.session_state.raw_data.columns and 'gicdesc' in st.session_state.raw_data.columns:
                 ticker_data = st.session_state.raw_data[
                     st.session_state.raw_data['ticker'].str.upper() == ticker.upper()
                 ]
                 if not ticker_data.empty:
                     selected_sector = ticker_data['gicdesc'].iloc[0]
+                    # Count stocks in PCA dataframe that match this sector
+                    pca_tickers = st.session_state.pca_df['ticker'].tolist()
                     sector_stocks = len(
-                        st.session_state.raw_data[st.session_state.raw_data['gicdesc'] == selected_sector]
+                        st.session_state.raw_data[
+                            (st.session_state.raw_data['gicdesc'] == selected_sector) &
+                            (st.session_state.raw_data['ticker'].isin(pca_tickers))
+                        ]
                     )
         
         # Create filter options with counts
