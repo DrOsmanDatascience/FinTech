@@ -69,7 +69,7 @@ FEATURE_DISPLAY_NAMES = {
     'cash_debt': 'Cash-to-Debt',
     'momentum_12m': '12-Month Momentum',
     'vol_60d_ann': '60-Day Volatility',
-    'addv_63d': 'Liquidity (Avg Daily Volume)'
+    'addv_63d': 'Liquidity (ADDV)'
 }
 
 
