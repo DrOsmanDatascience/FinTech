@@ -377,7 +377,11 @@ def render_stock_overview(stock_data: pd.DataFrame, pca_row: pd.Series):
     quadrant = determine_quadrant(pc1, pc2)
     quadrant_info = QUADRANTS.get(quadrant, {})
     
-    st.markdown(f"## 📊 Analysis: {ticker}")
+    # Get GICS Sector from stock data
+    gics_sector = stock_data['gicsdesc'].iloc[0] if 'gicsdesc' in stock_data.columns and not stock_data.empty else 'N/A'
+    
+    # Display header with GICS Sector inline
+    st.markdown(f"## 📊 Analysis: {ticker} &nbsp;&nbsp;&nbsp;&nbsp; **GICS Sector:** {gics_sector}")
     
     # Key metrics in columns
     col1, col2, col3, col4 = st.columns(4)
