@@ -305,6 +305,33 @@ def render_sidebar():
             st.session_state.current_view = selected_view
 
 
+    # ⬇️⬇️⬇️ ADD GICS FILTER DROPDOWN HERE ⬇️⬇️⬇️
+    # GICS Sector filter (only show if stock is selected)
+    if stock_selected:
+        st.sidebar.markdown("---")
+        st.sidebar.markdown("### 🔍 Stock Universe Filter")
+        
+        filter_options = [
+            "All Stocks",
+            "GICS Sector Only"
+        ]
+        
+        selected_filter = st.sidebar.selectbox(
+            "Show stocks from:",
+            options=filter_options,
+            key="gics_filter",
+            help="Filter visualizations to show all stocks or only stocks in the same GICS sector"
+        )
+        
+        # Store filter selection in session state
+        if 'gics_filter_mode' not in st.session_state:
+            st.session_state.gics_filter_mode = filter_options[0]
+        
+        if selected_filter != st.session_state.gics_filter_mode:
+            st.session_state.gics_filter_mode = selected_filter
+    # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
+
+
     # Display axis interpretations
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 📐 Axis Interpretations")
@@ -428,6 +455,41 @@ def render_stock_overview(stock_data: pd.DataFrame, pca_row: pd.Series):
     return ticker, permno, cluster, pc1, pc2, quadrant
 
 
+def filter_by_gics_sector(pca_df: pd.DataFrame, raw_data: pd.DataFrame, ticker: str, filter_mode: str) -> pd.DataFrame:
+    """
+    Filter PCA dataframe by GICS sector if requested.
+    
+    Args:
+        pca_df: Full PCA DataFrame with all stocks
+        raw_data: Raw data containing GICS sector info
+        ticker: Selected stock ticker
+        filter_mode: "All Stocks" or "GICS Sector Only"
+    
+    Returns:
+        Filtered or full PCA DataFrame
+    """
+    if filter_mode == "All Stocks":
+        return pca_df
+    
+    # Get selected stock's GICS sector
+    if 'ticker' not in raw_data.columns or 'gicdesc' not in raw_data.columns:
+        return pca_df  # Fallback to all stocks if columns missing
+    
+    ticker_data = raw_data[raw_data['ticker'].str.upper() == ticker.upper()]
+    if ticker_data.empty:
+        return pca_df
+    
+    selected_sector = ticker_data['gicdesc'].iloc[0]
+    
+    # Get all tickers in the same sector
+    sector_stocks = raw_data[raw_data['gicdesc'] == selected_sector]['ticker'].unique()
+    
+    # Filter PCA dataframe to only include stocks in this sector
+    filtered_pca_df = pca_df[pca_df['ticker'].isin(sector_stocks)]
+    
+    return filtered_pca_df
+
+
 def render_visualizations(
     pca_df: pd.DataFrame,
     selected_ticker: str,
@@ -442,6 +504,15 @@ def render_visualizations(
     # Get current view from session state
     current_view = st.session_state.get('current_view', '🎯 Cluster Plot')
     
+    # Apply GICS sector filter if selected
+    filter_mode = st.session_state.get('gics_filter_mode', 'All Stocks')
+    filtered_pca_df = filter_by_gics_sector(pca_df, raw_data, selected_ticker, filter_mode)
+    
+    # Show info about filtering
+    if filter_mode == "GICS Sector Only":
+        sector_count = len(filtered_pca_df)
+        st.info(f"📊 Showing {sector_count} stocks in the same GICS sector as {selected_ticker}")
+    
     # Display the selected visualization
     if current_view == "🎯 Cluster Plot":
         st.markdown("### 🎯 PCA Cluster Visualization")
@@ -450,30 +521,45 @@ def render_visualizations(
         and size/leverage (PC2) characteristics. Your selected stock is highlighted with a ⭐.
         """)
         
-        fig = create_pca_scatter_plot(pca_df, selected_ticker)
+        fig = create_pca_scatter_plot(filtered_pca_df, selected_ticker)
         st.plotly_chart(fig, use_container_width=True)
     
     elif current_view == "👥 Quadrant Peers":
         st.markdown("### 👥 Quadrant Peer Comparison")
+        
+        # Recalculate quadrant peers from filtered data
+        pc1 = pca_row.get('PC1', 0)
+        pc2 = pca_row.get('PC2', 0)
+        filtered_quadrant_peers = get_stocks_in_same_quadrant(
+            filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
+        )
+        
         st.markdown(f"""
-        Showing {len(quadrant_peers)} stocks that share the same quadrant as {selected_ticker}.
+        Showing {len(filtered_quadrant_peers)} stocks that share the same quadrant as {selected_ticker}.
         These are potential peers for comparison.
         """)
         
-        if not quadrant_peers.empty:
-            fig = create_quadrant_comparison_plot(pca_df, selected_ticker, quadrant_peers)
+        if not filtered_quadrant_peers.empty:
+            fig = create_quadrant_comparison_plot(filtered_pca_df, selected_ticker, filtered_quadrant_peers)
             st.plotly_chart(fig, use_container_width=True)
             
             # Peer table
             with st.expander("📋 View Peer Table"):
                 display_cols = ['ticker', 'permno', 'PC1', 'PC2', 'cluster']
-                display_cols = [c for c in display_cols if c in quadrant_peers.columns]
-                st.dataframe(quadrant_peers[display_cols].round(3))
+                display_cols = [c for c in display_cols if c in filtered_quadrant_peers.columns]
+                st.dataframe(filtered_quadrant_peers[display_cols].round(3))
         else:
             st.info("No other stocks found in this quadrant.")
     
     elif current_view == "📊 Factor Analysis":
         st.markdown("### 📊 Factor Breakdown Analysis")
+        
+        # Recalculate percentiles from filtered quadrant peers
+        pc1 = pca_row.get('PC1', 0)
+        pc2 = pca_row.get('PC2', 0)
+        filtered_quadrant_peers = get_stocks_in_same_quadrant(
+            filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
+        )
         
         col1, col2 = st.columns(2)
         
@@ -484,9 +570,9 @@ def render_visualizations(
             st.plotly_chart(fig_radar, use_container_width=True)
         
         with col2:
-            # Percentile rankings
+            # Percentile rankings (recalculated with filtered peers)
             available_features = [c for c in FEATURE_COLUMNS if c in pca_row.index]
-            percentiles = compute_percentile_ranks(quadrant_peers, pca_row, available_features)
+            percentiles = compute_percentile_ranks(filtered_quadrant_peers, pca_row, available_features)
             
             if percentiles:
                 fig_percentile = create_percentile_chart(percentiles, selected_ticker)
@@ -524,7 +610,7 @@ def render_visualizations(
                 
                 if not time_series_data.empty:
                     fig_animation = create_timelapse_animation(
-                        time_series_data, selected_ticker, pca_df
+                        time_series_data, selected_ticker, filtered_pca_df
                     )
                     st.plotly_chart(fig_animation, use_container_width=True)
                 else:
@@ -537,8 +623,8 @@ def render_visualizations(
         Drag to rotate, scroll to zoom.
         """)
         
-        if 'PC3' in pca_df.columns:
-            fig_3d = create_3d_pca_plot(pca_df, selected_ticker)
+        if 'PC3' in filtered_pca_df.columns:
+            fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
             st.plotly_chart(fig_3d, use_container_width=True)
         else:
             st.info("3D visualization requires PC3 data.")
