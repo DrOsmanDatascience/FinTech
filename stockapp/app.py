@@ -471,6 +471,11 @@ def render_visualizations(
             if percentiles:
                 fig_percentile = create_percentile_chart(percentiles, selected_ticker)
                 st.plotly_chart(fig_percentile, use_container_width=True)
+                st.markdown(
+                    "<p style='text-align: right; font-size: 0.8em; color: #888;'>"
+                    "(V)=Value  (Q)=Quality  (FS)=Financial Strength  (R)=Risk</p>",
+                    unsafe_allow_html=True
+)
         
         # Factor details table
         with st.expander("📋 Detailed Factor Values"):
