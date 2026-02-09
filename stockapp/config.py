@@ -61,15 +61,15 @@ FEATURE_COLUMNS = [
 FEATURE_DISPLAY_NAMES = {
     'earnings_yield': 'Earnings Yield (V)',
     'bm': 'Book-to-Market (V)',
-    'sales_to_price': 'Sales-to-Price',
-    'roe': 'Return on Equity',
-    'roa': 'Return on Assets',
-    'gprof': 'Gross Profitability',
-    'debt_assets': 'Debt-to-Assets',
-    'cash_debt': 'Cash-to-Debt',
-    'momentum_12m': '12-Mo. Momentum',
-    'vol_60d_ann': '60-Day Volatility',
-    'addv_63d': 'Liquidity (ADDV)'
+    'sales_to_price': 'Sales-to-Price (V)',
+    'roe': 'Return on Equity (Q)',
+    'roa': 'Return on Assets (Q)',
+    'gprof': 'Gross Profitability (Q)',
+    'debt_assets': 'Debt-to-Assets(FS)',
+    'cash_debt': 'Cash-to-Debt (FS)',
+    'momentum_12m': '12-Mo. Momentum (R)',
+    'vol_60d_ann': '60-Day Volatility (R)',
+    'addv_63d': 'Liquidity (R)'
 }
 
 
