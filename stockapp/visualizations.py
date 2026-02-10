@@ -739,7 +739,7 @@ def create_3d_pca_plot(
         scene=dict(
             xaxis_title='PC1: Quality/Stability',
             yaxis_title='PC2: Size/Leverage',
-            zaxis_title='PC3'
+            zaxis_title='PC3: Value vs Growth'
         ),
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
