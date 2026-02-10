@@ -681,7 +681,7 @@ def render_visualizations(
                     line-height: 1.5;
                 ">
                     <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i><br>
-                    <i>The cleanest factor in the model</i>
+                    ↑ <b>High PC3</b><br>
                 </div>
                 """, unsafe_allow_html=True)
             
