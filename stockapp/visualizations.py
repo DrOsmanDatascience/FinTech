@@ -732,7 +732,7 @@ def create_3d_pca_plot(
                 marker=dict(size=15, color='red', symbol='diamond'),
                 text=[selected_ticker],
                 name=f'Selected: {selected_ticker}'
-            ))
+            )) 
     
     fig.update_layout(
         title='3D PCA Cluster Visualization',
