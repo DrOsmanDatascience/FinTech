@@ -598,19 +598,20 @@ def render_visualizations(
             filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
         )
         
+        # Calculate percentiles BEFORE using them in charts
+        available_features = [c for c in FEATURE_COLUMNS if c in pca_row.index]
+        percentiles = compute_percentile_ranks(filtered_quadrant_peers, pca_row, available_features)
+        
         col1, col2 = st.columns(2)
         
         with col1:
-            # Radar chart
+            # Radar chart with percentiles
             factor_data = get_factor_breakdown(pca_row)
             fig_radar = create_factor_radar_chart(factor_data, selected_ticker, percentiles)
             st.plotly_chart(fig_radar, use_container_width=True)
         
         with col2:
-            # Percentile rankings (recalculated with filtered peers)
-            available_features = [c for c in FEATURE_COLUMNS if c in pca_row.index]
-            percentiles = compute_percentile_ranks(filtered_quadrant_peers, pca_row, available_features)
-            
+            # Percentile rankings chart
             if percentiles:
                 fig_percentile = create_percentile_chart(percentiles, selected_ticker)
                 st.plotly_chart(fig_percentile, use_container_width=True)
