@@ -28,6 +28,7 @@ from config import (
     QUADRANTS,
     PC1_INTERPRETATION,
     PC2_INTERPRETATION,
+    PC3_INTERPRETATION,
     OPENAI_API_KEY_PLACEHOLDER
 )
 from utils import (
@@ -391,21 +392,30 @@ def render_sidebar():
     current_view = st.session_state.get('current_view', '')
     if stock_selected and current_view == "🌐 3D View":
         with st.sidebar.expander("PC3 (Z-axis): Value vs Growth"):
-            st.markdown("""
-            **The cleanest factor in the model**
-            
+            st.markdown(f"""
+            **Explains ~{PC3_INTERPRETATION['variance_explained']}% of variance**
+
             **High values (↑ Up):**
-            - Deep value stocks
-            - Asset-heavy companies
-            - Leveraged balance sheets
-            
+            - {', '.join(PC3_INTERPRETATION['high_meaning'])}
+        
             **Low values (↓ Down):**
-            - Growth / asset-light companies
-            - Capital efficient businesses
-            - Higher profitability vs book value
+            - {', '.join(PC3_INTERPRETATION['low_meaning'])}
+            """)            
+                        
+            #**The cleanest factor in the model**
             
-            *≈ Momentum vs Profitability · Pure Value vs Growth*
-            """)
+            #**High values (↑ Up):**
+            #- Deep value stocks
+            #- Asset-heavy companies
+            #- Leveraged balance sheets
+            
+            #**Low values (↓ Down):**
+            #- Growth / asset-light companies
+            #- Capital efficient businesses
+            #- Higher profitability vs book value
+            
+            #*≈ Momentum vs Profitability · Pure Value vs Growth*
+            #""")
     
     # OpenAI API Key input
     st.sidebar.markdown("---")
