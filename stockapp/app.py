@@ -387,7 +387,26 @@ def render_sidebar():
         - {', '.join(PC2_INTERPRETATION['low_meaning'])}
         """)
     
-
+    # Only show PC3 expander when 3D View is selected
+    current_view = st.session_state.get('current_view', '')
+    if stock_selected and current_view == "🌐 3D View":
+        with st.sidebar.expander("PC3 (Z-axis): Value vs Growth"):
+            st.markdown("""
+            **The cleanest factor in the model**
+            
+            **High values (↑ Up):**
+            - Deep value stocks
+            - Asset-heavy companies
+            - Leveraged balance sheets
+            
+            **Low values (↓ Down):**
+            - Growth / asset-light companies
+            - Capital efficient businesses
+            - Higher profitability vs book value
+            
+            *≈ Momentum vs Profitability · Pure Value vs Growth*
+            """)
+    
     # OpenAI API Key input
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 🤖 Chatbot Settings")
