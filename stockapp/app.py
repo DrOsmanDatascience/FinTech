@@ -681,7 +681,8 @@ def render_visualizations(
                     line-height: 1.5;
                 ">
                     <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i><br>
-                      ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged<i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓ <b>Low PC3</b>
+                      ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged<i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     ↓ <b>Low PC3 - </b><i>Growth · Asset-light · Capital efficient<i>
                 </div>
                 """, unsafe_allow_html=True)
             
