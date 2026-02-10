@@ -662,38 +662,59 @@ def render_visualizations(
         """)
         
         if 'PC3' in filtered_pca_df.columns:
-            # Two columns: chart on left (wider), PC3 info on right (narrower)
-            chart_col, info_col = st.columns([5, 1])
+            # Chart full width
+            fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
+            st.plotly_chart(fig_3d, use_container_width=True)
             
-            with chart_col:
-                fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
-                st.plotly_chart(fig_3d, use_container_width=True)
+            # PC3 info box below chart, stretched horizontally across 3 columns
+            col1, col2, col3 = st.columns(3)
             
-            with info_col:
-                st.markdown("&nbsp;")
-                st.markdown("&nbsp;")
-                st.markdown("&nbsp;")
-                st.markdown("&nbsp;")
-                st.markdown("&nbsp;")
-                st.markdown("&nbsp;")
+            with col1:
                 st.markdown("""
                 <div style="
                     background-color: var(--secondary-background-color);
                     color: var(--text-color);
-                    padding: 0.5rem;
+                    padding: 0.75rem 1rem;
                     border-radius: 8px;
                     border-left: 3px solid #1f77b4;
-                    font-size: 0.72rem;
-                    line-height: 1.4;
+                    font-size: 0.8rem;
+                    line-height: 1.5;
                 ">
-                    <b>📐 PC3: Value vs Growth</b><br><br>
-                    <b>Cleanest factor</b> in model:<br><br>
+                    <b>📐 PC3: Value vs Growth</b><br>
+                    <i>The cleanest factor in the model</i>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown("""
+                <div style="
+                    background-color: var(--secondary-background-color);
+                    color: var(--text-color);
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    border-left: 3px solid green;
+                    font-size: 0.8rem;
+                    line-height: 1.5;
+                ">
                     ↑ <b>High PC3</b><br>
-                    Deep value · Asset-heavy · Leveraged<br><br>
+                    Deep value · Asset-heavy · Leveraged
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown("""
+                <div style="
+                    background-color: var(--secondary-background-color);
+                    color: var(--text-color);
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    border-left: 3px solid orange;
+                    font-size: 0.8rem;
+                    line-height: 1.5;
+                ">
                     ↓ <b>Low PC3</b><br>
-                    Growth · Asset-light · Capital efficient<br><br>
-                    <i>≈ Momentum vs Profitability<br>
-                    Pure Value vs Growth</i>
+                    Growth · Asset-light · Capital efficient<br>
+                    <i>≈ Momentum vs Profitability · Pure Value vs Growth</i>
                 </div>
                 """, unsafe_allow_html=True)
         else:
