@@ -670,7 +670,7 @@ def render_visualizations(
                     padding: 0.5rem 0.5rem;
                     border-radius: 8px;
                     border-left: 3px solid #1f77b4;
-                    font-size: 1.0rem;
+                    font-size: 1.2rem;
                     line-height: 2;
                     white-space: nowrap;
                 ">
