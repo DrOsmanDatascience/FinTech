@@ -430,10 +430,30 @@ def create_quadrant_comparison_plot(
         showlegend=False, name=""
     ))
 
+    # Set axis ranges to show ONLY the subject quadrant
+    if sel_pc1 >= 0 and sel_pc2 >= 0:
+        # Q1: top-right - x from 0 to max, y from 0 to max
+        x_range = [0, x_max]
+        y_range = [0, y_max]
+    elif sel_pc1 < 0 and sel_pc2 >= 0:
+        # Q2: top-left - x from min to 0, y from 0 to max
+        x_range = [x_min, 0]
+        y_range = [0, y_max]
+    elif sel_pc1 < 0 and sel_pc2 < 0:
+        # Q3: bottom-left - x from min to 0, y from min to 0
+        x_range = [x_min, 0]
+        y_range = [y_min, 0]
+    else:
+        # Q4: bottom-right - x from 0 to max, y from min to 0
+        x_range = [0, x_max]
+        y_range = [y_min, 0]
+
     fig.update_layout(
         title=f'Quadrant Peers for {selected_ticker}',
         xaxis_title='PC1: Quality / Financial Strength / Risk composite',
         yaxis_title='PC2: Capital Structure / Liquidity (size)',
+        xaxis=dict(range=x_range),
+        yaxis=dict(range=y_range),
         width=PLOT_WIDTH,
         height=500,
         showlegend=True
