@@ -680,7 +680,7 @@ def render_visualizations(
                     font-size: 0.8rem;
                     line-height: 1.5;
                 ">
-                    <b>📐 PC3: Value vs Growth</b><br>
+                    <b>📐 PC3: Value vs Growth</b><i>The cleanest factor in the model</i><br>
                     <i>The cleanest factor in the model</i>
                 </div>
                 """, unsafe_allow_html=True)
@@ -699,7 +699,24 @@ def render_visualizations(
                     ↑ <b>High PC3</b><br>
                     Deep value · Asset-heavy · Leveraged
                 </div>
-                """, unsafe_allow_html=True)        
+                """, unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown("""
+                <div style="
+                    background-color: var(--secondary-background-color);
+                    color: var(--text-color);
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    border-left: 3px solid orange;
+                    font-size: 0.8rem;
+                    line-height: 1.5;
+                ">
+                    ↓ <b>Low PC3</b><br>
+                    Growth · Asset-light · Capital efficient<br>
+                    <i>≈ Momentum vs Profitability · Pure Value vs Growth</i>
+                </div>
+                """, unsafe_allow_html=True)
         else:
             st.info("3D visualization requires PC3 data.")
 
