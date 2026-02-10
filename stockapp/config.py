@@ -148,25 +148,25 @@ QUADRANTS = {
         'name': 'Safe + Scalable',
         'pc1_sign': 'positive',
         'pc2_sign': 'positive',
-        'description': 'Large, profitable companies with strong fundamentals but higher leverage',
+        'description': 'Large, profitable companies, strong fundamentals with leverage',
         'characteristics': ['High quality', 'Profitable', 'Large market cap', 'Higher debt levels']
     },
     'Q2': {
-        'name': 'Lower Quality + Large/Leveraged',
+        'name': 'Big but Fragile',
         'pc1_sign': 'negative',
         'pc2_sign': 'positive',
         'description': 'Large companies with weaker fundamentals and higher leverage',
-        'characteristics': ['Riskier', 'Volatile', 'Large but leveraged', 'Lower profitability']
+        'characteristics': ['Riskier', 'Volatile', 'Large but leveraged', 'Weaker fundamentals']
     },
     'Q3': {
-        'name': 'Lower Quality + Cash-Rich/Smaller',
+        'name': 'Risky + Less Liquid',
         'pc1_sign': 'negative',
         'pc2_sign': 'negative',
-        'description': 'Smaller or cash-rich companies with weaker fundamentals',
+        'description': 'Smaller or niche companies with weaker fundamentals',
         'characteristics': ['Riskier', 'Cash-heavy', 'Smaller size', 'Operationally challenged']
     },
     'Q4': {
-        'name': 'High Quality + Cash-Rich/Efficient',
+        'name': 'Quality but Under the Radar',
         'pc1_sign': 'positive',
         'pc2_sign': 'negative',
         'description': 'High-quality companies with strong balance sheets and efficiency',
