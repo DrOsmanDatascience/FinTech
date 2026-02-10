@@ -145,7 +145,7 @@ PC2_INTERPRETATION = {
 
 QUADRANTS = {
     'Q1': {
-        'name': 'High Quality + Large/Leveraged',
+        'name': 'Safe + Scalable',
         'pc1_sign': 'positive',
         'pc2_sign': 'positive',
         'description': 'Large, profitable companies with strong fundamentals but higher leverage',
