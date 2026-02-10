@@ -677,7 +677,7 @@ def render_visualizations(
                     padding: 0.75rem 1rem;
                     border-radius: 8px;
                     border-left: 3px solid #1f77b4;
-                    font-size: 1.8rem;
+                    font-size: 1.0rem;
                     line-height: 2;
                 ">
                     <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i><br>
