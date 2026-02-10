@@ -662,11 +662,7 @@ def render_visualizations(
         """)
         
         if 'PC3' in filtered_pca_df.columns:
-            # Chart full width
-            fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
-            st.plotly_chart(fig_3d, use_container_width=True)
-            
-            # PC3 info box below chart - single wide box
+            # PC3 info box ABOVE chart
             st.markdown("""
                 <div style="
                     background-color: var(--secondary-background-color);
@@ -683,6 +679,10 @@ def render_visualizations(
                     ↓ <b>Low PC3 - </b><i>Growth · Asset-light · Capital efficient</i>
                 </div>
                 """, unsafe_allow_html=True)
+            
+            # Chart full width
+            fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
+            st.plotly_chart(fig_3d, use_container_width=True)
         else:
             st.info("3D visualization requires PC3 data.")
 
