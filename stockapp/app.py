@@ -358,8 +358,10 @@ def render_sidebar():
     # Store filter selection in session state
     if 'gics_filter_mode' not in st.session_state:
         st.session_state.gics_filter_mode = "All Stocks"
+    
+    # ✅ THIS LINE IS CRITICAL - actually saves the selection!
+    st.session_state.gics_filter_mode = filter_mode
     # ⬆️⬆️⬆️ END OF NEW SECTION ⬆️⬆️⬆️
-
 
     # Display axis interpretations
     st.sidebar.markdown("---")
