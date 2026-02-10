@@ -678,7 +678,7 @@ def render_visualizations(
                     border-radius: 8px;
                     border-left: 3px solid #1f77b4;
                     font-size: 0.8rem;
-                    line-height: 1.5;
+                    line-height: 2;
                 ">
                     <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i><br>
                       ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged<i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
