@@ -367,7 +367,7 @@ def create_quadrant_comparison_plot(
     fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
     fig.add_vline(x=0, line_dash="dash", line_color="gray", opacity=0.5)
 
-    # Add invisible hover targets for quadrant explanations (same as cluster plot)
+    # Add invisible hover target for ONLY the subject quadrant
     x_min = min(quadrant_peers['PC1'].min(), selected_data['PC1'].min()) - 0.5
     x_max = max(quadrant_peers['PC1'].max(), selected_data['PC1'].max()) + 0.5
     y_min = min(quadrant_peers['PC2'].min(), selected_data['PC2'].min()) - 0.5
@@ -375,54 +375,58 @@ def create_quadrant_comparison_plot(
 
     hover_mark = dict(size=90, color="rgba(0,0,0,0.01)", line=dict(width=0))
 
-    fig.add_trace(go.Scatter(
-        x=[x_max - 0.1], y=[y_max - 0.1],
-        mode="markers", marker=hover_mark,
-        hovertemplate=(
+    # Determine which quadrant the selected stock is in
+    sel_pc1 = selected_data['PC1'].iloc[0]
+    sel_pc2 = selected_data['PC2'].iloc[0]
+
+    if sel_pc1 >= 0 and sel_pc2 >= 0:
+        # Q1: top-right
+        hover_x = x_max - 0.1
+        hover_y = y_max - 0.1
+        hover_text = (
             "<b>Q1: Safe + Scalable</b><br>"
             "<b>THINK</b>: High-quality, large, liquid companies<br>"
             "Strong balance sheets & lower volatility<br>"
             "Core institutional compounders"
             "<extra></extra>"
-        ),
-        showlegend=False, name=""
-    ))
-
-    fig.add_trace(go.Scatter(
-        x=[x_min + 0.1], y=[y_max - 0.1],
-        mode="markers", marker=hover_mark,
-        hovertemplate=(
+        )
+    elif sel_pc1 < 0 and sel_pc2 >= 0:
+        # Q2: top-left
+        hover_x = x_min + 0.1
+        hover_y = y_max - 0.1
+        hover_text = (
             "<b>Q2: Big but Fragile</b><br>"
             "<b>THINK:</b> Crowded trades<br>"
             "Higher leverage & cyclical exposure<br>"
             "Large firms with weaker fundamentals"
             "<extra></extra>"
-        ),
-        showlegend=False, name=""
-    ))
-
-    fig.add_trace(go.Scatter(
-        x=[x_min + 0.1], y=[y_min + 0.1],
-        mode="markers", marker=hover_mark,
-        hovertemplate=(
+        )
+    elif sel_pc1 < 0 and sel_pc2 < 0:
+        # Q3: bottom-left
+        hover_x = x_min + 0.1
+        hover_y = y_min + 0.1
+        hover_text = (
             "<b>Q3: Risky + Illiquid</b><br>"
             "<b>THINK:</b> Speculative, distressed, volatile<br>"
             "Liquidity-constrained firms<br>"
             "Higher financing & business risk"
             "<extra></extra>"
-        ),
-        showlegend=False, name=""
-    ))
-
-    fig.add_trace(go.Scatter(
-        x=[x_max - 0.1], y=[y_min + 0.1],
-        mode="markers", marker=hover_mark,
-        hovertemplate=(
+        )
+    else:
+        # Q4: bottom-right
+        hover_x = x_max - 0.1
+        hover_y = y_min + 0.1
+        hover_text = (
             "<b>Q4: Quality but Under the Radar</b><br>"
             "<b>THINK:</b> Quality SMID cap companies<br>"
             "Less liquid alpha opportunities"
             "<extra></extra>"
-        ),
+        )
+
+    fig.add_trace(go.Scatter(
+        x=[hover_x], y=[hover_y],
+        mode="markers", marker=hover_mark,
+        hovertemplate=hover_text,
         showlegend=False, name=""
     ))
 
