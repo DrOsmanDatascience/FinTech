@@ -342,6 +342,7 @@ def render_sidebar():
     selected_filter = st.sidebar.selectbox(
         "Show stocks from:",
         options=filter_options,
+        index=1 if stock_selected else 0,
         key="gics_filter",
         disabled=not stock_selected,
         help="Filter visualizations to show all stocks or only stocks in the same GICS sector"
@@ -355,7 +356,7 @@ def render_sidebar():
     
     # Store filter selection in session state
     if 'gics_filter_mode' not in st.session_state:
-        st.session_state.gics_filter_mode = "All Stocks"
+        st.session_state.gics_filter_mode = "GICS Sector Only"
     
     # THIS LINE IS CRITICAL - actually saves the selection!
     st.session_state.gics_filter_mode = filter_mode
