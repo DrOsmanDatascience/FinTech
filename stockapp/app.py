@@ -667,7 +667,7 @@ def render_visualizations(
                 <div style="
                     background-color: var(--secondary-background-color);
                     color: var(--text-color);
-                    padding: 0.75rem 1rem;
+                    padding: 0.5rem 1rem;
                     border-radius: 8px;
                     border-left: 3px solid #1f77b4;
                     font-size: 1.0rem;
