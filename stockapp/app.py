@@ -681,19 +681,26 @@ def render_visualizations(
         """)
         
         if 'PC3' in filtered_pca_df.columns:
+            # Get PC3 variance explained from PCA model
+            pc3_variance = ""
+            if st.session_state.pca_model is not None:
+                variance_ratios = st.session_state.pca_model.explained_variance_ratio_
+                if len(variance_ratios) >= 3:
+                    pc3_variance = f" &nbsp;|&nbsp; <i>Explains ~{variance_ratios[2]*100:.1f}% of variance</i>"
+            
             # PC3 info box ABOVE chart
-            st.markdown("""
+            st.markdown(f"""
                 <div style="
                     background-color: var(--secondary-background-color);
                     color: var(--text-color);
-                    padding: 0.5rem 0.5rem;
+                    padding: 0.75rem 1rem;
                     border-radius: 8px;
                     border-left: 3px solid #1f77b4;
-                    font-size: 1.2rem;
+                    font-size: 1.0rem;
                     line-height: 2;
                     white-space: nowrap;
                 ">
-                    <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i><br>
+                    <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i>{pc3_variance}<br>
                     ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged</i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     ↓ <b>Low PC3 - </b><i>Growth · Asset-light · Capital efficient</i>
                 </div>
