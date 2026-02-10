@@ -666,11 +666,8 @@ def render_visualizations(
             fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
             st.plotly_chart(fig_3d, use_container_width=True)
             
-            # PC3 info box below chart, stretched horizontally across 3 columns
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.markdown("""
+            # PC3 info box below chart - single wide box
+            st.markdown("""
                 <div style="
                     background-color: var(--secondary-background-color);
                     color: var(--text-color);
@@ -679,10 +676,11 @@ def render_visualizations(
                     border-left: 3px solid #1f77b4;
                     font-size: 1.0rem;
                     line-height: 2;
+                    white-space: nowrap;
                 ">
                     <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i><br>
-                      ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged<i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     ↓ <b>Low PC3 - </b><i>Growth · Asset-light · Capital efficient<i>
+                    ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged</i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ↓ <b>Low PC3 - </b><i>Growth · Asset-light · Capital efficient</i>
                 </div>
                 """, unsafe_allow_html=True)
         else:
