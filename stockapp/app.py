@@ -661,41 +661,27 @@ def render_visualizations(
         Drag to rotate, scroll to zoom.
         """)
         
-        # PC3 interpretation info block
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.markdown("""
-            <div class="info-box">
-                <h4>📐 PC1: Quality / Stability</h4>
-                <p>→ Right = Strong fundamentals, lower volatility, higher quality</p>
-                <p>← Left = Stressed fundamentals, riskier profile</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown("""
-            <div class="info-box">
-                <h4>📐 PC2: Size / Leverage</h4>
-                <p>↑ Up = Large, liquid, balance sheet scale</p>
-                <p>↓ Down = Smaller, less liquid, niche stocks</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col3:
-            st.markdown("""
-            <div class="info-box">
-                <h4>📐 PC3: Value vs Growth</h4>
-                <p>This is the <strong>cleanest factor</strong> in the model:</p>
-                <p>↑ High PC3 = Deep value · Asset-heavy · Leveraged</p>
-                <p>↓ Low PC3 = Growth · Asset-light · Capital efficient</p>
-                <p><em>≈ Momentum vs Profitability · Pure Value vs Growth</em></p>
-            </div>
-            """, unsafe_allow_html=True)
-        
         if 'PC3' in filtered_pca_df.columns:
-            fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
-            st.plotly_chart(fig_3d, use_container_width=True)
+            # Two columns: chart on left (wider), PC3 info on right (narrower)
+            chart_col, info_col = st.columns([4, 1])
+            
+            with chart_col:
+                fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
+                st.plotly_chart(fig_3d, use_container_width=True)
+            
+            with info_col:
+                st.markdown("&nbsp;")  # Spacer to push below legend
+                st.markdown("&nbsp;")
+                st.markdown("&nbsp;")
+                st.markdown("""
+                <div class="info-box">
+                    <h4>📐 PC3: Value vs Growth</h4>
+                    <p>The <strong>cleanest factor</strong> in the model:</p>
+                    <p>↑ <strong>High PC3</strong><br>Deep value · Asset-heavy · Leveraged</p>
+                    <p>↓ <strong>Low PC3</strong><br>Growth · Asset-light · Capital efficient</p>
+                    <p><em>≈ Momentum vs Profitability · Pure Value vs Growth</em></p>
+                </div>
+                """, unsafe_allow_html=True)
         else:
             st.info("3D visualization requires PC3 data.")
 
