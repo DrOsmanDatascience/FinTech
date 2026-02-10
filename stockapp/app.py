@@ -663,23 +663,37 @@ def render_visualizations(
         
         if 'PC3' in filtered_pca_df.columns:
             # Two columns: chart on left (wider), PC3 info on right (narrower)
-            chart_col, info_col = st.columns([4, 1])
+            chart_col, info_col = st.columns([5, 1])
             
             with chart_col:
                 fig_3d = create_3d_pca_plot(filtered_pca_df, selected_ticker)
                 st.plotly_chart(fig_3d, use_container_width=True)
             
             with info_col:
-                st.markdown("&nbsp;")  # Spacer to push below legend
+                st.markdown("&nbsp;")
+                st.markdown("&nbsp;")
+                st.markdown("&nbsp;")
+                st.markdown("&nbsp;")
                 st.markdown("&nbsp;")
                 st.markdown("&nbsp;")
                 st.markdown("""
-                <div class="info-box">
-                    <h4>📐 PC3: Value vs Growth</h4>
-                    <p>The <strong>cleanest factor</strong> in the model:</p>
-                    <p>↑ <strong>High PC3</strong><br>Deep value · Asset-heavy · Leveraged</p>
-                    <p>↓ <strong>Low PC3</strong><br>Growth · Asset-light · Capital efficient</p>
-                    <p><em>≈ Momentum vs Profitability · Pure Value vs Growth</em></p>
+                <div style="
+                    background-color: var(--secondary-background-color);
+                    color: var(--text-color);
+                    padding: 0.5rem;
+                    border-radius: 8px;
+                    border-left: 3px solid #1f77b4;
+                    font-size: 0.72rem;
+                    line-height: 1.4;
+                ">
+                    <b>📐 PC3: Value vs Growth</b><br><br>
+                    <b>Cleanest factor</b> in model:<br><br>
+                    ↑ <b>High PC3</b><br>
+                    Deep value · Asset-heavy · Leveraged<br><br>
+                    ↓ <b>Low PC3</b><br>
+                    Growth · Asset-light · Capital efficient<br><br>
+                    <i>≈ Momentum vs Profitability<br>
+                    Pure Value vs Growth</i>
                 </div>
                 """, unsafe_allow_html=True)
         else:
