@@ -598,8 +598,7 @@ def render_visualizations(
     if current_view == "🎯 Cluster Plot":
         st.markdown("### 🎯 PCA Cluster Visualization")
         st.markdown("""
-        This plot shows all stocks positioned based on their quality/stability (PC1) 
-        and size/leverage (PC2) characteristics. Your selected stock is highlighted with a ⭐.
+        This plot shows stocks positioned based on their Principal Components (PC) characteristics. Your selected stock is highlighted with a ⭐.
         """)
         
         fig = create_pca_scatter_plot(filtered_pca_df, selected_ticker)
