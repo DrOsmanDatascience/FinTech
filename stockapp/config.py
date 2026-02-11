@@ -120,7 +120,7 @@ PC1_INTERPRETATION = {
         'Volatility': -0.34,
         'Book-to-Market': -0.35
     }
-}
+} 
 
 PC2_INTERPRETATION = {
     'name': 'Size / Leverage / Capital Structure',
