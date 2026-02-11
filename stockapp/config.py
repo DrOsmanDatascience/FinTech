@@ -163,7 +163,7 @@ QUADRANTS = {
         'name': 'Profitable Value',
         'pc1_sign': 'positive',
         'pc2_sign': 'positive',
-        'description': '<b>THINK:</b> Strong profitability trading at value prices',
+        'description': '<b>THINK:</b> Strong profitability, trading at value prices',
         'characteristics': ['High profitability', 'Stable operations', 'Value priced', 'Quality fundamentals']
     },
     'Q2': {
