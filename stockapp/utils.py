@@ -253,6 +253,19 @@ def compute_pca_and_clusters(
     pca = PCA(n_components=n_components)
     X_pca = pca.fit_transform(X_scaled)
     
+    # TEMPORARY - Print PCA info
+    print("\n=== LIVE PCA MODEL OUTPUT ===")
+    print(f"PC1 variance: {pca.explained_variance_ratio_[0]*100:.2f}%")
+    print(f"PC2 variance: {pca.explained_variance_ratio_[1]*100:.2f}%")
+    print(f"PC3 variance: {pca.explained_variance_ratio_[2]*100:.2f}%")
+    print(f"Total: {sum(pca.explained_variance_ratio_)*100:.2f}%")
+    print("\nPC1 Loadings (top 5):")
+    loadings_df = pd.DataFrame(pca.components_.T, index=available_features, columns=['PC1','PC2','PC3'])
+    print(loadings_df['PC1'].abs().sort_values(ascending=False).head(5))
+    print("\nPC2 Loadings (top 5):")
+    print(loadings_df['PC2'].abs().sort_values(ascending=False).head(5))
+    print("==============================\n")
+
     # Compute KMeans clustering
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
     clusters = kmeans.fit_predict(X_scaled)
