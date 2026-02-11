@@ -108,7 +108,7 @@ PC1_INTERPRETATION = {
     'name': 'Profitability & Operational Quality',
     'variance_explained': 37.5,
     'high_meaning': ['Operationally profitable', 'Stable', 'Strong cash position'],
-    'low_meaning': ['Growth/premium stocks - lower book value', 'Trading at premium to fundamentals'],
+    'low_meaning': ['Lower profitability, Weaker operations, Volatile, Cash-constrained'],
     'positive_loadings': {
         'ROA': 0.44,
         'ROE': 0.36, 
@@ -126,7 +126,7 @@ PC2_INTERPRETATION = {
     'name': 'Valuation Style: Value vs Growth',
     'variance_explained': 14.6,
     'high_meaning': ['Deep value stocks - high book value', 'High sales relative to price', 'Cheap on traditional metrics'],
-    'low_meaning': ['Smaller', 'Less-liquid', 'Niche stocks'],
+    'low_meaning': ['Growth/premium stocks', 'Trading at premium to fundamentals'],
     'positive_loadings': {
         'ADDV (Liquidity/Size)': 0.54,
         'Debt-to-Assets': 0.48
