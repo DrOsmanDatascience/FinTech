@@ -132,7 +132,7 @@ def create_pca_scatter_plot(
         mode="markers",
         marker=hover_mark,
         hovertemplate=(
-            f"<b>Q1: {QUADRANTS['Q2']['name']}</b><br>"
+            f"<b>Q2: {QUADRANTS['Q2']['name']}</b><br>"
             f"{QUADRANTS['Q2']['description']}<br>"
             f"Characteristics: {', '.join(QUADRANTS['Q2']['characteristics'])}"
             "<extra></extra>"
@@ -146,10 +146,9 @@ def create_pca_scatter_plot(
         mode="markers",
         marker=hover_mark,
         hovertemplate=(
-            "<b>Q3: Risky + Illiquid</b><br>"
-            "<b>THINK:</b> Speculative, distressed, volatile<br>"
-            "Liquidity-constrained firms<br>"
-            "Higher financing & business risk"
+            f"<b>Q3: {QUADRANTS['Q3']['name']}</b><br>"
+            f"{QUADRANTS['Q3']['description']}<br>"
+            f"Characteristics: {', '.join(QUADRANTS['Q3']['characteristics'])}"
             "<extra></extra>"
         ),
         showlegend=False,
@@ -161,9 +160,9 @@ def create_pca_scatter_plot(
         mode="markers",
         marker=hover_mark,
         hovertemplate=(
-            "<b>Q4: Quality but Under the Radar</b><br>"
-            "<b>THINK:</b> Quality SMID cap companies<br>"
-            "Less liquid alpha opportunities"
+            f"<b>Q4: {QUADRANTS['Q4']['name']}</b><br>"
+            f"{QUADRANTS['Q4']['description']}<br>"
+            f"Characteristics: {', '.join(QUADRANTS['Q4']['characteristics'])}"
             "<extra></extra>"
         ),
         showlegend=False,
