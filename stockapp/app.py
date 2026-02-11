@@ -597,8 +597,22 @@ def render_visualizations(
     # Display the selected visualization
     if current_view == "🎯 Cluster Plot":
         st.markdown("### 🎯 PCA Cluster Visualization")
-        st.markdown("""
+        
+        # Get live variance values
+        pc1_var = PC1_INTERPRETATION['variance_explained']  # fallback
+        pc2_var = PC2_INTERPRETATION['variance_explained']  # fallback
+        if st.session_state.pca_model is not None:
+            ratios = st.session_state.pca_model.explained_variance_ratio_
+            if len(ratios) >= 1:
+                pc1_var = round(ratios[0] * 100, 1)
+            if len(ratios) >= 2:
+                pc2_var = round(ratios[1] * 100, 1)
+        combined_var = round(pc1_var + pc2_var, 1)
+        
+        st.markdown(f"""
         This plot shows stocks positioned based on their Principal Components (PC) characteristics. Your selected stock is highlighted with a ⭐.
+        
+        *PC1 explains ~{pc1_var}% of variance (X-axis) and PC2 explains ~{pc2_var}% of variance (Y-axis); Combined variance explained ~{combined_var}%*
         """)
         
         fig = create_pca_scatter_plot(filtered_pca_df, selected_ticker)
