@@ -388,10 +388,9 @@ def create_quadrant_comparison_plot(
         hover_x = x_max - 0.1
         hover_y = y_max - 0.1
         hover_text = (
-            "<b>Q1: Safe + Scalable</b><br>"
-            "<b>THINK</b>: High-quality, large, liquid companies<br>"
-            "Strong balance sheets & lower volatility<br>"
-            "Core institutional compounders"
+            f"<b>Q1: {QUADRANTS['Q1']['name']}</b><br>"
+            f"{QUADRANTS['Q1']['description']}<br>"
+            f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q1']['characteristics'])}"
             "<extra></extra>"
         )
     elif sel_pc1 < 0 and sel_pc2 >= 0:
