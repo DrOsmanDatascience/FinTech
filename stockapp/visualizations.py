@@ -233,13 +233,13 @@ def create_pca_scatter_plot(
     # Add quadrant labels
     if show_quadrant_labels:
         labels = [
-            dict(x=x_max*0.7, y=y_max*0.9, text="Q1: Safe+Scalable",
+            dict(x=x_max*0.7, y=y_max*0.9, text=f"Q1: {QUADRANTS['Q1']['name']}",
                 showarrow=False, font=dict(size=10, color='green')),
-            dict(x=x_min*0.7, y=y_max*0.9, text="Q2: Big but Fragile",
+            dict(x=x_min*0.7, y=y_max*0.9, text=f"Q2: {QUADRANTS['Q2']['name']}",
                 showarrow=False, font=dict(size=10, color='red')),
-            dict(x=x_min*0.7, y=y_min*0.9, text="Q3: Risky + Illiquid",
+            dict(x=x_min*0.7, y=y_min*0.9, text=f"Q3: {QUADRANTS['Q3']['name']}",
                 showarrow=False, font=dict(size=10, color='olive')),
-            dict(x=x_max*0.7, y=y_min*0.9, text="Q4: Quality but Under Radar",
+            dict(x=x_max*0.7, y=y_min*0.9, text=f"Q4: {QUADRANTS['Q4']['name']}",
                 showarrow=False, font=dict(size=10, color='blue'))
         ]
         for label in labels:
