@@ -367,9 +367,23 @@ def render_sidebar():
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 📐 Axis Interpretations")
     
+    # Get live variance values from PCA model if available
+    pc1_var = PC1_INTERPRETATION['variance_explained']  # fallback to hardcoded
+    pc2_var = PC2_INTERPRETATION['variance_explained']  # fallback to hardcoded
+    pc3_var = PC3_INTERPRETATION['variance_explained']  # fallback to hardcoded
+    
+    if st.session_state.pca_model is not None:
+        ratios = st.session_state.pca_model.explained_variance_ratio_
+        if len(ratios) >= 1:
+            pc1_var = round(ratios[0] * 100, 1)
+        if len(ratios) >= 2:
+            pc2_var = round(ratios[1] * 100, 1)
+        if len(ratios) >= 3:
+            pc3_var = round(ratios[2] * 100, 1)
+    
     with st.sidebar.expander("PC1 (X-axis): Quality/Stability"):
         st.markdown(f"""
-        **Explains ~{PC1_INTERPRETATION['variance_explained']}% of variance**
+        **Explains ~{pc1_var}% of variance**
         
         **High values (→ Right):**
         - {', '.join(PC1_INTERPRETATION['high_meaning'])}
@@ -380,7 +394,7 @@ def render_sidebar():
     
     with st.sidebar.expander("PC2 (Y-axis): Size/Leverage"):
         st.markdown(f"""
-        **Explains ~{PC2_INTERPRETATION['variance_explained']}% of variance**
+        **Explains ~{pc2_var}% of variance**
         
         **High values (↑ Up):**
         - {', '.join(PC2_INTERPRETATION['high_meaning'])}
@@ -394,7 +408,7 @@ def render_sidebar():
     if stock_selected and current_view in ["🌐 3D Cluster View", "🌐 3D Quadrant Peers"]:
         with st.sidebar.expander("PC3 (Z-axis): Value vs Growth"):
             st.markdown(f"""
-            **Explains ~{PC3_INTERPRETATION['variance_explained']}% of variance**
+            **Explains ~{pc3_var}% of variance**
 
             **High values (↑ Up):**
             - {', '.join(PC3_INTERPRETATION['high_meaning'])}
