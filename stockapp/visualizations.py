@@ -398,10 +398,9 @@ def create_quadrant_comparison_plot(
         hover_x = x_min + 0.1
         hover_y = y_max - 0.1
         hover_text = (
-            "<b>Q2: Big but Fragile</b><br>"
-            "<b>THINK:</b> Crowded trades<br>"
-            "Higher leverage & cyclical exposure<br>"
-            "Large firms with weaker fundamentals"
+            f"<b>Q2: {QUADRANTS['Q2']['name']}</b><br>"
+            f"{QUADRANTS['Q2']['description']}<br>"
+            f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q2']['characteristics'])}"
             "<extra></extra>"
         )
     elif sel_pc1 < 0 and sel_pc2 < 0:
@@ -409,10 +408,9 @@ def create_quadrant_comparison_plot(
         hover_x = x_min + 0.1
         hover_y = y_min + 0.1
         hover_text = (
-            "<b>Q3: Risky + Illiquid</b><br>"
-            "<b>THINK:</b> Speculative, distressed, volatile<br>"
-            "Liquidity-constrained firms<br>"
-            "Higher financing & business risk"
+            f"<b>Q3: {QUADRANTS['Q3']['name']}</b><br>"
+            f"{QUADRANTS['Q3']['description']}<br>"
+            f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q3']['characteristics'])}"
             "<extra></extra>"
         )
     else:
@@ -420,9 +418,9 @@ def create_quadrant_comparison_plot(
         hover_x = x_max - 0.1
         hover_y = y_min + 0.1
         hover_text = (
-            "<b>Q4: Quality but Under the Radar</b><br>"
-            "<b>THINK:</b> Quality SMID cap companies<br>"
-            "Less liquid alpha opportunities"
+            f"<b>Q4: {QUADRANTS['Q4']['name']}</b><br>"
+            f"{QUADRANTS['Q4']['description']}<br>"
+            f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q4']['characteristics'])}"
             "<extra></extra>"
         )
 
