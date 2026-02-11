@@ -12,7 +12,7 @@ from typing import Tuple, Optional, Dict, List
 import warnings
 warnings.filterwarnings('ignore')
 
-print("🔴 UTILS.PY LOADED 🔴")
+print("🔴 UTILS.PY LOADED 🔴") 
 
 from config import (
     GITHUB_DATA_URL, 
