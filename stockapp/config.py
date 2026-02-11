@@ -105,13 +105,13 @@ FACTOR_CATEGORIES = {
 # =============================================================================
 
 PC1_INTERPRETATION = {
-    'name': 'Profitability / Operational Quality',
+    'name': 'Profitability & Operational Quality',
     'variance_explained': 37.5,
     'high_meaning': ['High-quality', 'Profitable', 'Financially strong'],
     'low_meaning': ['Riskier', 'Lower-quality', 'Volatile'],
     'positive_loadings': {
         'ROA': 0.44,
-        'ROE': 0.36,need to 
+        'ROE': 0.36, 
         'Earnings Yield': 0.39,
         'Cash/Debt': 0.36,
         'Momentum': 0.26
