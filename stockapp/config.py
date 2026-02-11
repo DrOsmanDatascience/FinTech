@@ -194,7 +194,7 @@ QUADRANTS = {
 # VISUALIZATION SETTINGS
 # =============================================================================
 
-# Color palette for clusters (Dark2 colormap)
+# Color palette for clusters (Dark2 colormap) 
 CLUSTER_COLORS = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a']
 
 # Plot dimensions

@@ -391,7 +391,7 @@ def create_quadrant_comparison_plot(
             f"<b>Q1: {QUADRANTS['Q1']['name']}</b><br>"
             f"{QUADRANTS['Q1']['description']}<br>"
             f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q1']['characteristics'])}"
-            "<extra></extra>"
+            "<extra></extra>" 
         )
     elif sel_pc1 < 0 and sel_pc2 >= 0:
         # Q2: top-left
