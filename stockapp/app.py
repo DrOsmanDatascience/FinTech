@@ -603,7 +603,7 @@ def render_visualizations(
         pc2_var = PC2_INTERPRETATION['variance_explained']  # fallback
         if st.session_state.pca_model is not None:
             ratios = st.session_state.pca_model.explained_variance_ratio_
-            if len(ratios) >= 1:
+            if len(ratios) >= 0:
                 pc1_var = round(ratios[0] * 100, 0)
             if len(ratios) >= 2:
                 pc2_var = round(ratios[1] * 100, 0)
