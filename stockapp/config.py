@@ -142,7 +142,7 @@ PC3_INTERPRETATION = {
     'name': 'Leverage & Asset Intensity',
     'variance_explained': 12.0,
     'high_meaning': ['Leveraged with volatility', 'Higher debt', 'Volatile', 'Maybe decent margins'],
-    'low_meaning': ['Growth', 'Asset-light'],
+    'low_meaning': ['Conservative/stable', 'Lower leverage', 'Less volatile', 'Cleaner balance sheets'],
     'positive_loadings': {
         'Sales=to=Price': 0.75,
         'Debt-to-Assets': 0.52,
