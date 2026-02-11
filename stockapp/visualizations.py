@@ -283,8 +283,8 @@ def create_pca_scatter_plot(
     # Update layout (ONCE)
     fig.update_layout(
         title=dict(text='Stock PCA Cluster Analysis', font=dict(size=20)),
-        xaxis_title='PC1: Quality / Financial Strength / Risk composite',
-        yaxis_title='PC2: Capital Structure / Liquidity (size)',
+        xaxis_title=f"PC1: {PC1_INTERPRETATION['name']}",
+        yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
         showlegend=True,
