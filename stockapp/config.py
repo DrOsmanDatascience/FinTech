@@ -125,8 +125,8 @@ PC1_INTERPRETATION = {
 PC2_INTERPRETATION = {
     'name': 'Size / Leverage / Capital Structure',
     'variance_explained': 14.6,
-    'high_meaning': ['Large/Liquid', 'Leveraged'],
-    'low_meaning': ['Cash-rich', 'Operationally efficient'],
+    'high_meaning': ['Large', 'Liquid', 'Leveraged'],
+    'low_meaning': ['Smaller', 'Less-liquid', 'Niche stocks'],
     'positive_loadings': {
         'ADDV (Liquidity/Size)': 0.54,
         'Debt-to-Assets': 0.48
