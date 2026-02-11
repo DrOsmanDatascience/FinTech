@@ -118,10 +118,9 @@ def create_pca_scatter_plot(
         mode="markers",
         marker=hover_mark,
         hovertemplate=(
-            "<b>Q1: Safe + Scalable</b><br>"
-            "<b>THINK</b>: High-quality, large, liquid companies<br>"
-            "Strong balance sheets & lower volatility<br>"
-            "Core institutional compounders"
+             f"<b>Q1: {QUADRANTS['Q1']['name']}</b><br>"
+            f"<b>Description:</b> {QUADRANTS['Q1']['description']}<br>"
+            f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q1']['characteristics'])}"
             "<extra></extra>"
         ),
         showlegend=False,
