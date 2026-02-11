@@ -105,7 +105,7 @@ FACTOR_CATEGORIES = {
 # =============================================================================
 
 PC1_INTERPRETATION = {
-    'name': 'Profitability & Operational Quality',
+    'name': 'Profitability / Operational Quality',
     'variance_explained': 37.5,
     'high_meaning': ['High-quality', 'Profitable', 'Financially strong'],
     'low_meaning': ['Riskier', 'Lower-quality', 'Volatile'],
@@ -120,7 +120,7 @@ PC1_INTERPRETATION = {
         'Volatility': -0.34,
         'Book-to-Market': -0.35
     }
-} 
+}
 
 PC2_INTERPRETATION = {
     'name': 'Size / Leverage / Capital Structure',
