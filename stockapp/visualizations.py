@@ -134,7 +134,7 @@ def create_pca_scatter_plot(
         hovertemplate=(
             f"<b>Q1: {QUADRANTS['Q2']['name']}</b><br>"
             f"{QUADRANTS['Q2']['description']}<br>"
-            f"{(QUADRANTS['Q2']['characteristics'])}"
+            f"{QUADRANTS['Q2']['characteristics']}"
             "<extra></extra>"
         ),
         showlegend=False,
