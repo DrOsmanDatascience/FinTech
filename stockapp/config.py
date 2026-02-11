@@ -236,8 +236,4 @@ selected stock and its cluster to give specific, data-driven answers."""
 # TEMPORARY TEST - DELETE AFTER TESTING
 # =============================================================================
 
-if __name__ == "__main__":
-    print("✅ Config loaded successfully!")
-    print("FEATURE_DISPLAY_NAMES:", FEATURE_DISPLAY_NAMES)
-    print("Number of features:", len(FEATURE_DISPLAY_NAMES))
     
