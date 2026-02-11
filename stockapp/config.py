@@ -105,7 +105,7 @@ FACTOR_CATEGORIES = {
 # =============================================================================
 
 PC1_INTERPRETATION = {
-    'name': 'Quality / Stability / Balance-Sheet Strength',
+    'name': 'Profitability & Operational Quality',
     'variance_explained': 37.5,
     'high_meaning': ['High-quality', 'Profitable', 'Financially strong'],
     'low_meaning': ['Riskier', 'Lower-quality', 'Volatile'],
