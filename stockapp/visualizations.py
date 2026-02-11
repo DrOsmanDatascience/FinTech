@@ -823,7 +823,7 @@ def create_3d_pca_plot(
         scene=dict(
             axis_title=f"PC1: {PC1_INTERPRETATION['name']}",
             yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
-            yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}"
+            zaxis_title=f"PC2: {PC3_INTERPRETATION['name']}"
         ),
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
