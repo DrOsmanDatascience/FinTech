@@ -258,7 +258,7 @@ def create_pca_scatter_plot(
 
     fig.add_annotation(
         x=x_min, y=0,
-        text="← Higher Volatility, <br>Stressed Fundamentals, <br>Riskier Profile",
+        text=f"← {'<br>'.join(PC1_INTERPRETATION['low_meaning'])}",
         showarrow=False, yshift=15,
         font=dict(size=9, color='gray')
     )
