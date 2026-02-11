@@ -170,22 +170,22 @@ QUADRANTS = {
         'name': 'Big but Fragile',
         'pc1_sign': 'negative',
         'pc2_sign': 'positive',
-        'description': 'Large companies with weaker fundamentals and higher leverage',
-        'characteristics': ['Riskier', 'Volatile', 'Large but leveraged', 'Weaker fundamentals']
+        'description': '<b>THINK:</b> Large companies with weaker fundamentals and higher leverage',
+        'characteristics': ['Characteristics', 'Riskier', 'Volatile', 'Large but leveraged', 'Weaker fundamentals']
     },
     'Q3': {
         'name': 'Risky + Less Liquid',
         'pc1_sign': 'negative',
         'pc2_sign': 'negative',
-        'description': 'Smaller or niche companies with weaker fundamentals',
-        'characteristics': ['Riskier', 'Cash-heavy', 'Smaller size', 'Operationally challenged']
+        'description': '<b>THINK:</b> Smaller or niche companies with weaker fundamentals',
+        'characteristics': ['Characteristics', 'Riskier', 'Cash-heavy', 'Smaller size', 'Operationally challenged']
     },
     'Q4': {
         'name': 'Quality but Under the Radar',
         'pc1_sign': 'positive',
         'pc2_sign': 'negative',
-        'description': 'High-quality companies with strong balance sheets and efficiency',
-        'characteristics': ['High quality', 'Cash-rich', 'Operationally efficient', 'Lower leverage']
+        'description': '<b>THINK:</b> High-quality companies with strong balance sheets and efficiency',
+        'characteristics': ['Characteristics', 'High quality', 'Cash-rich', 'Operationally efficient', 'Lower leverage']
     }
 }
 
