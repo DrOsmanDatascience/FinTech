@@ -251,7 +251,7 @@ def create_pca_scatter_plot(
     # Add axis characteristic labels (ONCE)  ✅ OUTSIDE LOOP
     fig.add_annotation(
         x=x_max, y=0,
-        text="→ Lower Volatility, <br>Strong Fundamentals, <br>Higher Quality",
+        text=f"→ {', '.join(PC1_INTERPRETATION['high_meaning'])}",
         showarrow=False, yshift=15,
         font=dict(size=9, color='gray')
     )
@@ -272,7 +272,7 @@ def create_pca_scatter_plot(
 
     fig.add_annotation(
         x=0, y=y_min,
-        text=f"↑ {', '.join(PC2_INTERPRETATION['high_meaning'])}",
+        text=f"↓ {', '.join(PC2_INTERPRETATION['low_meaning'])}",
         showarrow=False, xshift=60,
         font=dict(size=9, color='gray')
     )
