@@ -604,10 +604,10 @@ def render_visualizations(
         if st.session_state.pca_model is not None:
             ratios = st.session_state.pca_model.explained_variance_ratio_
             if len(ratios) >= 1:
-                pc1_var = round(ratios[0] * 100, 1)
+                pc1_var = round(ratios[0] * 100, 0)
             if len(ratios) >= 2:
-                pc2_var = round(ratios[1] * 100, 1)
-        combined_var = round(pc1_var + pc2_var, 1)
+                pc2_var = round(ratios[1] * 100, 0)
+        combined_var = round(pc1_var + pc2_var, 0)
         
         st.markdown(f"""
         This plot shows stocks positioned based on their Principal Components (PC) characteristics. Your selected stock is highlighted with a ⭐.
