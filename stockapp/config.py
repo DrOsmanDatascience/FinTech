@@ -163,7 +163,7 @@ QUADRANTS = {
         'name': 'Safe + Scalable',
         'pc1_sign': 'positive',
         'pc2_sign': 'positive',
-        'description': 'Large, profitable companies, strong fundamentals with leverage',
+        'description': 'THINK: Large, profitable companies, strong fundamentals with leverage',
         'characteristics': ['High quality', 'Profitable', 'Large market cap', 'Higher debt levels']
     },
     'Q2': {
