@@ -164,7 +164,7 @@ QUADRANTS = {
         'pc1_sign': 'positive',
         'pc2_sign': 'positive',
         'description': '<b>THINK:</b> Large, profitable companies, strong fundamentals with leverage',
-        'characteristics': ['High quality', 'Profitable', 'Large market cap', 'Higher debt levels']
+        'characteristics': ['Characteristics', 'High quality', 'Profitable', 'Large market cap', 'Higher debt levels']
     },
     'Q2': {
         'name': 'Big but Fragile',
