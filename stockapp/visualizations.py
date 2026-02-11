@@ -272,7 +272,7 @@ def create_pca_scatter_plot(
 
     fig.add_annotation(
         x=0, y=y_min,
-        text="↓ Smaller, Less Liquid, Niche Stocks",
+        text=f"↑ {', '.join(PC2_INTERPRETATION['high_meaning'])}",
         showarrow=False, xshift=60,
         font=dict(size=9, color='gray')
     )
