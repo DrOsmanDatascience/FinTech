@@ -139,7 +139,7 @@ PC2_INTERPRETATION = {
 }
 
 PC3_INTERPRETATION = {
-    'name': 'Quality / Stability / Bal-Sheet Strength',
+    'name': 'Value vs Growth / Momentum vs Profitability',
     'variance_explained': 12.0,
     'high_meaning': ['Deep value', 'Asset-heavy, Leveraged'],
     'low_meaning': ['Growth', 'Asset-light'],
