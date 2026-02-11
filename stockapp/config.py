@@ -123,7 +123,7 @@ PC1_INTERPRETATION = {
 }
 
 PC2_INTERPRETATION = {
-    'name': 'Size / Leverage / Capital Structure',
+    'name': 'Valuation Style: Value vs Growth',
     'variance_explained': 14.6,
     'high_meaning': ['Large', 'Liquid', 'Leveraged'],
     'low_meaning': ['Smaller', 'Less-liquid', 'Niche stocks'],
