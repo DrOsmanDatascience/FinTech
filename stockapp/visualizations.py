@@ -254,7 +254,7 @@ def create_pca_scatter_plot(
         text=f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}",
         showarrow=False, 
         xanchor='right',
-        xshift=-30,
+        xshift=-20,
         yshift=15,
         font=dict(size=9, color='gray')
     )
@@ -264,7 +264,7 @@ def create_pca_scatter_plot(
         text=f"← {'<br>'.join(PC1_INTERPRETATION['low_meaning'])}",
          showarrow=False,
         xanchor='left',
-        xshift=30,
+        xshift=20,
         yshift=15,
         font=dict(size=9, color='gray')
     )
