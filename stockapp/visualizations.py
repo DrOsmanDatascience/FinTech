@@ -823,7 +823,7 @@ def create_3d_pca_plot(
         scene=dict(
             xaxis_title=f"PC1: {PC1_INTERPRETATION['name']}",
             yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
-            zaxis_title=f"PC2: {PC3_INTERPRETATION['name']}"
+            zaxis_title=f"PC3: {PC3_INTERPRETATION['name']}"
         ),
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
@@ -915,7 +915,7 @@ def create_3d_quadrant_peers_plot(
         scene=dict(
             xaxis_title=f"PC1: {PC1_INTERPRETATION['name']}",
             yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
-            zaxis_title=f"PC2: {PC3_INTERPRETATION['name']}"
+            zaxis_title=f"PC3: {PC3_INTERPRETATION['name']}"
         ),
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
