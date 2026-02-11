@@ -391,7 +391,7 @@ def render_sidebar():
     
     # Only show PC3 expander when 3D View is selected
     current_view = st.session_state.get('current_view', '')
-    if stock_selected and current_view == "🌐 3D Cluster View":
+    if stock_selected and current_view in ["🌐 3D Cluster View", "🌐 3D Quadrant Peers"]:
         with st.sidebar.expander("PC3 (Z-axis): Value vs Growth"):
             st.markdown(f"""
             **Explains ~{PC3_INTERPRETATION['variance_explained']}% of variance**
