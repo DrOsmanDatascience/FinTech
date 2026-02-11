@@ -285,7 +285,7 @@ def render_sidebar():
         "👥 Quadrant Peers",
         "📊 Factor Analysis",
         "🕐 Time-Lapse",
-        "🌐 3D Cluster View",
+        "🌐 3D View",
         "🌐 3D Quadrant Peers"
     ]
     
