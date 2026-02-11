@@ -821,7 +821,7 @@ def create_3d_pca_plot(
     fig.update_layout(
         title='3D PCA Cluster Visualization',
         scene=dict(
-            axis_title=f"PC1: {PC1_INTERPRETATION['name']}",
+            xaxis_title=f"PC1: {PC1_INTERPRETATION['name']}",
             yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
             zaxis_title=f"PC2: {PC3_INTERPRETATION['name']}"
         ),
