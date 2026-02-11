@@ -252,14 +252,20 @@ def create_pca_scatter_plot(
     fig.add_annotation(
         x=x_max, y=0,
         text=f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}",
-        showarrow=False, yshift=15,
+        showarrow=False, 
+        xanchor='right',
+        xshift=-10,
+        yshift=15,
         font=dict(size=9, color='gray')
     )
 
     fig.add_annotation(
         x=x_min, y=0,
         text=f"← {'<br>'.join(PC1_INTERPRETATION['low_meaning'])}",
-        showarrow=False, yshift=15,
+         showarrow=False,
+        xanchor='left',
+        xshift=10,
+        yshift=15,
         font=dict(size=9, color='gray')
     )
 
