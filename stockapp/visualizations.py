@@ -834,6 +834,98 @@ def create_3d_pca_plot(
 
 
 # =============================================================================
+# 3D QUADRANT PEERS VISUALIZATION
+# =============================================================================
+
+def create_3d_quadrant_peers_plot(
+    quadrant_peers: pd.DataFrame,
+    selected_ticker: str,
+    pca_row: pd.Series
+) -> go.Figure:
+    """
+    Create a 3D scatter plot of quadrant peers with selected stock highlighted.
+    
+    Args:
+        quadrant_peers: DataFrame of peers in same quadrant
+        selected_ticker: Selected stock ticker
+        pca_row: PCA row for selected stock
+        
+    Returns:
+        Plotly Figure object
+    """
+    if 'PC3' not in quadrant_peers.columns:
+        return go.Figure()
+    
+    fig = go.Figure()
+    
+    # Plot quadrant peers
+    hover_text = [
+        f"<b>{row.get('ticker', 'N/A')}</b><br>"
+        f"PC1: {row['PC1']:.3f}<br>"
+        f"PC2: {row['PC2']:.3f}<br>"
+        f"PC3: {row['PC3']:.3f}<br>"
+        f"Cluster: {row.get('cluster', 'N/A')}"
+        for _, row in quadrant_peers.iterrows()
+    ]
+    
+    fig.add_trace(go.Scatter3d(
+        x=quadrant_peers['PC1'],
+        y=quadrant_peers['PC2'],
+        z=quadrant_peers['PC3'],
+        mode='markers+text',
+        marker=dict(
+            size=6,
+            color='lightblue',
+            opacity=0.7,
+            line=dict(width=1, color='darkblue')
+        ),
+        text=quadrant_peers['ticker'] if 'ticker' in quadrant_peers.columns else None,
+        textposition='top center',
+        textfont=dict(size=8),
+        name='Quadrant Peers',
+        hovertemplate="%{customdata}<extra></extra>",
+        customdata=hover_text
+    ))
+    
+    # Highlight selected stock
+    sel_pc3 = pca_row.get('PC3', 0)
+    sel_pc1 = pca_row.get('PC1', 0)
+    sel_pc2 = pca_row.get('PC2', 0)
+    
+    fig.add_trace(go.Scatter3d(
+        x=[sel_pc1],
+        y=[sel_pc2],
+        z=[sel_pc3],
+        mode='markers+text',
+        marker=dict(size=15, color='red', symbol='diamond'),
+        text=[selected_ticker],
+        textfont=dict(size=12, color='red'),
+        name=f'Selected: {selected_ticker}',
+        hovertemplate=(
+            f"<b>{selected_ticker}</b><br>"
+            f"PC1: {sel_pc1:.3f}<br>"
+            f"PC2: {sel_pc2:.3f}<br>"
+            f"PC3: {sel_pc3:.3f}"
+            "<extra></extra>"
+        )
+    ))
+    
+    fig.update_layout(
+        title=f'3D Quadrant Peers for {selected_ticker}',
+        scene=dict(
+            xaxis_title='PC1: Quality/Stability',
+            yaxis_title='PC2: Size/Leverage',
+            zaxis_title='PC3: Value vs Growth'
+        ),
+        width=PLOT_WIDTH,
+        height=PLOT_HEIGHT,
+        showlegend=True
+    )
+    
+    return fig
+
+
+# =============================================================================
 # CLUSTER SUMMARY VISUALIZATION
 # =============================================================================
 

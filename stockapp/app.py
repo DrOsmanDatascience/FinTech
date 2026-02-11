@@ -283,6 +283,7 @@ def render_sidebar():
     view_options = [
         "🎯 Cluster Plot",
         "👥 Quadrant Peers",
+        "🌐 3D Quadrant Peers",
         "📊 Factor Analysis",
         "🕐 Time-Lapse",
         "🌐 3D View"
@@ -617,9 +618,62 @@ def render_visualizations(
         else:
             st.info("No other stocks found in this quadrant.")
     
+    elif current_view == "🌐 3D Quadrant Peers":
+        st.markdown("### 🌐 3D Quadrant Peer Comparison")
+        st.markdown("""
+        Explore quadrant peers in 3D space. The Z-axis (PC3) reveals the 
+        Value vs Growth dimension within your peer group.
+        """)
+        
+        pc1 = pca_row.get('PC1', 0)
+        pc2 = pca_row.get('PC2', 0)
+        filtered_quadrant_peers = get_stocks_in_same_quadrant(
+            filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
+        )
+        
+        if not filtered_quadrant_peers.empty and 'PC3' in filtered_pca_df.columns:
+            # Get PC3 variance
+            pc3_variance = ""
+            if st.session_state.pca_model is not None:
+                variance_ratios = st.session_state.pca_model.explained_variance_ratio_
+                if len(variance_ratios) >= 3:
+                    pc3_variance = f" &nbsp;|&nbsp; <i>Explains ~{variance_ratios[2]*100:.1f}% of variance</i>"
+            
+            # PC3 info box
+            st.markdown(f"""
+                <div style="
+                    background-color: var(--secondary-background-color);
+                    color: var(--text-color);
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    border-left: 3px solid #1f77b4;
+                    font-size: 1.0rem;
+                    line-height: 2;
+                    white-space: nowrap;
+                ">
+                    <b>📐 PC3: Value vs Growth:</b><i> cleanest factor in the model</i>{pc3_variance}<br>
+                    ↑ <b>High PC3 - </b><i>Deep value · Asset-heavy · Leveraged</i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ↓ <b>Low PC3 - </b><i>Growth · Asset-light · Capital efficient</i>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            from visualizations import create_3d_quadrant_peers_plot
+            fig_3d_peers = create_3d_quadrant_peers_plot(
+                filtered_quadrant_peers, selected_ticker, pca_row
+            )
+            st.plotly_chart(fig_3d_peers, use_container_width=True)
+            
+            # Peer table
+            with st.expander("📋 View Peer Table"):
+                display_cols = ['ticker', 'permno', 'PC1', 'PC2', 'PC3', 'cluster']
+                display_cols = [c for c in display_cols if c in filtered_quadrant_peers.columns]
+                st.dataframe(filtered_quadrant_peers[display_cols].round(3))
+        else:
+            st.info("No peers found or PC3 data unavailable.")
+
     elif current_view == "📊 Factor Analysis":
         st.markdown("### 📊 Factor Breakdown Analysis")
-        
+          
         # Recalculate percentiles from filtered quadrant peers
         pc1 = pca_row.get('PC1', 0)
         pc2 = pca_row.get('PC2', 0)
