@@ -139,7 +139,7 @@ PC2_INTERPRETATION = {
 }
 
 PC3_INTERPRETATION = {
-    'name': 'Value vs Growth / Momentum vs Profitability',
+    'name': 'Leverage & Asset Intensity',
     'variance_explained': 12.0,
     'high_meaning': ['Deep value', 'Asset-heavy, Leveraged'],
     'low_meaning': ['Growth', 'Asset-light'],
