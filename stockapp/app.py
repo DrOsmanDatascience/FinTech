@@ -285,7 +285,7 @@ def render_sidebar():
         "👥 Quadrant Peers",
         "📊 Factor Analysis",
         "🕐 Time-Lapse",
-        "🌐 3D View",
+        "🌐 3D Cluster View",
         "🌐 3D Quadrant Peers"
     ]
     
@@ -391,7 +391,7 @@ def render_sidebar():
     
     # Only show PC3 expander when 3D View is selected
     current_view = st.session_state.get('current_view', '')
-    if stock_selected and current_view == "🌐 3D View":
+    if stock_selected and current_view == "🌐 3D Cluster View":
         with st.sidebar.expander("PC3 (Z-axis): Value vs Growth"):
             st.markdown(f"""
             **Explains ~{PC3_INTERPRETATION['variance_explained']}% of variance**
@@ -737,7 +737,7 @@ def render_visualizations(
                 else:
                     st.warning("Insufficient time-series data for animation.")
     
-    elif current_view == "🌐 3D View":
+    elif current_view == "🌐 3D Cluster View":
         st.markdown("### 🌐 3D PCA Visualization")
         st.markdown("""
         Explore the clusters in 3D space using the first three principal components.
