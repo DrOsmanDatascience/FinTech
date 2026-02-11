@@ -118,7 +118,7 @@ def create_pca_scatter_plot(
         mode="markers",
         marker=hover_mark,
         hovertemplate=(
-             f"<b>Q1: {QUADRANTS['Q1']['name']}</b><br>"
+            f"<b>Q1: {QUADRANTS['Q1']['name']}</b><br>"
             f"{QUADRANTS['Q1']['description']}<br>"
             f"<b>Characteristics:</b> {', '.join(QUADRANTS['Q1']['characteristics'])}"
             "<extra></extra>"
