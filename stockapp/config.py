@@ -170,7 +170,7 @@ QUADRANTS = {
         'name': 'Value Traps / Distressed',
         'pc1_sign': 'negative',
         'pc2_sign': 'positive',
-        'description': '<b>THINK:</b> Weak operations trading cheap on traditional metrics',
+        'description': '<b>THINK:</b> Weak operations, trading cheap on traditional metrics',
         'characteristics': ['Lower profitability', 'Volatile', 'Deep value priced', 'Potential traps']
     },
     'Q3': {
