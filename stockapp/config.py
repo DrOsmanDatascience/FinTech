@@ -160,32 +160,32 @@ PC3_INTERPRETATION = {
 
 QUADRANTS = {
     'Q1': {
-        'name': 'Safe + Scalable',
+        'name': 'Profitable Value',
         'pc1_sign': 'positive',
         'pc2_sign': 'positive',
-        'description': '<b>THINK:</b> Large, profitable companies, strong fundamentals with leverage',
-        'characteristics': ['High quality', 'Profitable', 'Large market cap', 'Higher debt levels']
+        'description': '<b>THINK:</b> Strong profitability trading at value prices',
+        'characteristics': ['High profitability', 'Stable operations', 'Value priced', 'Quality fundamentals']
     },
     'Q2': {
-        'name': 'Big but Fragile',
+        'name': 'Value Traps / Distressed',
         'pc1_sign': 'negative',
         'pc2_sign': 'positive',
-        'description': '<b>THINK:</b> Large companies with weaker fundamentals and higher leverage',
-        'characteristics': ['Riskier', 'Volatile', 'Large but leveraged', 'Weaker fundamentals']
+        'description': '<b>THINK:</b> Weak operations trading cheap on traditional metrics',
+        'characteristics': ['Lower profitability', 'Volatile', 'Deep value priced', 'Potential traps']
     },
     'Q3': {
-        'name': 'Risky + Less Liquid',
+        'name': 'Struggling Growth',
         'pc1_sign': 'negative',
         'pc2_sign': 'negative',
-        'description': '<b>THINK:</b> Smaller or niche companies with weaker fundamentals',
-        'characteristics': ['Riskier', 'Cash-heavy', 'Smaller size', 'Operationally challenged']
+        'description': '<b>THINK:</b> Unprofitable companies at growth premiums',
+        'characteristics': ['Weak profitability', 'Volatile', 'Growth premium pricing', 'Speculative']
     },
     'Q4': {
-        'name': 'Quality but Under the Radar',
+        'name': 'Quality Growth',
         'pc1_sign': 'positive',
         'pc2_sign': 'negative',
-        'description': '<b>THINK:</b> High-quality companies with strong balance sheets and efficiency',
-        'characteristics': ['High quality', 'Cash-rich', 'Operationally efficient', 'Lower leverage']
+        'description': '<b>THINK:</b> Strong profitability commanding growth premiums',
+        'characteristics': ['High profitability', 'Stable operations', 'Growth premium pricing', 'Quality compounders']
     }
 }
 
