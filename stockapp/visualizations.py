@@ -689,7 +689,7 @@ def create_timelapse_animation(
     # Add animation controls
     fig.update_layout(
         title=f'Historical Movement: {ticker}',
-        axis_title=f"PC1: {PC1_INTERPRETATION['name']}",
+        xaxis_title=f"PC1: {PC1_INTERPRETATION['name']}",
         yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
         width=PLOT_WIDTH,
         height=PLOT_HEIGHT,
