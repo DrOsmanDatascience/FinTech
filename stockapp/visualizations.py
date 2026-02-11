@@ -451,7 +451,7 @@ def create_quadrant_comparison_plot(
 
     fig.update_layout(
         title=f'Quadrant Peers for {selected_ticker}',
-        axis_title=f"PC1: {PC1_INTERPRETATION['name']}",
+        xaxis_title=f"PC1: {PC1_INTERPRETATION['name']}",
         yaxis_title=f"PC2: {PC2_INTERPRETATION['name']}",
         xaxis=dict(range=x_range),
         yaxis=dict(range=y_range),
