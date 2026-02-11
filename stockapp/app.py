@@ -283,10 +283,10 @@ def render_sidebar():
     view_options = [
         "🎯 Cluster Plot",
         "👥 Quadrant Peers",
-        "🌐 3D Quadrant Peers",
         "📊 Factor Analysis",
         "🕐 Time-Lapse",
-        "🌐 3D View"
+        "🌐 3D Cluster View",
+        "🌐 3D Quadrant Peers"
     ]
     
     # Always show dropdown, but disable if no stock selected
