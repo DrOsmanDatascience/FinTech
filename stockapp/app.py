@@ -381,7 +381,7 @@ def render_sidebar():
         if len(ratios) >= 3:
             pc3_var = round(ratios[2] * 100, 1)
     
-    with st.sidebar.expander("PC1 (X-axis): Quality/Stability"):
+    with st.sidebar.expander(f"PC1 (X-axis): {PC1_INTERPRETATION['name']}"):
         st.markdown(f"""
         **Explains ~{pc1_var}% of variance**
         
@@ -392,7 +392,7 @@ def render_sidebar():
         - {', '.join(PC1_INTERPRETATION['low_meaning'])}
         """)
     
-    with st.sidebar.expander("PC2 (Y-axis): Size/Leverage"):
+    with st.sidebar.expander(f"PC2 (Y-axis): {PC2_INTERPRETATION['name']}"):
         st.markdown(f"""
         **Explains ~{pc2_var}% of variance**
         
@@ -406,7 +406,7 @@ def render_sidebar():
     # Only show PC3 expander when 3D View is selected
     current_view = st.session_state.get('current_view', '')
     if stock_selected and current_view in ["🌐 3D Cluster View", "🌐 3D Quadrant Peers"]:
-        with st.sidebar.expander("PC3 (Z-axis): Value vs Growth"):
+        with st.sidebar.expander(f"PC3 (Z-axis): {PC3_INTERPRETATION['name']}"):
             st.markdown(f"""
             **Explains ~{pc3_var}% of variance**
 
