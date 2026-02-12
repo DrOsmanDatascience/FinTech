@@ -659,7 +659,7 @@ def render_visualizations(
 
         ---
         **Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
-        """)
+        """, unsafe_allow_html=True)
 
         # ---------------------------------------------------------
         # Plot Section
