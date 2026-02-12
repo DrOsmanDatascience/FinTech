@@ -653,7 +653,6 @@ def render_visualizations(
         st.markdown(f"""
         #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
 
-        **{selected_ticker}**
         _Interpretation_: {quadrant_desc}
 
         ---
