@@ -3,6 +3,7 @@ Visualization functions for Stock PCA Cluster Analysis.
 Creates interactive Plotly charts for the Streamlit dashboard.
 """
 
+import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
