@@ -651,7 +651,7 @@ def render_visualizations(
         # Executive Summary Text Block
         # ---------------------------------------------------------
         st.markdown(f"""
-        #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
+        #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**{selected_ticker}** is positioned in this quadrant based on **PC1 ({PC1_INTERPRETATION['name']})** and **PC2 ({PC2_INTERPRETATION['name']})**
 
         _Interpretation_: {quadrant_desc}
 
