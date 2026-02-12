@@ -693,8 +693,8 @@ def render_visualizations(
                    use_container_width=True
                 )
 
-    else:
-        st.info("No other stocks found in this quadrant.")
+        else:
+            st.info("No other stocks found in this quadrant.")
     
     elif current_view == "🌐 3D Quadrant Peers":
         st.markdown("### 🌐 3D Quadrant Peer Comparison")
