@@ -334,7 +334,9 @@ def create_pca_scatter_plot(
     # PC2 LOW hover target (bottom)
     _add_hover_target(
         0, y_min + 0.10,
-        f"<b>PC2 Low Meaning:</b><br>{'<br>'.join(PC2_INTERPRETATION['low_meaning'])}"
+        f"<b>PC2 Low Drivers:</b><br>{pc2_neg_hover}"
+        if pc2_neg_hover else
+        "<b>PC2 Low Drivers:</b><br>(No loadings available)"
     )
 
     # ------------------------------------------------------------------
