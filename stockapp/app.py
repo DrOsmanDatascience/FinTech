@@ -368,11 +368,7 @@ def render_sidebar():
     st.sidebar.markdown("### 📐 Axis Interpretations")
     
     # Get live variance values from PCA model if available
-    pc1_var = PC1_INTERPRETATION['variance_explained']  # fallback to hardcoded
-    pc2_var = PC2_INTERPRETATION['variance_explained']  # fallback to hardcoded
-    pc3_var = PC3_INTERPRETATION['variance_explained']  # fallback to hardcoded
-    
-    if st.session_state.pca_model is not None:
+        if st.session_state.pca_model is not None:
         ratios = st.session_state.pca_model.explained_variance_ratio_
         if len(ratios) >= 1:
             pc1_var = round(ratios[0] * 100, 1)
@@ -599,8 +595,6 @@ def render_visualizations(
         st.markdown("### 🎯 PCA Cluster Visualization")
         
         # Get live variance values
-        pc1_var = PC1_INTERPRETATION['variance_explained']  # fallback
-        pc2_var = PC2_INTERPRETATION['variance_explained']  # fallback
         if st.session_state.pca_model is not None:
             ratios = st.session_state.pca_model.explained_variance_ratio_
             if len(ratios) >= 1:
