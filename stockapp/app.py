@@ -642,56 +642,56 @@ def render_visualizations(
         quadrant_name = QUADRANTS.get(quadrant_label, {}).get("name", "Unknown Quadrant")
         quadrant_desc = QUADRANTS.get(quadrant_label, {}).get("description", "")
 
-    # Recalculate quadrant peers from filtered data
-    filtered_quadrant_peers = get_stocks_in_same_quadrant(
-        filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
-    )
-
-    # ---------------------------------------------------------
-    # Executive Summary Text Block
-    # ---------------------------------------------------------
-    st.markdown(f"""
-#### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
-
-**{selected_ticker}** is positioned in this quadrant based on:
-
-• **PC1 ({PC1_INTERPRETATION['name']})**  
-• **PC2 ({PC2_INTERPRETATION['name']})**
-
-_Interpretation_: {quadrant_desc}
-
----
-**Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
-These companies share a similar PCA positioning profile and may exhibit related factor characteristics.
-""")
-
-    # ---------------------------------------------------------
-    # Plot Section
-    # ---------------------------------------------------------
-    if not filtered_quadrant_peers.empty:
-
-        fig = create_quadrant_comparison_plot(
-            filtered_pca_df,
-            selected_ticker,
-            filtered_quadrant_peers
+        # Recalculate quadrant peers from filtered data
+        filtered_quadrant_peers = get_stocks_in_same_quadrant(
+            filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
         )
 
-        st.plotly_chart(fig, use_container_width=True)
+        # ---------------------------------------------------------
+        # Executive Summary Text Block
+        # ---------------------------------------------------------
+        st.markdown(f"""
+        #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
+
+        **{selected_ticker}** is positioned in this quadrant based on:
+
+        • **PC1 ({PC1_INTERPRETATION['name']})**  
+        • **PC2 ({PC2_INTERPRETATION['name']})**
+
+        _Interpretation_: {quadrant_desc}
+
+        ---
+        **Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
+        These companies share a similar PCA positioning profile and may exhibit related factor characteristics.
+        """)
 
         # ---------------------------------------------------------
-        # Peer Table
+        # Plot Section
         # ---------------------------------------------------------
-        with st.expander("📋 View Peer Table (Detailed PCA Values)"):
+        if not filtered_quadrant_peers.empty:
 
-            display_cols = ['ticker', 'permno', 'PC1', 'PC2', 'cluster']
-            display_cols = [c for c in display_cols if c in filtered_quadrant_peers.columns]
-
-            st.dataframe(
-                filtered_quadrant_peers[display_cols]
-                .sort_values(by="PC1", ascending=False)
-                .round(3),
-                use_container_width=True
+            fig = create_quadrant_comparison_plot(
+                filtered_pca_df,
+                selected_ticker,
+                filtered_quadrant_peers
             )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+            # ---------------------------------------------------------
+            # Peer Table
+            # ---------------------------------------------------------
+            with st.expander("📋 View Peer Table (Detailed PCA Values)"):
+
+                display_cols = ['ticker', 'permno', 'PC1', 'PC2', 'cluster']
+                display_cols = [c for c in display_cols if c in filtered_quadrant_peers.columns]
+
+                st.dataframe(
+                   filtered_quadrant_peers[display_cols]
+                   .sort_values(by="PC1", ascending=False)
+                   .round(3),
+                   use_container_width=True
+                )
 
     else:
         st.info("No other stocks found in this quadrant.")
