@@ -378,7 +378,6 @@ def render_sidebar():
             pc3_var = round(ratios[2] * 100, 1)
     
     with st.sidebar.expander(f"PC1 (X-axis): {PC1_INTERPRETATION['name']}"):
-        pc1_var = round(st.session_state.pca.explained_variance_ratio_[0] * 100, 1)
         st.markdown(f"""
         **Explains ~{pc1_var}% of variance**
         
