@@ -257,6 +257,15 @@ def create_pca_scatter_plot(
             top_3 = list(loadings['PC1']['positive'].items())[:3]
             pc1_high_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_3])
     
+    # Theme-aware hover styling
+
+    theme_base = st.get_option("theme.base")              # 'dark' or 'light'
+    is_dark = (theme_base == "dark")                      # True if dark mode
+
+    hover_bg = "rgba(20,20,20,0.95)" if is_dark else "rgba(255,255,255,0.95)"
+    hover_font = "white" if is_dark else "black"
+    hover_border = "rgba(255,255,255,0.25)" if is_dark else "rgba(0,0,0,0.15)"
+
     fig.add_annotation(
         x=x_max, y=0,
         text=pc1_high_text,
@@ -266,7 +275,11 @@ def create_pca_scatter_plot(
         yshift=15,
         font=dict(size=9, color='gray'),
         hovertext=f"<b>Top PC1 Drivers:</b><br>{pc1_high_hover}" if pc1_high_hover else None,
-        hoverlabel=dict(bgcolor="white", font_size=12) if pc1_high_hover else None
+        hoverlabel=dict(
+            bgcolor=hover_bg,
+            font=dict(size=12, color=hover_font),
+            bordercolor=hover_border
+        ) if pc1_high_hover else None
     )
 
     fig.add_annotation(
