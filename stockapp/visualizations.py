@@ -304,7 +304,7 @@ def create_pca_scatter_plot(
         ))
 
     # ------------------------------------------------------------------
-    # 1) Invisible hover targets (reliable in dark/light mode)
+    # 1) Invisible hover targets Pos & Neg PCA Drivers (reliable in dark/light mode)
     # ------------------------------------------------------------------
 
     # PC1 HIGH hover target (right side)
