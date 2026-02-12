@@ -259,13 +259,30 @@ def compute_pca_and_clusters(
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
     clusters = kmeans.fit_predict(X_scaled)
     
+    # Create loadings dictionary for session state
+    loadings_dict = {}
+    pc_cols = [f'PC{i+1}' for i in range(n_components)]
+    loadings_df = pd.DataFrame(pca.components_.T, index=available_features, columns=pc_cols)
+    
+    for i in range(n_components):
+        pc_name = f'PC{i+1}'
+        
+        # Get top 5 positive and negative
+        positive = loadings_df[pc_name].sort_values(ascending=False).head(5).to_dict()
+        negative = loadings_df[pc_name].sort_values(ascending=True).head(5).to_dict()
+        
+        loadings_dict[pc_name] = {
+            'positive': positive,
+            'negative': negative
+        }
+    
     # Create result DataFrame
     result_df = agg_df.copy()
     for i in range(n_components):
         result_df[f'PC{i+1}'] = X_pca[:, i]
     result_df['cluster'] = clusters
     
-    return result_df, pca, kmeans, scaler
+    return result_df, pca, kmeans, scaler, loadings_dict
 
 
 def get_pca_loadings(pca: PCA, feature_names: List[str]) -> pd.DataFrame:
