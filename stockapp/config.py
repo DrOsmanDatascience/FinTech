@@ -108,17 +108,6 @@ PC1_INTERPRETATION = {
     'variance_explained': 37.5,
     'high_meaning': ['Operationally profitable', 'Stable', 'Strong cash position'],
     'low_meaning': ['Lower profitability', 'Weaker operations', 'Volatile', 'Cash-constrained'],
-    'positive_loadings': {
-        'ROA': 0.44,
-        'ROE': 0.36, 
-        'Earnings Yield': 0.39,
-        'Cash/Debt': 0.36,
-        'Momentum': 0.26
-    },
-    'negative_loadings': {
-        'Volatility': -0.34,
-        'Book-to-Market': -0.35
-    }
 }
 
 PC2_INTERPRETATION = {
