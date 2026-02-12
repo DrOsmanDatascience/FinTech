@@ -368,7 +368,7 @@ def render_sidebar():
     st.sidebar.markdown("### 📐 Axis Interpretations")
     
     # Get live variance values from PCA model if available
-        if st.session_state.pca_model is not None:
+    if st.session_state.pca_model is not None:
         ratios = st.session_state.pca_model.explained_variance_ratio_
         if len(ratios) >= 1:
             pc1_var = round(ratios[0] * 100, 1)
