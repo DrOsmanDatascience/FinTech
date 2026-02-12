@@ -632,24 +632,6 @@ def render_visualizations(
         Showing {len(filtered_quadrant_peers)} stocks that share the same quadrant as {selected_ticker}.
         These are potential peers for comparison.
         """)
-
-        # ---------------------------------------------------------
-        # Executive Summary Text Block
-        # ---------------------------------------------------------
-        st.markdown(f"""
-        #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
-
-        **{selected_ticker}** is positioned in this quadrant based on:
-
-        • **PC1 ({PC1_INTERPRETATION['name']})**  
-        • **PC2 ({PC2_INTERPRETATION['name']})**
-
-          _Interpretation_: {quadrant_desc}
-
-       ---
-       **Peer Count:** {len(filtered_quadrant_peers)} comparable stocks
-       These companies share a similar PCA positioning profile and may exhibit related factor characteristics.
-        """)
         
         if not filtered_quadrant_peers.empty:
             fig = create_quadrant_comparison_plot(filtered_pca_df, selected_ticker, filtered_quadrant_peers)
