@@ -620,9 +620,9 @@ def render_visualizations(
     
     elif current_view == "👥 Quadrant Peers":
 
-    # ---------------------------------------------------------
-    # Header Section
-    # ---------------------------------------------------------
+        # ---------------------------------------------------------
+        # Header Section
+        # ---------------------------------------------------------
         st.markdown("### 👥 Quadrant Peer Comparison")
 
         # Safely extract PC values
@@ -637,33 +637,33 @@ def render_visualizations(
         elif pc1 < 0 and pc2 < 0:
             quadrant_label = "Q3"
         else:
-           quadrant_label = "Q4"
+            quadrant_label = "Q4"
 
         quadrant_name = QUADRANTS.get(quadrant_label, {}).get("name", "Unknown Quadrant")
         quadrant_desc = QUADRANTS.get(quadrant_label, {}).get("description", "")
 
-        # Recalculate quadrant peers from filtered data
-        filtered_quadrant_peers = get_stocks_in_same_quadrant(
+    # Recalculate quadrant peers from filtered data
+    filtered_quadrant_peers = get_stocks_in_same_quadrant(
         filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
-        )
+    )
 
     # ---------------------------------------------------------
     # Executive Summary Text Block
     # ---------------------------------------------------------
     st.markdown(f"""
-    #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
+#### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
 
-    **{selected_ticker}** is positioned in this quadrant based on:
+**{selected_ticker}** is positioned in this quadrant based on:
 
-    • **PC1 ({PC1_INTERPRETATION['name']})**  
-    • **PC2 ({PC2_INTERPRETATION['name']})**
+• **PC1 ({PC1_INTERPRETATION['name']})**  
+• **PC2 ({PC2_INTERPRETATION['name']})**
 
-    _Interpretation_: {quadrant_desc}
+_Interpretation_: {quadrant_desc}
 
-    ---
-    **Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
-    These companies share a similar PCA positioning profile and may exhibit related factor characteristics.
-    """)
+---
+**Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
+These companies share a similar PCA positioning profile and may exhibit related factor characteristics.
+""")
 
     # ---------------------------------------------------------
     # Plot Section
@@ -695,7 +695,6 @@ def render_visualizations(
 
     else:
         st.info("No other stocks found in this quadrant.")
-
     
     elif current_view == "🌐 3D Quadrant Peers":
         st.markdown("### 🌐 3D Quadrant Peer Comparison")
