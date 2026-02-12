@@ -261,9 +261,11 @@ def create_pca_scatter_plot(
     pc2_high_text = f"↑ {', '.join(PC2_INTERPRETATION['high_meaning'])}"
     pc2_low_text  = f"↓ {', '.join(PC2_INTERPRETATION['low_meaning'])}"
 
-    # Build live loading hover text (PC1 positive / negative) if available
+    # Build live loading hover text (PC1  and PC2 positive / negative) if available
     pc1_pos_hover = ""
     pc1_neg_hover = ""
+    pc2_pos_hover = ""
+    pc2_neg_hover = ""
 
     if 'pca_loadings' in st.session_state:
         loadings = st.session_state.pca_loadings
@@ -275,6 +277,14 @@ def create_pca_scatter_plot(
         if 'PC1' in loadings and 'negative' in loadings['PC1']:
             top_neg = list(loadings['PC1']['negative'].items())[:3]
             pc1_neg_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_neg])
+
+        if 'PC2' in loadings and 'positive' in loadings['PC2']:
+            top_pos = list(loadings['PC2']['positive'].items())[:3]
+            pc2_pos_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_pos])
+
+        if 'PC2' in loadings and 'negative' in loadings['PC2']:
+            top_neg = list(loadings['PC2']['negative'].items())[:3]
+            pc2_neg_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_neg])
 
     # Helper: add an invisible hover target at a specific x/y
     def _add_hover_target(x, y, hover_html):
