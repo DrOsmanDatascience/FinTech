@@ -653,8 +653,7 @@ def render_visualizations(
         st.markdown(f"""
         #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
 
-        **{selected_ticker}** is positioned in this quadrant based on **PC1 ({PC1_INTERPRETATION['name']})** and **PC2 ({PC2_INTERPRETATION['name']})**.
-
+        **{selected_ticker}**
         _Interpretation_: {quadrant_desc}
 
         ---
