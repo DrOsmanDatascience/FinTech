@@ -194,9 +194,9 @@ def load_and_process_data():
         processed_data = preprocess_data(raw_data)
         
         # Compute PCA and clustering
-        pca_df, pca_model, kmeans_model, scaler = compute_pca_and_clusters(processed_data)
+        pca_df, pca_model, kmeans_model, scaler, loadings = compute_pca_and_clusters(processed_data)
         
-        return raw_data, processed_data, pca_df, pca_model, kmeans_model, scaler, None
+        return raw_data, processed_data, pca_df, pca_model, kmeans_model, scaler, loadings, None
         
     except Exception as e:
         return None, None, None, None, None, None, str(e)
@@ -942,7 +942,7 @@ def main():
     if not st.session_state.data_loaded:
         with st.spinner("Loading data from GitHub..."):
             result = load_and_process_data()
-            raw_data, processed_data, pca_df, pca_model, kmeans_model, scaler, error = result
+            raw_data, processed_data, pca_df, pca_model, kmeans_model, scaler, loadings, error = result
             
             if error:
                 st.error(f"❌ Failed to load data: {error}")
@@ -960,6 +960,7 @@ def main():
             st.session_state.pca_model = pca_model
             st.session_state.kmeans_model = kmeans_model
             st.session_state.scaler = scaler
+            st.session_state.pca_loadings = loadings
             st.session_state.data_loaded = True
     
     # Check for selected stock
