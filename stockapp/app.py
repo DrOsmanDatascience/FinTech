@@ -657,7 +657,6 @@ def render_visualizations(
 
         ---
         **Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
-        These companies share a similar PCA positioning profile and may exhibit related factor characteristics.
         """)
 
         # ---------------------------------------------------------
