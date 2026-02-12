@@ -623,29 +623,29 @@ def render_visualizations(
     # ---------------------------------------------------------
     # Header Section
     # ---------------------------------------------------------
-    st.markdown("### 👥 Quadrant Peer Comparison")
+        st.markdown("### 👥 Quadrant Peer Comparison")
 
-    # Safely extract PC values
-    pc1 = pca_row.get('PC1', 0)
-    pc2 = pca_row.get('PC2', 0)
+        # Safely extract PC values
+        pc1 = pca_row.get('PC1', 0)
+        pc2 = pca_row.get('PC2', 0)
 
-    # Determine quadrant label
-    if pc1 >= 0 and pc2 >= 0:
-        quadrant_label = "Q1"
-    elif pc1 < 0 and pc2 >= 0:
-        quadrant_label = "Q2"
-    elif pc1 < 0 and pc2 < 0:
-        quadrant_label = "Q3"
-    else:
-        quadrant_label = "Q4"
+        # Determine quadrant label
+        if pc1 >= 0 and pc2 >= 0:
+            quadrant_label = "Q1"
+        elif pc1 < 0 and pc2 >= 0:
+            quadrant_label = "Q2"
+        elif pc1 < 0 and pc2 < 0:
+            quadrant_label = "Q3"
+        else:
+           quadrant_label = "Q4"
 
-    quadrant_name = QUADRANTS.get(quadrant_label, {}).get("name", "Unknown Quadrant")
-    quadrant_desc = QUADRANTS.get(quadrant_label, {}).get("description", "")
+        quadrant_name = QUADRANTS.get(quadrant_label, {}).get("name", "Unknown Quadrant")
+        quadrant_desc = QUADRANTS.get(quadrant_label, {}).get("description", "")
 
-    # Recalculate quadrant peers from filtered data
-    filtered_quadrant_peers = get_stocks_in_same_quadrant(
+        # Recalculate quadrant peers from filtered data
+        filtered_quadrant_peers = get_stocks_in_same_quadrant(
         filtered_pca_df, pc1, pc2, exclude_ticker=selected_ticker
-    )
+        )
 
     # ---------------------------------------------------------
     # Executive Summary Text Block
