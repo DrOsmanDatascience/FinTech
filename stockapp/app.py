@@ -599,6 +599,8 @@ def render_visualizations(
         st.markdown("### 🎯 PCA Cluster Visualization")
         
         # Get live variance values
+        pc1_var = PC1_INTERPRETATION['variance_explained']  # fallback
+        pc2_var = PC2_INTERPRETATION['variance_explained']  # fallback
         if st.session_state.pca_model is not None:
             ratios = st.session_state.pca_model.explained_variance_ratio_
             if len(ratios) >= 1:
