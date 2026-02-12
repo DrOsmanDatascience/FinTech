@@ -246,7 +246,7 @@ def create_pca_scatter_plot(
             fig.add_annotation(**label)
 
     # Add axis characteristic labels (ONCE)  ✅ OUTSIDE LOOP
-    # Build PC1 high annotation with live loadings
+    # Build PC1 high annotation with live loadings 
     pc1_high_text = f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}"
     pc1_high_hover = ""
     
