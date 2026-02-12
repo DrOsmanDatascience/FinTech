@@ -246,14 +246,26 @@ def create_pca_scatter_plot(
             fig.add_annotation(**label)
 
     # Add axis characteristic labels (ONCE)  ✅ OUTSIDE LOOP
+    # Build PC1 high annotation with live loadings
+    pc1_high_text = f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}"
+    pc1_high_hover = ""
+    
+    if 'pca_loadings' in st.session_state:
+        loadings = st.session_state.pca_loadings
+        if 'PC1' in loadings and 'positive' in loadings['PC1']:
+            top_3 = list(loadings['PC1']['positive'].items())[:3]
+            pc1_high_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_3])
+    
     fig.add_annotation(
         x=x_max, y=0,
-        text=f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}",
+        text=pc1_high_text,
         showarrow=False, 
         xanchor='right',
         xshift=-20,
         yshift=15,
-        font=dict(size=9, color='gray')
+        font=dict(size=9, color='gray'),
+        hovertext=f"<b>Top PC1 Drivers:</b><br>{pc1_high_hover}" if pc1_high_hover else None,
+        hoverlabel=dict(bgcolor="white", font_size=12) if pc1_high_hover else None
     )
 
     fig.add_annotation(
