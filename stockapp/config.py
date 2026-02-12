@@ -115,15 +115,6 @@ PC2_INTERPRETATION = {
     'variance_explained': 14.6,
     'high_meaning': ['Deep value stocks', 'High book value', 'High sales relative to price', 'Cheap on traditional metrics'],
     'low_meaning': ['Growth/premium stocks', 'Trading at premium to fundamentals'],
-    'positive_loadings': {
-        'ADDV (Liquidity/Size)': 0.54,
-        'Debt-to-Assets': 0.48
-    },
-    'negative_loadings': {
-        'Cash/Debt': -0.34,
-        'Sales-to-Price': -0.29,
-        'Gross Profitability': -0.27
-    }
 }
 
 PC3_INTERPRETATION = {
@@ -131,15 +122,6 @@ PC3_INTERPRETATION = {
     'variance_explained': 12.0,
     'high_meaning': ['Leveraged with volatility', 'Higher debt', 'Volatile', 'Maybe decent margins'],
     'low_meaning': ['Conservative/stable', 'Lower leverage', 'Less volatile', 'Cleaner balance sheets'],
-    'positive_loadings': {
-        'Sales=to=Price': 0.75,
-        'Debt-to-Assets': 0.52,
-        'Book-to-Market': 0.30
-    },
-    'negative_loadings': {
-        'Cash/Debt': -0.14,
-        'Volatility': -0.11
-    }
 }
 
 # =============================================================================
