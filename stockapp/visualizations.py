@@ -235,13 +235,13 @@ def create_pca_scatter_plot(
     if show_quadrant_labels:
         labels = [
             dict(x=x_max*0.7, y=y_max*0.9, text=f"Q1: {QUADRANTS['Q1']['name']}",
-                showarrow=False, font=dict(size=10, color='green')),
+                showarrow=False, font=dict(size=14, color='green')),
             dict(x=x_min*0.7, y=y_max*0.9, text=f"Q2: {QUADRANTS['Q2']['name']}",
-                showarrow=False, font=dict(size=10, color='red')),
+                showarrow=False, font=dict(size=14, color='red')),
             dict(x=x_min*0.7, y=y_min*0.9, text=f"Q3: {QUADRANTS['Q3']['name']}",
-                showarrow=False, font=dict(size=10, color='olive')),
+                showarrow=False, font=dict(size=14, color='olive')),
             dict(x=x_max*0.7, y=y_min*0.9, text=f"Q4: {QUADRANTS['Q4']['name']}",
-                showarrow=False, font=dict(size=12, color='blue'))
+                showarrow=False, font=dict(size=14, color='blue'))
         ]
         for label in labels:
             fig.add_annotation(**label)
