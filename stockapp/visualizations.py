@@ -246,19 +246,8 @@ def create_pca_scatter_plot(
         for label in labels:
             fig.add_annotation(**label)
 
-    # Add axis characteristic labels (ONCE)  ✅ OUTSIDE LOOP
-    # Build PC1 high annotation with live loadings 
-    pc1_high_text = f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}"
-    pc1_high_hover = ""
-    
-    if 'pca_loadings' in st.session_state:
-        loadings = st.session_state.pca_loadings
-        if 'PC1' in loadings and 'positive' in loadings['PC1']:
-            top_3 = list(loadings['PC1']['positive'].items())[:3]
-            pc1_high_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_3])
-    
-    # Theme-aware hover styling
-
+    # Add axis characteristic labels (ONCE) ✅ OUTSIDE LOOP
+    # Theme-aware hover styling (used by all axis hover tooltips)
     theme_base = st.get_option("theme.base")              # 'dark' or 'light'
     is_dark = (theme_base == "dark")                      # True if dark mode
 
@@ -266,26 +255,94 @@ def create_pca_scatter_plot(
     hover_font = "white" if is_dark else "black"
     hover_border = "rgba(255,255,255,0.25)" if is_dark else "rgba(0,0,0,0.15)"
 
+    # Build PC1 / PC2 axis texts (what you already show on the chart)
+    pc1_high_text = f"→ {'<br>'.join(PC1_INTERPRETATION['high_meaning'])}"
+    pc1_low_text  = f"← {'<br>'.join(PC1_INTERPRETATION['low_meaning'])}"
+    pc2_high_text = f"↑ {', '.join(PC2_INTERPRETATION['high_meaning'])}"
+    pc2_low_text  = f"↓ {', '.join(PC2_INTERPRETATION['low_meaning'])}"
+
+    # Build live loading hover text (PC1 positive / negative) if available
+    pc1_pos_hover = ""
+    pc1_neg_hover = ""
+
+    if 'pca_loadings' in st.session_state:
+        loadings = st.session_state.pca_loadings
+
+        if 'PC1' in loadings and 'positive' in loadings['PC1']:
+            top_pos = list(loadings['PC1']['positive'].items())[:3]
+            pc1_pos_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_pos])
+
+        if 'PC1' in loadings and 'negative' in loadings['PC1']:
+            top_neg = list(loadings['PC1']['negative'].items())[:3]
+            pc1_neg_hover = "<br>".join([f"{feat}: {val:.3f}" for feat, val in top_neg])
+
+    # Helper: add an invisible hover target at a specific x/y
+    def _add_hover_target(x, y, hover_html):
+        fig.add_trace(go.Scatter(
+            x=[x],
+            y=[y],
+            mode="markers",
+            marker=dict(size=40, color="rgba(0,0,0,0.01)", line=dict(width=0)),  # invisible but hoverable
+            showlegend=False,
+            hovertemplate=hover_html + "<extra></extra>",
+            hoverlabel=dict(
+                bgcolor=hover_bg,
+                font=dict(size=12, color=hover_font),
+                bordercolor=hover_border
+            ),
+            name=""
+        ))
+
+    # ------------------------------------------------------------------
+    # 1) Invisible hover targets (reliable in dark/light mode)
+    # ------------------------------------------------------------------
+
+    # PC1 HIGH hover target (right side)
+    _add_hover_target(
+        x_max - 0.10, 0,
+        f"<b>PC1 High Drivers:</b><br>{pc1_pos_hover}"
+        if pc1_pos_hover else
+        "<b>PC1 High Drivers:</b><br>(No loadings available)"
+    )
+
+    # PC1 LOW hover target (left side)
+    _add_hover_target(
+        x_min + 0.10, 0,
+        f"<b>PC1 Low Drivers:</b><br>{pc1_neg_hover}"
+        if pc1_neg_hover else
+        "<b>PC1 Low Drivers:</b><br>(No loadings available)"
+    )
+
+    # PC2 HIGH hover target (top)
+    _add_hover_target(
+        0, y_max - 0.10,
+        f"<b>PC2 High Meaning:</b><br>{'<br>'.join(PC2_INTERPRETATION['high_meaning'])}"
+    )
+
+    # PC2 LOW hover target (bottom)
+    _add_hover_target(
+        0, y_min + 0.10,
+        f"<b>PC2 Low Meaning:</b><br>{'<br>'.join(PC2_INTERPRETATION['low_meaning'])}"
+    )
+
+    # ------------------------------------------------------------------
+    # 2) Visible axis annotation text (no hovertext here)
+    # ------------------------------------------------------------------
+
     fig.add_annotation(
         x=x_max, y=0,
         text=pc1_high_text,
-        showarrow=False, 
+        showarrow=False,
         xanchor='right',
         xshift=-20,
         yshift=15,
-        font=dict(size=9, color='gray'),
-        hovertext=f"<b>Top PC1 Drivers:</b><br>{pc1_high_hover}" if pc1_high_hover else None,
-        hoverlabel=dict(
-            bgcolor=hover_bg,
-            font=dict(size=12, color=hover_font),
-            bordercolor=hover_border
-        ) if pc1_high_hover else None
+        font=dict(size=9, color='gray')
     )
 
     fig.add_annotation(
         x=x_min, y=0,
-        text=f"← {'<br>'.join(PC1_INTERPRETATION['low_meaning'])}",
-         showarrow=False,
+        text=pc1_low_text,
+        showarrow=False,
         xanchor='left',
         xshift=20,
         yshift=15,
@@ -294,15 +351,17 @@ def create_pca_scatter_plot(
 
     fig.add_annotation(
         x=0, y=y_max,
-        text=f"↑ {', '.join(PC2_INTERPRETATION['high_meaning'])}",
-        showarrow=False, xshift=60,
+        text=pc2_high_text,
+        showarrow=False,
+        xshift=60,
         font=dict(size=9, color='gray')
     )
 
     fig.add_annotation(
         x=0, y=y_min,
-        text=f"↓ {', '.join(PC2_INTERPRETATION['low_meaning'])}",
-        showarrow=False, xshift=60,
+        text=pc2_low_text,
+        showarrow=False,
+        xshift=60,
         font=dict(size=9, color='gray')
     )
 
