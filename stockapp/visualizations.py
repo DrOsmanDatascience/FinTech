@@ -241,7 +241,7 @@ def create_pca_scatter_plot(
             dict(x=x_min*0.7, y=y_min*0.9, text=f"Q3: {QUADRANTS['Q3']['name']}",
                 showarrow=False, font=dict(size=14, color='olive')),
             dict(x=x_max*0.7, y=y_min*0.9, text=f"Q4: {QUADRANTS['Q4']['name']}",
-                showarrow=False, font=dict(size=14, color='grey'))
+                showarrow=False, font=dict(size=14, color='dark grey'))
         ]
         for label in labels:
             fig.add_annotation(**label)
