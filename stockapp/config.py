@@ -105,6 +105,7 @@ FACTOR_CATEGORIES = {
 
 PC1_INTERPRETATION = {
     'name': 'Profitability & Operational Quality',
+    'variance_explained': 37.5,
     'high_meaning': ['Operationally profitable', 'Stable', 'Strong cash position'],
     'low_meaning': ['Lower profitability', 'Weaker operations', 'Volatile', 'Cash-constrained'],
 }
