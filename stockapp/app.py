@@ -653,8 +653,9 @@ def render_visualizations(
         st.markdown(f"""
         #### 📌 Quadrant Overview: **{quadrant_label} – {quadrant_name}**
 
-        ### 🔎 Interpretation
-        {quadrant_desc}
+        <div style="font-size:1.2rem; font-weight:500;">
+            <em>Interpretation:</em> {quadrant_desc}
+        </div>
 
         ---
         **Peer Count:** {len(filtered_quadrant_peers)} comparable stocks  
