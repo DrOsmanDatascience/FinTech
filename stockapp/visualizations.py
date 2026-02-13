@@ -694,19 +694,6 @@ def create_percentile_chart(
         margin=dict(b=110)  # bigger bottom margin so footnote is visible
     )
 
-    # Add footnote AFTER layout so nothing overrides it
-    fig.add_annotation(
-        text="(V)=Value   (Q)=Quality   (FS)=Financial Strength",
-        xref="paper",
-        yref="paper",
-        x=0,
-        y=-0.28,              # push it down a bit
-        showarrow=False,
-        font=dict(size=11, color="gray"),
-        align="left"
-    )
-
-
     return fig
 
     
