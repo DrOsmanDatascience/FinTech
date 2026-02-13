@@ -350,7 +350,7 @@ def create_pca_scatter_plot(
         xanchor='right',
         xshift=-20,
         yshift=15,
-        font=dict(size=9, color='gray')
+        font=dict(size=11, color='gray')
     )
 
     fig.add_annotation(
@@ -360,7 +360,7 @@ def create_pca_scatter_plot(
         xanchor='left',
         xshift=20,
         yshift=15,
-        font=dict(size=9, color='gray')
+        font=dict(size=11, color='gray')
     )
 
     fig.add_annotation(
@@ -368,7 +368,7 @@ def create_pca_scatter_plot(
         text=pc2_high_text,
         showarrow=False,
         xshift=60,
-        font=dict(size=9, color='gray')
+        font=dict(size=11, color='gray')
     )
 
     fig.add_annotation(
@@ -376,7 +376,7 @@ def create_pca_scatter_plot(
         text=pc2_low_text,
         showarrow=False,
         xshift=60,
-        font=dict(size=9, color='gray')
+        font=dict(size=11, color='gray')
     )
 
     # Update layout (ONCE)
