@@ -696,7 +696,7 @@ def create_percentile_chart(
 
     # Add footnote AFTER layout so nothing overrides it
     fig.add_annotation(
-        text="(V)=Value   (Q)=Quality   (FS)=Financial Strength   (R)=Risk",
+        text="(V)=Value   (Q)=Quality   (FS)=Financial Strength",
         xref="paper",
         yref="paper",
         x=0,
