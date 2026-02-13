@@ -672,32 +672,40 @@ def create_percentile_chart(
     ))
     
     # Add 50th percentile reference line
-    fig.add_vline(x=50, line_dash="dash", line_color="gray", opacity=0.7,
-                  annotation_text="50th Percentile", annotation_position="top")
-    
+    fig.add_vline(
+        x=50,
+        line_dash="dash",
+        line_color="gray",
+        opacity=0.7,
+        annotation_text="50th Percentile",
+        annotation_position="top"
+    )
+
+    # Base layout (NO annotations list here)
     fig.update_layout(
-    title=f'Percentile Rankings vs Quadrant Peers: {ticker}',
-    xaxis_title='Percentile Rank',
-    yaxis_title='Factor',
-    xaxis=dict(range=[0, 105]),
-    yaxis=dict(autorange='reversed'),
-    width=600,
-    height=max(430, len(features) * 30 + 30),  # slightly taller to fit footnote
-    showlegend=False,
-    margin=dict(b=80),  # add bottom margin for footnote
-    annotations=[
-        dict(
-            text="(V)=Value   (Q)=Quality   (FS)=Financial Strength   (R)=Risk",
-            xref="paper",
-            yref="paper",
-            x=0,
-            y=-0.22,
-            showarrow=False,
-            font=dict(size=11, color="gray"),
-            align="left"
-        )
-    ]
-)
+        title=f'Percentile Rankings vs Quadrant Peers: {ticker}',
+        xaxis_title='Percentile Rank',
+        yaxis_title='Factor',
+        xaxis=dict(range=[0, 105]),
+        yaxis=dict(autorange='reversed'),
+        width=600,
+        height=max(460, len(features) * 30 + 60),  # give a bit more room
+        showlegend=False,
+        margin=dict(b=110)  # bigger bottom margin so footnote is visible
+    )
+
+    # Add footnote AFTER layout so nothing overrides it
+    fig.add_annotation(
+        text="(V)=Value   (Q)=Quality   (FS)=Financial Strength   (R)=Risk",
+        xref="paper",
+        yref="paper",
+        x=0,
+        y=-0.28,              # push it down a bit
+        showarrow=False,
+        font=dict(size=11, color="gray"),
+        align="left"
+    )
+
 
     return fig
 
