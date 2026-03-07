@@ -227,7 +227,7 @@ def render_sidebar():
     
     st.sidebar.markdown("## 📊 Stock Selection")
     
-    # Stock input
+    # Stock inputbox with validation and quick select dropdown
     #st.sidebar.markdown("""
     #<div class="info-box">
     #    Enter stock ticker (e.g., AAPL, MSFT) to analyze.
@@ -239,6 +239,10 @@ def render_sidebar():
         placeholder="e.g., AAPL or 14593",
         key="stock_input"
     )
+    
+    # Clear dropdown when user types in search field
+    if stock_input:
+        st.session_state.ticker_search = stock_input  # Store search query
     
     # Validation and selection
     if stock_input and st.session_state.processed_data is not None:
@@ -265,39 +269,43 @@ def render_sidebar():
     
     # Quick selection dropdown (always visible, disabled until data loads)
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### Quick Select")
-    
-    # Check if data is ready
-    data_ready = (
-        st.session_state.pca_df is not None and 
-        'ticker' in st.session_state.pca_df.columns
-    )
-    
-    # Prepare ticker list
-    if data_ready:
-        tickers = [''] + sorted(st.session_state.pca_df['ticker'].dropna().unique().tolist())
-    else:
-        tickers = ['Loading stock list...']
-    
-    # Selectbox (disabled if data not ready)
-    selected_dropdown = st.sidebar.selectbox(
-        "Or choose from list:",
-        options=tickers,
-        key="ticker_dropdown",
-        disabled=not data_ready
-    )
-    
-    # Update selected stock only if data is ready and valid selection
-    if data_ready and selected_dropdown and selected_dropdown != '':
-        st.session_state.selected_stock = {
-            'value': selected_dropdown,
-            'type': 'ticker'
-        }
-    
-    
-    # Check if stock is selected
-    stock_selected = st.session_state.selected_stock is not None
+    st.sidebar.markdown("### 🔍 Search Stock")
 
+    all_tickers = (
+        st.session_state.pca_df['ticker']
+        .dropna()
+        .str.upper()
+        .unique()
+        .tolist()
+    )
+
+    search_query = st.sidebar.text_input(
+        "Type ticker:",
+        placeholder="Start typing (e.g., AAP...)",
+        key="ticker_search"
+    )
+
+    matches = []
+    if search_query:
+        matches = [
+            t for t in all_tickers
+            if t.startswith(search_query.upper())
+        ][:20]  # limit results for UX
+
+    selected_ticker = None
+    if matches:
+        selected_ticker = st.sidebar.selectbox(
+            "Matching tickers:",
+            options=matches,
+            key="ticker_autocomplete"
+        )
+
+    if selected_ticker:
+        st.sidebar.success(f"✅ Selected: {selected_ticker}")
+        st.session_state.selected_stock = {
+            "value": selected_ticker,
+            "type": "ticker"
+        }
     # GICS Sector filter for landing page Cluster Plot
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 🏭 GICS Sector Filter")
