@@ -6,10 +6,11 @@ Provides context-aware responses about cluster analysis and stock comparisons.
 import os
 from typing import Dict, List, Optional
 import pandas as pd
+import time
 
 # Try to import openai - will be needed for the chatbot
 try:
-    from openai import OpenAI
+    from openai import OpenAI, APIError, RateLimitError, AuthenticationError
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
@@ -91,6 +92,28 @@ class StockAnalysisChatbot:
             peer_count: Number of peers in same quadrant
             cluster_summary: Summary statistics for all clusters
         """
+        # Input validation
+        if not isinstance(ticker, str) or not ticker.strip():
+            raise ValueError("Ticker must be a non-empty string")
+        if not isinstance(permno, str) or not permno.strip():
+            raise ValueError("PERMNO must be a non-empty string")
+        if not isinstance(cluster, int) or cluster < 0:
+            raise ValueError("Cluster must be a non-negative integer")
+        if not isinstance(quadrant, str) or quadrant not in ['Q1', 'Q2', 'Q3', 'Q4']:
+            raise ValueError("Quadrant must be one of 'Q1', 'Q2', 'Q3', 'Q4'")
+        if not isinstance(pc1, (int, float)):
+            raise ValueError("PC1 must be a number")
+        if not isinstance(pc2, (int, float)):
+            raise ValueError("PC2 must be a number")
+        if not isinstance(factor_data, dict):
+            raise ValueError("Factor data must be a dictionary")
+        if not isinstance(percentiles, dict):
+            raise ValueError("Percentiles must be a dictionary")
+        if not isinstance(peer_count, int) or peer_count < 0:
+            raise ValueError("Peer count must be a non-negative integer")
+        if not isinstance(cluster_summary, (pd.DataFrame, dict)):
+            raise ValueError("Cluster summary must be a DataFrame or dictionary")
+        
         self.stock_context = {
             'ticker': ticker,
             'permno': permno,
@@ -203,28 +226,40 @@ PC2 Interpretation ({PC2_INTERPRETATION['name']}):
         # Add current user message
         messages.append({"role": "user", "content": user_message})
         
-        try:
-            response = self.client.chat.completions.create(
-                model=OPENAI_MODEL,
-                messages=messages,
-                temperature=0.7,
-                max_tokens=1000
-            )
-            
-            assistant_message = response.choices[0].message.content
-            
-            # Update conversation history
-            self.conversation_history.append({"role": "user", "content": user_message})
-            self.conversation_history.append({"role": "assistant", "content": assistant_message})
-            
-            # Keep conversation history manageable
-            if len(self.conversation_history) > 10:
-                self.conversation_history = self.conversation_history[-10:]
-            
-            return assistant_message
-            
-        except Exception as e:
-            return f"⚠️ Error getting response: {str(e)}"
+        # Retry logic for API calls
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                response = self.client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=1000
+                )
+                
+                assistant_message = response.choices[0].message.content
+                
+                # Update conversation history
+                self.conversation_history.append({"role": "user", "content": user_message})
+                self.conversation_history.append({"role": "assistant", "content": assistant_message})
+                
+                # Keep conversation history manageable
+                if len(self.conversation_history) > 10:
+                    self.conversation_history = self.conversation_history[-10:]
+                
+                return assistant_message
+                
+            except (RateLimitError, APIError) as e:
+                if attempt < max_retries - 1:
+                    wait_time = 2 ** attempt  # exponential backoff
+                    time.sleep(wait_time)
+                    continue
+                else:
+                    return f"⚠️ Error after {max_retries} retries: {str(e)}"
+            except AuthenticationError as e:
+                return f"⚠️ Authentication error: {str(e)}"
+            except Exception as e:
+                return f"⚠️ Unexpected error: {str(e)}"
     
     def get_quick_analysis(self) -> str:
         """
